@@ -1,0 +1,14 @@
+[project]
+name = "backend"
+version = "0.1.0"
+description = "Science Education Platform API"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "fastapi>=0.95.1",
+    "uvicorn>=0.22.0",
+    "pydantic>=1.10.7",
+    "python-multipart>=0.0.6",
+    "gtts>=2.3.1",
+    "SQLite-Utils>=3.35",
+]

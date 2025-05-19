@@ -1,0 +1,110 @@
+import { Button } from "@heroui/button";
+import { Link } from "@heroui/link";
+import {
+  Navbar as HeroUINavbar,
+  NavbarBrand,
+  NavbarContent,
+  NavbarItem,
+  NavbarMenuToggle,
+  NavbarMenu,
+  NavbarMenuItem,
+} from "@heroui/navbar";
+import { link as linkStyles } from "@heroui/theme";
+import { useLocation } from "react-router-dom";
+import clsx from "clsx";
+
+import { siteConfig } from "@/config/site";
+import { ThemeSwitch } from "@/components/theme-switch";
+
+export const Navbar = () => {
+  const location = useLocation();
+
+  return (
+    <HeroUINavbar maxWidth="xl" position="sticky">
+      <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
+        <NavbarBrand as="li" className="gap-3 max-w-fit">
+          <Link className="flex justify-start items-center gap-1" href="/">
+            <span className="text-2xl font-bold">বিজ্ঞান<span className="text-blue-600">বন্ধু</span></span>
+          </Link>
+        </NavbarBrand>
+        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+          {siteConfig.navItems.map((item) => (
+            <NavbarItem key={item.href}>
+              <Link
+                className={clsx(
+                  linkStyles({ color: "foreground" }),
+                  "data-[active=true]:font-medium data-[active=true]:text-blue-600",
+                )}
+                color="foreground"
+                data-active={location.pathname === item.href}
+                href={item.href}
+              >
+                {item.label}
+              </Link>
+            </NavbarItem>
+          ))}
+        </ul>
+      </NavbarContent>
+
+      <NavbarContent
+        className="hidden sm:flex basis-1/5 sm:basis-full"
+        justify="end"
+      >
+        <NavbarItem className="hidden md:flex">
+          <Button
+            isExternal
+            as={Link}
+            className="text-sm font-normal"
+            color="default"
+            href="/about"
+            variant="flat"
+          >
+            আমাদের সম্পর্কে
+          </Button>
+        </NavbarItem>
+        <NavbarItem className="hidden md:flex">
+          <Button
+            isExternal
+            as={Link}
+            className="text-sm font-normal"
+            color="primary"
+            href="/docs"
+            variant="flat"
+          >
+            নির্দেশিকা
+          </Button>
+        </NavbarItem>
+        <NavbarItem className="hidden sm:flex gap-2">
+          <ThemeSwitch />
+        </NavbarItem>
+      </NavbarContent>
+
+      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
+        <ThemeSwitch />
+        <NavbarMenuToggle />
+      </NavbarContent>
+
+      <NavbarMenu>
+        <div className="mx-4 mt-2 flex flex-col gap-2">
+          {siteConfig.navMenuItems.map((item, index) => (
+            <NavbarMenuItem key={`${item}-${index}`}>
+              <Link
+                color={
+                  index === 0
+                    ? "primary"
+                    : location.pathname === item.href
+                    ? "primary"
+                    : "foreground"
+                }
+                href={item.href}
+                size="lg"
+              >
+                {item.label}
+              </Link>
+            </NavbarMenuItem>
+          ))}
+        </div>
+      </NavbarMenu>
+    </HeroUINavbar>
+  );
+};

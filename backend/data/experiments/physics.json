@@ -1,0 +1,76 @@
+{
+  "experiments": [
+    {
+      "id": "projectile-motion",
+      "title": "প্রজেক্টাইল মোশন",
+      "description": "বস্তুর গতিবিদ্যা এবং প্রক্ষেপণের গতিপথ অধ্যয়ন করুন",
+      "type": "projectile",
+      "params": {
+        "angle": {
+          "name": "কোণ",
+          "min": 0,
+          "max": 90,
+          "default": 45,
+          "step": 1,
+          "unit": "°"
+        },
+        "velocity": {
+          "name": "বেগ",
+          "min": 5,
+          "max": 50,
+          "default": 20,
+          "step": 1,
+          "unit": "m/s"
+        },
+        "mass": {
+          "name": "ভর",
+          "min": 1,
+          "max": 10,
+          "default": 5,
+          "step": 0.5,
+          "unit": "kg"
+        },
+        "friction": {
+          "name": "ঘর্ষণ",
+          "min": 0,
+          "max": 1,
+          "default": 0.1,
+          "step": 0.01,
+          "unit": ""
+        }
+      }
+    },
+    {
+      "id": "pendulum",
+      "title": "দোলক গতি",
+      "description": "সাধারণ দোলক এবং তার দোলন বৈশিষ্ট্য অধ্যয়ন করুন",
+      "type": "pendulum",
+      "params": {
+        "length": {
+          "name": "দোলকের দৈর্ঘ্য",
+          "min": 0.1,
+          "max": 3,
+          "default": 1,
+          "step": 0.1,
+          "unit": "m"
+        },
+        "angle": {
+          "name": "প্রারম্ভিক কোণ",
+          "min": 0,
+          "max": 60,
+          "default": 30,
+          "step": 1,
+          "unit": "°"
+        },
+        "mass": {
+          "name": "ভর",
+          "min": 0.5,
+          "max": 5,
+          "default": 2,
+          "step": 0.1,
+          "unit": "kg"
+        }
+      }
+    }
+  ]
+}
