@@ -1,0 +1,7 @@
+<svg width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <ellipse cx="30" cy="18" rx="12" ry="12" fill="#fffde4" stroke="#fbbf24" stroke-width="2"/>
+  <ellipse cx="30" cy="18" rx="8" ry="8" fill="#fff" stroke="#fbbf24" stroke-width="1"/>
+  <rect x="26" y="28" width="8" height="8" rx="2" fill="#fbbf24" stroke="#222" stroke-width="1.5"/>
+  <rect x="28" y="32" width="4" height="4" rx="1" fill="#fff" stroke="#222" stroke-width="1"/>
+  <text x="30" y="18" text-anchor="middle" font-size="10" fill="#fbbf24" font-family="Arial" dy="4">💡</text>
+</svg>

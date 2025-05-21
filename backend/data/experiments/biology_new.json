@@ -1,0 +1,100 @@
+{
+  "experiments": [
+    {
+      "id": "neuron-structure",
+      "title": "নিউরনের গঠন ও কার্যপ্রণালী (Neuron Structure and Function)",
+      "description": "মানব মস্তিষ্কের মৌলিক কোষ নিউরনের বিস্তারিত ত্রিমাত্রিক মডেল। নিউরনের গঠন, তার বিভিন্ন অংশ এবং স্নায়বিক সংকেত পরিবহন প্রক্রিয়া বিশদভাবে দেখুন। (Detailed 3D model of the neuron, the fundamental cell of the human brain. Observe the structure of a neuron, its various parts and the process of neural signal transmission.)",
+      "category": "advanced",
+      "models": [
+        {
+          "id": "neuron-detailed-model",
+          "title": "নিউরনের বিস্তারিত মডেল (Detailed Neuron Model)",
+          "description": "সম্পূর্ণ নিউরনের ত্রিমাত্রিক মডেল, সেল বডি, ডেনড্রাইট, এক্সন এবং সিন্যাপস সহ। স্নায়বিক সংকেত কীভাবে একটি নিউরন থেকে অন্য নিউরনে পরিবাহিত হয় তা দেখুন। (Complete 3D model of a neuron, including cell body, dendrites, axon, and synapses. Observe how neural signals are transmitted from one neuron to another.)",
+          "modelUrl": "https://sketchfab.com/models/a6a64c81e44146469ccbadf3f01e84fe/embed",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "cell-body",
+              "name": "সেল বডি/সোমা (Cell Body/Soma)",
+              "description": "নিউরনের কেন্দ্রীয় অংশ যা নিউক্লিয়াস এবং অন্যান্য কোষীয় অঙ্গাণু ধারণ করে। এটি নিউরনের মেটাবলিক কার্যকলাপের কেন্দ্র এবং প্রোটিন সংশ্লেষণ, শক্তি উৎপাদন এবং সেলের জীবনকাল নিয়ন্ত্রণে গুরুত্বপূর্ণ ভূমিকা পালন করে। (The central part of the neuron that contains the nucleus and other cellular organelles. It is the center of metabolic activity in the neuron and plays a crucial role in protein synthesis, energy production, and controlling the cell's lifespan.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "dendrites",
+              "name": "ডেনড্রাইট (Dendrites)",
+              "description": "সেল বডি থেকে বিস্তৃত শাখাপ্রশাখাযুক্ত গঠন যা অন্যান্য নিউরন থেকে বিদ্যুৎ সংকেত গ্রহণ করে। ডেনড্রাইট স্পাইন নামক ছোট প্রক্ষেপ থাকে যা সিন্যাপটিক সংযোগ তৈরি করে। একটি নিউরনে হাজার হাজার ডেনড্রাইটিক শাখা থাকতে পারে। (Branched structures extending from the cell body that receive electrical signals from other neurons. Dendrites have small projections called dendritic spines that form synaptic connections. A single neuron may have thousands of dendritic branches.)",
+              "position": [0.2, 0.2, 0]
+            },
+            {
+              "id": "axon",
+              "name": "এক্সন (Axon)",
+              "description": "সেল বডি থেকে বিস্তৃত লম্বা প্রক্ষেপ যা বিদ্যুৎ সংকেত (অ্যাকশন পোটেনশিয়াল) পরিবহন করে। এক্সন মায়েলিন শীথ দ্বারা আবৃত থাকতে পারে, যা বিদ্যুৎ সংকেত দ্রুত পরিবহনে সাহায্য করে। এক্সনের দৈর্ঘ্য কয়েক মাইক্রোমিটার থেকে শুরু করে এক মিটার পর্যন্ত হতে পারে। (A long projection from the cell body that conducts electrical signals (action potentials). The axon may be covered by a myelin sheath, which helps in faster transmission of electrical signals. The length of an axon can range from a few micrometers to a meter.)",
+              "position": [-0.3, 0, 0]
+            },
+            {
+              "id": "myelin-sheath",
+              "name": "মায়েলিন শীথ (Myelin Sheath)",
+              "description": "এক্সনের চারপাশে লিপিড-সমৃদ্ধ আবরণ যা অলিগোডেনড্রোসাইট (কেন্দ্রীয় স্নায়ুতন্ত্রে) বা শোয়ান সেল (পেরিফেরাল স্নায়ুতন্ত্রে) দ্বারা তৈরি। এটি বিদ্যুৎ সংকেতকে আরও দ্রুত এবং কার্যকরভাবে পরিবহন করতে সাহায্য করে। মায়েলিন শীথের মধ্যে রেনভিয়ার নোড নামক ফাঁক থাকে যেখানে অ্যাকশন পোটেনশিয়াল পুনরুৎপাদিত হয়। (A lipid-rich covering around the axon produced by oligodendrocytes (in the central nervous system) or Schwann cells (in the peripheral nervous system). It helps transmit electrical signals faster and more efficiently. The myelin sheath has gaps called Nodes of Ranvier where action potentials are regenerated.)",
+              "position": [-0.2, -0.2, 0]
+            },
+            {
+              "id": "nodes-of-ranvier",
+              "name": "রেনভিয়ার নোড (Nodes of Ranvier)",
+              "description": "মায়েলিন শীথের মধ্যে নিয়মিত বিরতি যেখানে এক্সন আবৃত নয়। এই অঞ্চলগুলিতে সোডিয়াম চ্যানেলের উচ্চ ঘনত্ব থাকে, যা অ্যাকশন পোটেনশিয়ালকে পুনরুজ্জীবিত করে এবং সংকেত পরিবহনকে দ্রুত করে। এই প্রক্রিয়াকে 'সালটাটরি কনডাকশন' বলা হয়। (Regular gaps in the myelin sheath where the axon is exposed. These regions have a high density of sodium channels, which regenerate the action potential and speed up signal transmission. This process is called 'saltatory conduction'.)",
+              "position": [-0.3, -0.3, 0.1]
+            },
+            {
+              "id": "axon-terminal",
+              "name": "এক্সন টার্মিনাল (Axon Terminal)",
+              "description": "এক্সনের শেষ প্রান্ত যেখানে এটি অন্য নিউরন বা লক্ষ্য কোষের সাথে সংযোগ স্থাপন করে। এই অঞ্চলে সিন্যাপটিক ভেসিকল থাকে যা নিউরোট্রান্সমিটার ধারণ করে, যা সিন্যাপটিক ফাঁক পেরিয়ে অন্য কোষে সংকেত পাঠায়। (The end part of the axon where it connects with another neuron or target cell. This region contains synaptic vesicles that hold neurotransmitters, which send signals to other cells across the synaptic gap.)",
+              "position": [-0.4, 0, 0.2]
+            },
+            {
+              "id": "synapse",
+              "name": "সিন্যাপস (Synapse)",
+              "description": "দুটি নিউরনের মধ্যে সংযোগস্থল যেখানে স্নায়বিক সংকেত একটি নিউরন থেকে অন্য নিউরনে পরিবাহিত হয়। প্রি-সিন্যাপটিক নিউরন (সংকেত পাঠানো) নিউরোট্রান্সমিটার মুক্ত করে, যা সিন্যাপটিক ফাঁকের মধ্য দিয়ে যায় এবং পোস্ট-সিন্যাপটিক নিউরনে (সংকেত গ্রহণকারী) রিসেপ্টরের সাথে বাঁধা পড়ে। সিন্যাপস উত্তেজক বা নিরোধক হতে পারে। (The junction between two neurons where neural signals are transmitted from one neuron to another. The pre-synaptic neuron (sending signal) releases neurotransmitters, which cross the synaptic gap and bind to receptors on the post-synaptic neuron (receiving signal). Synapses can be excitatory or inhibitory.)",
+              "position": [-0.5, 0, 0.3]
+            },
+            {
+              "id": "action-potential",
+              "name": "অ্যাকশন পোটেনশিয়াল (Action Potential)",
+              "description": "নিউরনের ঝিল্লিতে অস্থায়ী বৈদ্যুতিক পরিবর্তন যা এক্সনের মাধ্যমে সংকেত পরিবহনের মাধ্যম। এটি 'অল-অর-নান' ঘটনা, যার অর্থ নিউরন হয় সম্পূর্ণ সংকেত পাঠায় নয়তো কিছুই পাঠায় না। অ্যাকশন পোটেনশিয়াল নিউরনের ঝিল্লিতে সোডিয়াম এবং পটাশিয়াম আয়নের চলাচলের ফলে ঘটে। (A temporary electrical change in a neuron's membrane that serves as the means of signal transmission through the axon. It is an 'all-or-none' event, meaning the neuron either sends a complete signal or sends nothing. Action potentials occur due to the movement of sodium and potassium ions across the neuron's membrane.)",
+              "position": [0, -0.4, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fetus-lungs-development",
+      "title": "ষোলো সপ্তাহের ভ্রূণের ফুসফুস (Fetus Lungs Week Sixteen)",
+      "description": "গর্ভাবস্থার ষোলো সপ্তাহে মানব ভ্রূণের ফুসফুসের বিকাশ দেখুন। এই সময়ে ফুসফুসের গঠন, বিকাশ এবং ক্রমবর্ধমান জটিলতা পর্যবেক্ষণ করুন। (Observe the development of human fetal lungs at sixteen weeks of gestation. Examine the structure, development, and increasing complexity of the lungs during this critical period.)",
+      "category": "advanced",
+      "models": [
+        {
+          "id": "fetus-lungs-16-weeks-model",
+          "title": "ষোলো সপ্তাহের ভ্রূণের ফুসফুসের মডেল (16-Week Fetal Lungs Model)",
+          "description": "গর্ভাবস্থার দ্বিতীয় ট্রাইমেস্টারের শুরুতে ভ্রূণের ফুসফুসের বিস্তারিত ত্রিমাত্রিক মডেল। এই সময়ে ফুসফুস উল্লেখযোগ্য বিকাশের পর্যায়ে থাকে এবং শ্বাস-প্রশ্বাসের প্রস্তুতি শুরু করে। (Detailed 3D model of fetal lungs at the beginning of the second trimester. At this stage, the lungs are undergoing significant development and beginning to prepare for breathing.)",
+          "modelUrl": "https://sketchfab.com/models/3aae6de354ac4506a12425027a39bc20/embed",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "bronchial-tree",
+              "name": "ব্রঙ্কিয়াল ট্রি (Bronchial Tree)",
+              "description": "ভ্রূণের ষোলো সপ্তাহে ব্রঙ্কিয়াল ট্রি শ্বাসনালী থেকে শুরু হয়ে ক্রমাগত বিভক্ত হয়ে ব্রঙ্কাই এবং ব্রঙ্কিওল তৈরি করে। এই সময়ে নিয়মিত দ্বিশাখীভবন (branching) প্রক্রিয়া চলতে থাকে, যা কানালিকুলার পর্যায়ের শুরু নির্দেশ করে। (At sixteen weeks of fetal development, the bronchial tree extends from the trachea, progressively branching to form bronchi and bronchioles. Regular dichotomous branching continues during this period, marking the beginning of the canalicular phase.)",
+              "position": [0, 0, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "human-body-anatomy",
+      "title": "মানব দেহের অ্যানাটমি (Human Body Anatomy)",
+      "description": "মানব দেহের পূর্ণাঙ্গ ত্রিমাত্রিক এনিমেটেড অ্যানাটমিকাল মডেল। শরীরের বিভিন্ন অঙ্গ-প্রত্যঙ্গ, তন্ত্রসমূহ এবং তাদের পারস্পরিক সম্পর্ক বিশদভাবে অধ্যয়ন করুন। (Complete 3D animated anatomical model of the human body. Study in detail the various organs, systems and their interrelationships.)",
+      "category": "advanced"
+    }
+  ]
+}

@@ -1,16 +1,9 @@
-import DefaultLayout from "@/layouts/default";
-import { Html, OrbitControls, useGLTF, useProgress } from "@react-three/drei";
+import { useEffect, useRef, useState, Component, ReactNode, Suspense } from "react";
+import { Html, useGLTF, useProgress, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import axios from "axios";
-import {
-  Component,
-  ReactNode,
-  Suspense,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
 import * as THREE from "three";
+import DefaultLayout from "@/layouts/default";
+import axios from "axios";
 
 // Error Boundary Component
 class ErrorBoundary extends Component<
@@ -334,13 +327,7 @@ const BiologyEngine = () => {
                           title="3d Animated Realistic Human Heart V1.0"
                           frameBorder="0"
                           allowFullScreen
-                          mozAllowFullScreen={true}
-                          webkitAllowFullScreen={true}
                           allow="autoplay; fullscreen; xr-spatial-tracking"
-                          xr-spatial-tracking="true"
-                          execution-while-out-of-viewport="true"
-                          execution-while-not-rendered="true"
-                          web-share="true"
                           src="https://sketchfab.com/models/a70c0c47fe4b4bbfabfc8f445365d5a4/embed"
                           className="w-full h-[320px] md:h-[340px] rounded-md border-none"
                           style={{ background: "transparent" }}

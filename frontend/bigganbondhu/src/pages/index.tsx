@@ -24,7 +24,7 @@ export default function IndexPage() {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8 w-full max-w-4xl">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-8 w-full max-w-5xl">
           <div
             onClick={() => navigate("/engines/physics")}
             className="bg-white dark:bg-gray-900 border border-blue-100 dark:border-blue-900 rounded-xl shadow-md p-6 cursor-pointer hover:shadow-lg transition-all flex flex-col items-center text-center"
@@ -100,6 +100,31 @@ export default function IndexPage() {
               })}
             >
               অধ্যয়ন শুরু করুন
+            </button>
+          </div>
+
+          <div
+            onClick={() => navigate("/hands-on")}
+            className="bg-white dark:bg-gray-900 border border-blue-100 dark:border-blue-900 rounded-xl shadow-md p-6 cursor-pointer hover:shadow-lg transition-all flex flex-col items-center text-center"
+          >
+            <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-full mb-4">
+              <span className="text-4xl">🛠️</span>
+            </div>
+            <h2 className="text-xl font-bold mb-2 dark:text-gray-100">
+              হ্যান্ডস-অন এক্সপেরিয়েন্স
+            </h2>
+            <p className="text-gray-600 dark:text-gray-300">
+              সার্কিট ডিজাইনসহ আরও ইন্টারেক্টিভ এক্সপেরিয়েন্স এখানে যুক্ত হবে।
+            </p>
+            <button
+              className={buttonStyles({
+                color: "primary",
+                radius: "full",
+                variant: "flat",
+                class: "mt-4",
+              })}
+            >
+              এক্সপ্লোর করুন
             </button>
           </div>
         </div>

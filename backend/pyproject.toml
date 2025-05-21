@@ -10,5 +10,5 @@ dependencies = [
     "pydantic>=1.10.7",
     "python-multipart>=0.0.6",
     "gtts>=2.3.1",
-    "SQLite-Utils>=3.35",
+    "sqlite-utils>=3.35",
 ]

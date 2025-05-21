@@ -1,0 +1,467 @@
+// filepath: /home/swadhin/bigganbondhu/frontend/bigganbondhu/src/pages/engines/biology-experiments.tsx
+import DefaultLayout from "@/layouts/default";
+import { Html, OrbitControls, useGLTF, useProgress } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import CellComparison from "@/components/biology/CellComparison";
+import AnimalCellModel from "@/components/biology/AnimalCellModel";
+import axios from "axios";
+import {
+  Component,
+  ReactNode,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import * as THREE from "three";
+
+// Error Boundary Component
+class ErrorBoundary extends Component<
+  { children: ReactNode; fallback: ReactNode },
+  { hasError: boolean }
+> {
+  constructor(props: { children: ReactNode; fallback: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: any) {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: any, errorInfo: any) {
+    console.error("Error caught by boundary:", error, errorInfo);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return this.props.fallback;
+    }
+    return this.props.children;
+  }
+}
+
+type BiologyModel = {
+  id: string;
+  title: string;
+  description: string;
+  modelUrl: string;
+  scale: number;
+  position: [number, number, number];
+  parts: {
+    id: string;
+    name: string;
+    description: string;
+    position: [number, number, number];
+  }[];
+};
+
+type BiologyExperiment = {
+  id: string;
+  title: string;
+  description: string;
+  models: BiologyModel[];
+};
+
+// Loading component for 3D models
+function ModelLoader() {
+  const { progress } = useProgress();
+  return (
+    <Html center>
+      <div className="bg-blue-100 p-6 rounded-lg shadow-lg border border-blue-200">
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto"></div>
+        <p className="mt-4 font-medium text-lg">মডেল লোড হচ্ছে... {progress.toFixed(0)}%</p>
+        <div className="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+          <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: `${progress.toFixed(0)}%` }}></div>
+        </div>
+      </div>
+    </Html>
+  );
+}
+
+// Model component with interactive parts
+const Model = ({
+  model,
+  onPartClick,
+}: {
+  model: BiologyModel;
+  onPartClick: (part: any) => void;
+}) => {
+  const [modelError, setModelError] = useState(false);
+  const { scene } = useGLTF(model.modelUrl, undefined, undefined, (error) => {
+    console.error("Error loading model:", error);
+    setModelError(true);
+  });
+
+  useEffect(() => {
+    // Preload the model to ensure it's available
+    if (model.modelUrl) {
+      try {
+        useGLTF.preload(model.modelUrl);
+      } catch (error) {
+        console.error("Error preloading model:", error);
+        setModelError(true);
+      }
+    }
+
+    // Cleanup function
+    return () => {
+      try {
+        useGLTF.clear(model.modelUrl);
+      } catch (e) {
+        // Ignore cleanup errors
+      }
+    };
+  }, [model.modelUrl]);
+
+  if (modelError) {
+    return (
+      <mesh position={[0, 0, 0]}>
+        <boxGeometry args={[1, 1, 1]} />
+        <meshStandardMaterial color="red" />
+        <Html position={[0, 1.5, 0]} center>
+          <div
+            className="bg-red-100 p-2 rounded text-red-800 text-center"
+            style={{ width: "200px" }}
+          >
+            <p>মডেল লোড করা যায়নি</p>
+            <p className="text-xs">(Could not load model)</p>
+          </div>
+        </Html>
+      </mesh>
+    );
+  }
+
+  return (
+    <group position={new THREE.Vector3(...model.position)} scale={model.scale}>
+      <primitive object={scene} />
+
+      {/* Interactive hotspots for parts */}
+      {model.parts.map((part) => (
+        <mesh
+          key={part.id}
+          position={new THREE.Vector3(...part.position)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onPartClick(part);
+          }}
+        >
+          <sphereGeometry args={[0.2, 16, 16]} />
+          <meshBasicMaterial color="red" transparent opacity={0.6} />
+        </mesh>
+      ))}
+    </group>
+  );
+};
+
+const BiologyExperiments = () => {
+  const { category } = useParams<{ category: string }>();
+  const navigate = useNavigate();
+  const [experiments, setExperiments] = useState<BiologyExperiment[]>([]);
+  const [selectedExperiment, setSelectedExperiment] =
+    useState<BiologyExperiment | null>(null);
+  const [selectedModel, setSelectedModel] = useState<BiologyModel | null>(null);
+  const [selectedPart, setSelectedPart] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [categoryTitle, setCategoryTitle] = useState({ bn: "", en: "" });
+
+  // Audio player ref
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    // Set category title based on the URL parameter
+    switch (category) {
+      case "introduction":
+        setCategoryTitle({
+          bn: "জীবন বিজ্ঞান পরিচিতি",
+          en: "Introduction to Life Science",
+        });
+        break;
+      case "systems":
+        setCategoryTitle({
+          bn: "জৈবিক সিস্টেম ও প্রক্রিয়া",
+          en: "Systems & Processes",
+        });
+        break;
+      case "advanced":
+        setCategoryTitle({
+          bn: "উন্নত ধারণাসমূহ",
+          en: "Advanced Concepts",
+        });
+        break;
+      default:
+        setCategoryTitle({
+          bn: "জীববিজ্ঞান",
+          en: "Biology",
+        });
+    }
+
+    // Fetch biology experiments
+    const fetchExperiments = async () => {
+      try {
+        setLoading(true);
+        let apiUrl = "http://localhost:8000/api/experiments/biology";
+
+        // If we have a category, add it as a query parameter
+        if (category) {
+          apiUrl += `?category=${category}`;
+        }
+
+        const response = await axios.get(apiUrl);
+
+        setExperiments(response.data.experiments);
+        if (response.data.experiments.length > 0) {
+          setSelectedExperiment(response.data.experiments[0]);
+          if (response.data.experiments[0].models.length > 0) {
+            setSelectedModel(response.data.experiments[0].models[0]);
+          }
+        }
+        setLoading(false);
+      } catch (err) {
+        setError("Failed to load biology experiments");
+        setLoading(false);
+        console.error(err);
+      }
+    };
+
+    fetchExperiments();
+  }, [category]);
+
+  const handlePartClick = (part: any) => {
+    setSelectedPart(part);
+    playAudioNarration(part.description);
+  };
+
+  const playAudioNarration = async (text: string) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/audio?text=${encodeURIComponent(text)}`,
+        {
+          responseType: "blob",
+        }
+      );
+
+      // Create a URL for the blob
+      const audioURL = URL.createObjectURL(response.data);
+
+      // Play the audio
+      if (audioRef.current) {
+        audioRef.current.src = audioURL;
+        audioRef.current.play();
+      }
+    } catch (error) {
+      console.error("Error playing audio narration:", error);
+    }
+  };
+
+  return (
+    <DefaultLayout>
+      <div className="w-full">
+        <audio ref={audioRef} className="hidden" />
+
+        <div className="container mx-auto px-4 py-8">
+          <div className="mb-6 text-center">
+            <h1 className="text-3xl font-bold mb-2">{categoryTitle.bn}</h1>
+            <p className="text-gray-600">{categoryTitle.en}</p>
+
+            <button
+              onClick={() => navigate("/engines/biology")}
+              className="mt-4 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-800 dark:hover:bg-gray-700 rounded-md text-sm"
+            >
+              ← বিভাগে ফিরে যান / Back to categories
+            </button>
+          </div>
+
+          {loading ? (
+            <div className="flex justify-center items-center h-64">
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+            </div>
+          ) : error ? (
+            <div className="bg-red-100 text-red-800 p-4 rounded-md text-center">
+              {error}
+            </div>
+          ) : (
+            <div className="flex flex-col md:flex-row gap-6">
+              {/* Left sidebar for experiments list */}
+              <div className="md:w-1/4">
+                <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                  <h3 className="text-lg font-bold border-b pb-2 mb-4">
+                    এক্সপেরিমেন্টস
+                  </h3>
+                  <div className="space-y-2">
+                    {experiments.map((experiment) => (
+                      <div
+                        key={experiment.id}
+                        className={`p-2 rounded-md cursor-pointer ${
+                          selectedExperiment?.id === experiment.id
+                            ? "bg-blue-100 dark:bg-blue-900"
+                            : "hover:bg-gray-100 dark:hover:bg-gray-700"
+                        }`}
+                        onClick={() => {
+                          setSelectedExperiment(experiment);
+                          if (experiment.models.length > 0) {
+                            setSelectedModel(experiment.models[0]);
+                            setSelectedPart(null);
+                          }
+                        }}
+                      >
+                        <div className="font-medium">{experiment.title}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Main content */}
+              <div className="md:w-3/4">
+                {selectedExperiment ? (
+                  <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow">
+                    <h2 className="text-xl font-bold mb-2">
+                      {selectedExperiment.title}
+                    </h2>
+                    <p className="mb-4 text-gray-600 dark:text-gray-300">
+                      {selectedExperiment.description}
+                    </p>
+
+                    {/* Model viewer */}
+                    <div className="border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden mb-4">
+                      <div className="h-[600px] w-full bg-gray-50 dark:bg-gray-900">
+                        <ErrorBoundary
+                          fallback={
+                            <div className="h-full flex justify-center items-center">
+                              <div className="bg-red-100 p-4 rounded-md">
+                                <p className="text-red-800">
+                                  মডেল লোড করতে ত্রুটি হয়েছে
+                                </p>
+                              </div>
+                            </div>
+                          }
+                        >
+                          {selectedExperiment?.id === "cell-comparison" ? (
+                            <CellComparison />
+                          ) : selectedModel?.id === "animal-cell" &&
+                            selectedModel.modelUrl.includes(
+                              "animalcell.glb"
+                            ) ? (
+                            <Canvas
+                              camera={{ position: [0, 0, 7], fov: 45 }}
+                              style={{ height: "100%" }}
+                              shadows
+                            >
+                              <ambientLight intensity={0.8} />
+                              <spotLight
+                                position={[10, 10, 10]}
+                                angle={0.15}
+                                penumbra={1}
+                                castShadow
+                                intensity={1}
+                              />
+                              <pointLight position={[-10, -10, -10]} intensity={0.5} />
+                              <Suspense fallback={<ModelLoader />}>
+                                <AnimalCellModel
+                                  modelUrl={selectedModel.modelUrl}
+                                  onPartClick={handlePartClick}
+                                />
+                              </Suspense>
+                              <OrbitControls
+                                enablePan={true}
+                                enableZoom={true}
+                                maxDistance={15}
+                                minDistance={3}
+                              />
+                            </Canvas>
+                          ) : selectedModel ? (
+                            <Canvas
+                              camera={{ position: [0, 0, 5], fov: 50 }}
+                              style={{ height: "100%" }}
+                            >
+                              <ambientLight intensity={0.7} />
+                              <spotLight
+                                position={[10, 10, 10]}
+                                angle={0.15}
+                                penumbra={1}
+                              />
+                              <pointLight position={[-10, -10, -10]} />
+                              <Suspense fallback={<ModelLoader />}>
+                                <Model
+                                  model={selectedModel}
+                                  onPartClick={handlePartClick}
+                                />
+                              </Suspense>
+                              <OrbitControls
+                                enablePan={true}
+                                enableZoom={true}
+                              />
+                            </Canvas>
+                          ) : (
+                            <div className="h-full flex justify-center items-center">
+                              কোন মডেল নির্বাচিত হয়নি
+                            </div>
+                          )}
+                        </ErrorBoundary>
+                      </div>
+                    </div>
+
+                    {/* Model selector */}
+                    {selectedExperiment.models.length > 1 && (
+                      <div className="mb-4">
+                        <h3 className="text-lg font-bold mb-2">
+                          মডেল নির্বাচন করুন
+                        </h3>
+                        <div className="flex flex-wrap gap-2">
+                          {selectedExperiment.models.map((model) => (
+                            <button
+                              key={model.id}
+                              className={`px-4 py-2 rounded ${
+                                selectedModel?.id === model.id
+                                  ? "bg-blue-500 text-white"
+                                  : "bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600"
+                              }`}
+                              onClick={() => {
+                                setSelectedModel(model);
+                                setSelectedPart(null);
+                              }}
+                            >
+                              {model.title}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Selected part information */}
+                    {selectedPart && (
+                      <div className="mt-6 bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg">
+                        <h3 className="text-lg font-bold mb-2">
+                          {selectedPart.name}
+                        </h3>
+                        <p className="text-gray-700 dark:text-gray-300">
+                          {selectedPart.description}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <div className="bg-white dark:bg-gray-800 p-12 rounded-lg shadow text-center">
+                    <p>
+                      কোন এক্সপেরিমেন্ট নির্বাচিত হয়নি। বাম দিক থেকে একটি
+                      এক্সপেরিমেন্ট নির্বাচন করুন।
+                    </p>
+                    <p className="text-gray-500 mt-2">
+                      No experiment selected. Please select an experiment from
+                      the left sidebar.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </DefaultLayout>
+  );
+};
+
+export default BiologyExperiments;

@@ -58,6 +58,30 @@ def create_default_data(category: str):
                     "narration": "প্রক্ষেপণ গতি হল একটি বস্তুর গতি যা শুধুমাত্র পৃথিবীর অভিকর্ষীয় আকর্ষণের অধীনে থাকে। কোণ এবং প্রাথমিক বেগ পরিবর্তন করে দেখুন গতিপথ কিভাবে পরিবর্তিত হয়।"
                 },
                 {
+                    "id": "circuit-simulator",
+                    "title": "ইলেকট্রিক সার্কিট সিমুলেটর",
+                    "description": "ড্র্যাগ এন্ড ড্রপ উপাদান দিয়ে বৈদ্যুতিক সার্কিট তৈরি করে ওহমের সূত্র এবং সিরিজ ও প্যারালাল সার্কিট শিখুন",
+                    "type": "circuit",
+                    "parameters": {
+                        "voltage": {"min": 1, "max": 24, "default": 9, "label": "ভোল্টেজ (V)"},
+                        "resistance": {"min": 1, "max": 1000, "default": 100, "label": "রেজিস্টেন্স (Ω)"},
+                        "showLabels": {"min": 0, "max": 1, "default": 1, "label": "লেবেল দেখান"}
+                    },
+                    "narration": "এই সিমুলেটরে আপনি ব্যাটারি, রেজিস্টর, তার এবং সুইচগুলি টেনে এনে বৈদ্যুতিক সার্কিট তৈরি করতে পারেন। ওহমের সূত্র (V = IR) অনুসারে, আপনি দেখতে পাবেন কিভাবে কারেন্ট এবং ভোল্টেজ সার্কিটের মধ্যে প্রবাহিত হয়। সিরিজ এবং প্যারালাল কনফিগারেশনে রেজিস্টরের আচরণ দেখুন।"
+                },
+                {
+                    "id": "newton-laws",
+                    "title": "নিউটনের গতিসূত্র",
+                    "description": "কার্ট ঠেলা বনাম রিকশা টানা - বল, ভর, ও ত্বরণের সম্পর্ক অধ্যয়ন করুন",
+                    "type": "newton",
+                    "parameters": {
+                        "mass": {"min": 10, "max": 100, "default": 50, "label": "ভর (kg)"},
+                        "force": {"min": 10, "max": 500, "default": 100, "label": "বল (N)"},
+                        "friction": {"min": 0, "max": 1, "default": 0.2, "label": "ঘর্ষণ সহগ"}
+                    },
+                    "narration": "নিউটনের দ্বিতীয় সূত্র অনুসারে, একটি বস্তুর ত্বরণ তার উপর প্রযুক্ত বলের সমানুপাতিক এবং ভরের ব্যস্তানুপাতিক (a = F/m)। বল এবং ভর পরিবর্তন করে দেখুন কিভাবে একটি কার্ট ঠেলা এবং রিকশা টানার গতি পরিবর্তিত হয়।"
+                },
+                {
                     "id": "pendulum",
                     "title": "দোলক গতি",
                     "description": "সাধারণ দোলক এবং তার দোলন বৈশিষ্ট্য অধ্যয়ন করুন",
@@ -385,6 +409,110 @@ async def get_reaction(
     except Exception as e:
         print(f"Error getting reaction: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to get reaction: {str(e)}")
+
+@app.get("/api/experiments/physics")
+async def get_physics_data():
+    """Get all physics experiments data"""
+    try:
+        physics_path = "data/experiments/physics.json"
+
+        if not os.path.exists(physics_path):
+            # Use the default creation function already defined in the file
+            create_default_data("physics")
+
+        with open(physics_path, "r", encoding="utf-8") as f:
+            physics_data = json.load(f)
+
+        return physics_data
+    except Exception as e:
+        print(f"Error getting physics data: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to get physics data: {str(e)}")
+
+@app.get("/api/experiments/biology")
+async def get_biology_data(category: str = Query(None)):
+    """Get all biology experiments data, optionally filtered by category"""
+    try:
+        biology_path = "data/experiments/biology.json"
+
+        if not os.path.exists(biology_path):
+            # Use the default creation function already defined in the file
+            create_default_data("biology")
+
+        with open(biology_path, "r", encoding="utf-8") as f:
+            biology_data = json.load(f)
+
+        # If a category is specified, filter the experiments
+        if category:
+            # Filter experiments by their category field
+            filtered_experiments = [
+                exp for exp in biology_data["experiments"]
+                if "category" in exp and exp["category"] == category
+            ]
+            biology_data["experiments"] = filtered_experiments
+
+        return biology_data
+    except Exception as e:
+        print(f"Error getting biology data: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to get biology data: {str(e)}")
+
+@app.get("/api/svg/{filename}")
+async def get_svg_file(filename: str):
+    """
+    Serve SVG files for physics simulations and other visualizations
+    """
+    try:
+        svg_path = f"app/svg/{filename}"
+        if not os.path.exists(svg_path):
+            raise HTTPException(status_code=404, detail=f"SVG file {filename} not found")
+
+        # Return the SVG file with proper content type
+        return FileResponse(
+            svg_path,
+            media_type="image/svg+xml"
+        )
+    except Exception as e:
+        print(f"Error retrieving SVG file: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve SVG: {str(e)}")
+
+@app.get("/api/models/{filename}")
+async def get_model_file(filename: str):
+    """
+    Serve 3D model files (glb, gltf) for biology and other 3D simulations
+    """
+    try:
+        model_path = f"app/webmodel/{filename}"
+        if not os.path.exists(model_path):
+            raise HTTPException(status_code=404, detail=f"Model file {filename} not found")
+
+        # Get file size for logging
+        file_size = os.path.getsize(model_path) / (1024 * 1024)  # Size in MB
+        print(f"Serving model file {filename}, size: {file_size:.2f} MB")
+
+        # Determine content type
+        content_type = "model/gltf-binary" if filename.endswith('.glb') else "model/gltf+json"
+
+        # Add caching headers for better performance and CORS headers
+        headers = {
+            "Cache-Control": "public, max-age=604800",  # Cache for 1 week
+            "Access-Control-Allow-Origin": "*",  # Allow CORS
+            "Access-Control-Allow-Methods": "GET, OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type"
+        }
+
+        # Return the file with appropriate headers
+        return FileResponse(
+            model_path,
+            media_type=content_type,
+            headers=headers
+        )
+    except Exception as e:
+        error_message = f"Error retrieving model file {filename}: {str(e)}"
+        print(error_message)
+        raise HTTPException(status_code=500, detail=error_message)
+        
+    except Exception as e:
+        print(f"Error retrieving model file {filename}: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to retrieve model: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn

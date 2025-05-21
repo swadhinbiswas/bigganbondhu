@@ -1,47 +1,989 @@
 {
   "experiments": [
     {
+      "id": "neuron-structure",
+      "title": "নিউরনের গঠন ও কার্যপ্রণালী (Neuron Structure and Function)",
+      "description": "মানব মস্তিষ্কের মৌলিক কোষ নিউরনের বিস্তারিত ত্রিমাত্রিক মডেল। নিউরনের গঠন, তার বিভিন্ন অংশ এবং স্নায়বিক সংকেত পরিবহন প্রক্রিয়া বিশদভাবে দেখুন। (Detailed 3D model of the neuron, the fundamental cell of the human brain. Observe the structure of a neuron, its various parts and the process of neural signal transmission.)",
+      "category": "advanced",
+      "models": [
+        {
+          "id": "neuron-detailed-model",
+          "title": "নিউরনের বিস্তারিত মডেল (Detailed Neuron Model)",
+          "description": "সম্পূর্ণ নিউরনের ত্রিমাত্রিক মডেল, সেল বডি, ডেনড্রাইট, এক্সন এবং সিন্যাপস সহ। স্নায়বিক সংকেত কীভাবে একটি নিউরন থেকে অন্য নিউরনে পরিবাহিত হয় তা দেখুন। (Complete 3D model of a neuron, including cell body, dendrites, axon, and synapses. Observe how neural signals are transmitted from one neuron to another.)",
+          "modelUrl": "https://sketchfab.com/models/a6a64c81e44146469ccbadf3f01e84fe/embed",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "cell-body",
+              "name": "সেল বডি/সোমা (Cell Body/Soma)",
+              "description": "নিউরনের কেন্দ্রীয় অংশ যা নিউক্লিয়াস এবং অন্যান্য কোষীয় অঙ্গাণু ধারণ করে। এটি নিউরনের মেটাবলিক কার্যকলাপের কেন্দ্র এবং প্রোটিন সংশ্লেষণ, শক্তি উৎপাদন এবং সেলের জীবনকাল নিয়ন্ত্রণে গুরুত্বপূর্ণ ভূমিকা পালন করে। (The central part of the neuron that contains the nucleus and other cellular organelles. It is the center of metabolic activity in the neuron and plays a crucial role in protein synthesis, energy production, and controlling the cell's lifespan.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "dendrites",
+              "name": "ডেনড্রাইট (Dendrites)",
+              "description": "সেল বডি থেকে বিস্তৃত শাখাপ্রশাখাযুক্ত গঠন যা অন্যান্য নিউরন থেকে বিদ্যুৎ সংকেত গ্রহণ করে। ডেনড্রাইট স্পাইন নামক ছোট প্রক্ষেপ থাকে যা সিন্যাপটিক সংযোগ তৈরি করে। একটি নিউরনে হাজার হাজার ডেনড্রাইটিক শাখা থাকতে পারে। (Branched structures extending from the cell body that receive electrical signals from other neurons. Dendrites have small projections called dendritic spines that form synaptic connections. A single neuron may have thousands of dendritic branches.)",
+              "position": [0.2, 0.2, 0]
+            },
+            {
+              "id": "axon",
+              "name": "এক্সন (Axon)",
+              "description": "সেল বডি থেকে বিস্তৃত লম্বা প্রক্ষেপ যা বিদ্যুৎ সংকেত (অ্যাকশন পোটেনশিয়াল) পরিবহন করে। এক্সন মায়েলিন শীথ দ্বারা আবৃত থাকতে পারে, যা বিদ্যুৎ সংকেত দ্রুত পরিবহনে সাহায্য করে। এক্সনের দৈর্ঘ্য কয়েক মাইক্রোমিটার থেকে শুরু করে এক মিটার পর্যন্ত হতে পারে। (A long projection from the cell body that conducts electrical signals (action potentials). The axon may be covered by a myelin sheath, which helps in faster transmission of electrical signals. The length of an axon can range from a few micrometers to a meter.)",
+              "position": [-0.3, 0, 0]
+            },
+            {
+              "id": "myelin-sheath",
+              "name": "মায়েলিন শীথ (Myelin Sheath)",
+              "description": "এক্সনের চারপাশে লিপিড-সমৃদ্ধ আবরণ যা অলিগোডেনড্রোসাইট (কেন্দ্রীয় স্নায়ুতন্ত্রে) বা শোয়ান সেল (পেরিফেরাল স্নায়ুতন্ত্রে) দ্বারা তৈরি। এটি বিদ্যুৎ সংকেতকে আরও দ্রুত এবং কার্যকরভাবে পরিবহন করতে সাহায্য করে। মায়েলিন শীথের মধ্যে রেনভিয়ার নোড নামক ফাঁক থাকে যেখানে অ্যাকশন পোটেনশিয়াল পুনরুৎপাদিত হয়। (A lipid-rich covering around the axon produced by oligodendrocytes (in the central nervous system) or Schwann cells (in the peripheral nervous system). It helps transmit electrical signals faster and more efficiently. The myelin sheath has gaps called Nodes of Ranvier where action potentials are regenerated.)",
+              "position": [-0.2, -0.2, 0]
+            },
+            {
+              "id": "nodes-of-ranvier",
+              "name": "রেনভিয়ার নোড (Nodes of Ranvier)",
+              "description": "মায়েলিন শীথের মধ্যে নিয়মিত বিরতি যেখানে এক্সন আবৃত নয়। এই অঞ্চলগুলিতে সোডিয়াম চ্যানেলের উচ্চ ঘনত্ব থাকে, যা অ্যাকশন পোটেনশিয়ালকে পুনরুজ্জীবিত করে এবং সংকেত পরিবহনকে দ্রুত করে। এই প্রক্রিয়াকে 'সালটাটরি কনডাকশন' বলা হয়। (Regular gaps in the myelin sheath where the axon is exposed. These regions have a high density of sodium channels, which regenerate the action potential and speed up signal transmission. This process is called 'saltatory conduction'.)",
+              "position": [-0.3, -0.3, 0.1]
+            },
+            {
+              "id": "axon-terminal",
+              "name": "এক্সন টার্মিনাল (Axon Terminal)",
+              "description": "এক্সনের শেষ প্রান্ত যেখানে এটি অন্য নিউরন বা লক্ষ্য কোষের সাথে সংযোগ স্থাপন করে। এই অঞ্চলে সিন্যাপটিক ভেসিকল থাকে যা নিউরোট্রান্সমিটার ধারণ করে, যা সিন্যাপটিক ফাঁক পেরিয়ে অন্য কোষে সংকেত পাঠায়। (The end part of the axon where it connects with another neuron or target cell. This region contains synaptic vesicles that hold neurotransmitters, which send signals to other cells across the synaptic gap.)",
+              "position": [-0.4, 0, 0.2]
+            },
+            {
+              "id": "synapse",
+              "name": "সিন্যাপস (Synapse)",
+              "description": "দুটি নিউরনের মধ্যে সংযোগস্থল যেখানে স্নায়বিক সংকেত একটি নিউরন থেকে অন্য নিউরনে পরিবাহিত হয়। প্রি-সিন্যাপটিক নিউরন (সংকেত পাঠানো) নিউরোট্রান্সমিটার মুক্ত করে, যা সিন্যাপটিক ফাঁকের মধ্য দিয়ে যায় এবং পোস্ট-সিন্যাপটিক নিউরনে (সংকেত গ্রহণকারী) রিসেপ্টরের সাথে বাঁধা পড়ে। সিন্যাপস উত্তেজক বা নিরোধক হতে পারে। (The junction between two neurons where neural signals are transmitted from one neuron to another. The pre-synaptic neuron (sending signal) releases neurotransmitters, which cross the synaptic gap and bind to receptors on the post-synaptic neuron (receiving signal). Synapses can be excitatory or inhibitory.)",
+              "position": [-0.5, 0, 0.3]
+            },
+            {
+              "id": "action-potential",
+              "name": "অ্যাকশন পোটেনশিয়াল (Action Potential)",
+              "description": "নিউরনের ঝিল্লিতে অস্থায়ী বৈদ্যুতিক পরিবর্তন যা এক্সনের মাধ্যমে সংকেত পরিবহনের মাধ্যম। এটি 'অল-অর-নান' ঘটনা, যার অর্থ নিউরন হয় সম্পূর্ণ সংকেত পাঠায় নয়তো কিছুই পাঠায় না। অ্যাকশন পোটেনশিয়াল নিউরনের ঝিল্লিতে সোডিয়াম এবং পটাশিয়াম আয়নের চলাচলের ফলে ঘটে। (A temporary electrical change in a neuron's membrane that serves as the means of signal transmission through the axon. It is an 'all-or-none' event, meaning the neuron either sends a complete signal or sends nothing. Action potentials occur due to the movement of sodium and potassium ions across the neuron's membrane.)",
+              "position": [0, -0.4, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "fetus-lungs-development",
+      "title": "ষোলো সপ্তাহের ভ্রূণের ফুসফুস (Fetus Lungs Week Sixteen)",
+      "description": "গর্ভাবস্থার ষোলো সপ্তাহে মানব ভ্রূণের ফুসফুসের বিকাশ দেখুন। এই সময়ে ফুসফুসের গঠন, বিকাশ এবং ক্রমবর্ধমান জটিলতা পর্যবেক্ষণ করুন। (Observe the development of human fetal lungs at sixteen weeks of gestation. Examine the structure, development, and increasing complexity of the lungs during this critical period.)",
+      "category": "advanced",
+      "models": [
+        {
+          "id": "fetus-lungs-16-weeks-model",
+          "title": "ষোলো সপ্তাহের ভ্রূণের ফুসফুসের মডেল (16-Week Fetal Lungs Model)",
+          "description": "গর্ভাবস্থার দ্বিতীয় ট্রাইমেস্টারের শুরুতে ভ্রূণের ফুসফুসের বিস্তারিত ত্রিমাত্রিক মডেল। এই সময়ে ফুসফুস উল্লেখযোগ্য বিকাশের পর্যায়ে থাকে এবং শ্বাস-প্রশ্বাসের প্রস্তুতি শুরু করে। (Detailed 3D model of fetal lungs at the beginning of the second trimester. At this stage, the lungs are undergoing significant development and beginning to prepare for breathing.)",
+          "modelUrl": "https://sketchfab.com/models/3aae6de354ac4506a12425027a39bc20/embed",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "bronchial-tree",
+              "name": "ব্রঙ্কিয়াল ট্রি (Bronchial Tree)",
+              "description": "ভ্রূণের ষোলো সপ্তাহে ব্রঙ্কিয়াল ট্রি শ্বাসনালী থেকে শুরু হয়ে ক্রমাগত বিভক্ত হয়ে ব্রঙ্কাই এবং ব্রঙ্কিওল তৈরি করে। এই সময়ে নিয়মিত দ্বিশাখীভবন (branching) প্রক্রিয়া চলতে থাকে, যা কানালিকুলার পর্যায়ের শুরু নির্দেশ করে। (At sixteen weeks of fetal development, the bronchial tree extends from the trachea, progressively branching to form bronchi and bronchioles. Regular dichotomous branching continues during this period, marking the beginning of the canalicular phase.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "lung-tissue",
+              "name": "ফুসফুস টিস্যু (Lung Tissue)",
+              "description": "ষোলো সপ্তাহের ভ্রূণে ফুসফুসের টিস্যু এখনো অপরিণত, কিন্তু প্রিমিটিভ কূপিকা (primitive alveoli) তৈরি শুরু হচ্ছে। এই সময়ে মেসেনকাইমাল টিস্যু উল্লেখযোগ্যভাবে উপস্থিত থাকে যা পরবর্তীতে রক্তনালী এবং অন্যান্য সহায়ক কাঠামোতে পরিণত হবে। (In a sixteen-week fetus, lung tissue is still immature but beginning to form primitive alveoli. Mesenchymal tissue remains significantly present at this stage, which will later develop into blood vessels and other supporting structures.)",
+              "position": [0.2, 0, 0]
+            },
+            {
+              "id": "terminal-bronchioles",
+              "name": "টার্মিনাল ব্রঙ্কিওল (Terminal Bronchioles)",
+              "description": "টার্মিনাল ব্রঙ্কিওলগুলি এই সময়ে বিকশিত হতে থাকে এবং এগুলি পরবর্তীতে রেসপিরেটরি ব্রঙ্কিওল এবং এলভিওলার ডাক্টে পরিণত হবে। তবে, ষোলো সপ্তাহে এই কাঠামোগুলি এখনো পুরোপুরি বিকশিত নয় এবং গ্যাস বিনিময়ের জন্য প্রস্তুত নয়। (Terminal bronchioles are beginning to develop during this period and will eventually transform into respiratory bronchioles and alveolar ducts. However, at sixteen weeks these structures are not fully developed yet and not ready for gas exchange.)",
+              "position": [0, 0.2, 0.1]
+            },
+            {
+              "id": "pulmonary-vasculature",
+              "name": "পালমোনারি ভাসকুলেচার (Pulmonary Vasculature)",
+              "description": "রক্তনালী নেটওয়ার্ক এই পর্যায়ে বিকাশের অধীন। পালমোনারি ধমনী এবং শিরাগুলি বিকশিত হচ্ছে এবং ব্রঙ্কিয়াল ট্রির সাথে সমান্তরালভাবে বৃদ্ধি পাচ্ছে। তবে, কাপিলারি নেটওয়ার্ক এখনো সীমিত এবং গ্যাস বিনিময়ের জন্য প্রয়োজনীয় ঘন নেটওয়ার্ক গঠিত হয়নি। (The vascular network is under development at this stage. Pulmonary arteries and veins are forming and growing in parallel with the bronchial tree. However, the capillary network is still limited and has not formed the dense network necessary for gas exchange.)",
+              "position": [0.1, 0, 0.2]
+            },
+            {
+              "id": "pleural-cavity",
+              "name": "প্লিউরাল ক্যাভিটি (Pleural Cavity)",
+              "description": "প্লিউরাল ক্যাভিটি, যা ফুসফুস এবং বুকের দেয়ালের মধ্যে স্থান, এই সময়ে গঠিত হতে শুরু করেছে। এটি দুটি স্তরের প্লুরা দ্বারা আবৃত: ভিসেরাল প্লুরা (ফুসফুস আবৃত করে) এবং প্যারাইটাল প্লুরা (বুকের দেয়াল আবৃত করে)। এই দুটি স্তরের মধ্যে তরল থাকে যা ফুসফুসের চলাচলে সাহায্য করে। (The pleural cavity, the space between the lungs and chest wall, is beginning to form during this period. It is lined by two layers of pleura: the visceral pleura (covering the lungs) and the parietal pleura (lining the chest wall). Fluid between these two layers will help facilitate lung movement.)",
+              "position": [-0.2, 0, 0]
+            },
+            {
+              "id": "developmental-phase",
+              "name": "বিকাশের পর্যায় (Developmental Phase)",
+              "description": "ষোলো সপ্তাহে ভ্রূণের ফুসফুস কানালিকুলার পর্যায়ে (16-26 সপ্তাহ) প্রবেশ করে, যার বৈশিষ্ট্য হল ব্রঙ্কিওলের প্রসারিত হওয়া এবং কাপিলারিগুলির ক্রমবর্ধমান উপস্থিতি। এই পর্যায়ে, শ্বাসযন্ত্রের কাঠামো গঠিত হতে শুরু করে যা পরবর্তীতে গ্যাস বিনিময়ের জন্য গুরুত্বপূর্ণ। সার্ফ্যাক্ট্যান্ট উৎপাদন শুরু হয়নি, যা ফুসফুসকে বায়ু দিয়ে ভরাট রাখতে সাহায্য করে। (At sixteen weeks, the fetal lungs are entering the canalicular phase (16-26 weeks), characterized by widening bronchioles and increasing presence of capillaries. During this phase, respiratory structures that will later be crucial for gas exchange begin to form. Surfactant production has not yet begun, which will help keep the lungs inflated with air.)",
+              "position": [0, -0.2, 0]
+            },
+            {
+              "id": "size-comparison",
+              "name": "আকার তুলনা (Size Comparison)",
+              "description": "ষোলো সপ্তাহে ভ্রূণের ফুসফুস আকারে ছোট (প্রায় ২-৩ সেন্টিমিটার), এবং সম্পূর্ণ ফুসফুসের আকারের প্রায় ১০% এর মতো। এই সময়ে শ্বাস-প্রশ্বাসের জন্য ফুসফুস এখনো কার্যকর নয়, এবং ভ্রূণ অক্সিজেন পায় এবং কার্বন ডাই অক্সাইড নিষ্কাশন করে প্লাসেন্টার মাধ্যমে মায়ের রক্ত থেকে। (At sixteen weeks, the fetal lungs are small in size (approximately 2-3 cm) and represent about 10% of the full lung size. The lungs are not yet functional for breathing at this time, and the fetus receives oxygen and excretes carbon dioxide through the placenta from the mother's blood.)",
+              "position": [0, 0, -0.2]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "human-body-anatomy",
+      "title": "মানব দেহের অ্যানাটমি (Human Body Anatomy)",
+      "description": "মানব দেহের পূর্ণাঙ্গ ত্রিমাত্রিক এনিমেটেড অ্যানাটমিকাল মডেল। শরীরের বিভিন্ন অঙ্গ-প্রত্যঙ্গ, তন্ত্রসমূহ এবং তাদের পারস্পরিক সম্পর্ক বিশদভাবে অধ্যয়ন করুন। (Complete 3D animated anatomical model of the human body. Study in detail the various organs, systems and their interrelationships.)",
+      "category": "advanced",
+      "models": [
+        {
+          "id": "human-body-model",
+          "title": "মানব দেহের অ্যানিমেটেড মডেল (Animated Human Body Model)",
+          "description": "মানব শরীরের সম্পূর্ণ ত্রিমাত্রিক অ্যানাটমিকাল মডেল, সমস্ত প্রধান অঙ্গ ও তন্ত্র সহ। মাংসপেশি, হাড়, স্নায়ুতন্ত্র, রক্তসঞ্চালন তন্ত্র, পাচনতন্ত্র এবং আরও অনেক কিছু দেখুন। (A complete 3D anatomical model of the human body, including all major organs and systems. View muscles, bones, nervous system, circulatory system, digestive system and much more.)",
+          "modelUrl": "https://sketchfab.com/models/9b0b079953b840bc9a13f524b60041e4/embed?transparent=1",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "skeletal-system",
+              "name": "অস্থি তন্ত্র (Skeletal System)",
+              "description": "মানব দেহের কাঠামোগত সমর্থন প্রদান করে এবং অভ্যন্তরীণ অঙ্গগুলিকে সুরক্ষা দেয়। এটি ২০৬টি হাড় নিয়ে গঠিত, যা জয়েন্ট, লিগামেন্ট এবং টেন্ডনের মাধ্যমে সংযুক্ত। হাড়গুলি রক্ত কোষ উৎপাদন করে এবং ক্যালসিয়াম সংরক্ষণ করে। (Provides structural support to the human body and protects internal organs. It consists of 206 bones connected through joints, ligaments, and tendons. Bones produce blood cells and store calcium.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "muscular-system",
+              "name": "পেশী তন্ত্র (Muscular System)",
+              "description": "নড়াচড়া, অবস্থান বজায় রাখা এবং শরীরের তাপমাত্রা নিয়ন্ত্রণের জন্য দায়ী। এতে ৬০০-এরও বেশি পেশী রয়েছে, যেগুলি তিন ধরনের: স্কেলেটাল (ঐচ্ছিক), কার্ডিয়াক (হৃদয়) এবং স্মুথ (অনৈচ্ছিক)। পেশীগুলি সংকোচন ও প্রসারণের মাধ্যমে শক্তি উৎপাদন করে। (Responsible for movement, maintaining posture, and regulating body temperature. It includes more than 600 muscles, which are of three types: skeletal (voluntary), cardiac (heart), and smooth (involuntary). Muscles generate force through contraction and relaxation.)",
+              "position": [0.3, 0, 0]
+            },
+            {
+              "id": "nervous-system",
+              "name": "স্নায়ুতন্ত্র (Nervous System)",
+              "description": "শরীরের তথ্য প্রক্রিয়াকরণ এবং নিয়ন্ত্রণ কেন্দ্র। এটি মস্তিষ্ক, মেরুদণ্ড এবং স্নায়ু নিয়ে গঠিত। এটি বাহ্যিক এবং অভ্যন্তরীণ উদ্দীপনা গ্রহণ করে, তথ্য প্রক্রিয়াকরণ করে এবং উপযুক্ত প্রতিক্রিয়া প্রেরণ করে। নিউরনগুলি বিদ্যুৎ সংকেত ব্যবহার করে তথ্য পরিবহন করে। (The body's information processing and control center. It consists of the brain, spinal cord, and nerves. It receives external and internal stimuli, processes information, and sends appropriate responses. Neurons transport information using electrical signals.)",
+              "position": [0, 0.4, 0]
+            },
+            {
+              "id": "cardiovascular-system",
+              "name": "রক্ত সঞ্চালন তন্ত্র (Cardiovascular System)",
+              "description": "হৃদপিণ্ড, রক্তনালী এবং রক্ত নিয়ে গঠিত। এটি শরীরের সমস্ত অংশে পুষ্টি, অক্সিজেন এবং হরমোন পরিবহন করে এবং বর্জ্য পদার্থ অপসারণে সাহায্য করে। হৃদপিণ্ড রক্তকে পাম্প করে, ধমনী অক্সিজেন-সমৃদ্ধ রক্ত বহন করে, এবং শিরা অক্সিজেন-স্বল্প রক্ত হৃদপিণ্ডে ফিরিয়ে আনে। (Composed of the heart, blood vessels, and blood. It transports nutrients, oxygen, and hormones to all parts of the body and helps remove waste products. The heart pumps blood, arteries carry oxygen-rich blood, and veins return oxygen-poor blood to the heart.)",
+              "position": [0, 0.2, 0.3]
+            },
+            {
+              "id": "respiratory-system",
+              "name": "শ্বসন তন্ত্র (Respiratory System)",
+              "description": "শ্বাস-প্রশ্বাসের মাধ্যমে অক্সিজেন গ্রহণ এবং কার্বন ডাই অক্সাইড নিষ্কাশনের জন্য দায়ী। এতে নাসিকা, গ্রসনী, স্বরযন্ত্র, শ্বাসনালী, ব্রঙ্কাই এবং ফুসফুস রয়েছে। ফুসফুসে অসংখ্য বায়ুকোষ (এলভিওলাই) রয়েছে যেখানে গ্যাস বিনিময় ঘটে। (Responsible for inhaling oxygen and exhaling carbon dioxide through breathing. It includes the nose, pharynx, larynx, trachea, bronchi, and lungs. The lungs contain countless air sacs (alveoli) where gas exchange occurs.)",
+              "position": [0, 0.1, 0.4]
+            },
+            {
+              "id": "digestive-system",
+              "name": "পাচন তন্ত্র (Digestive System)",
+              "description": "খাদ্যকে ক্ষুদ্র পুষ্টি উপাদানে ভেঙে শরীরে শোষণযোগ্য করে। এতে মুখ, গ্রসনী, খাদ্যনালী, পাকস্থলী, ক্ষুদ্রান্ত্র, বৃহদান্ত্র, যকৃত, এবং অগ্ন্যাশয় অন্তর্ভুক্ত। বিভিন্ন এনজাইম এবং হরমোন পাচন প্রক্রিয়া নিয়ন্ত্রণ করে। (Breaks down food into smaller nutrients that can be absorbed by the body. It includes the mouth, pharynx, esophagus, stomach, small intestine, large intestine, liver, and pancreas. Various enzymes and hormones regulate the digestive process.)",
+              "position": [-0.3, 0, 0]
+            },
+            {
+              "id": "urinary-system",
+              "name": "মূত্র তন্ত্র (Urinary System)",
+              "description": "রক্ত থেকে বর্জ্য পদার্থ অপসারণ এবং শরীরের তরল ভারসাম্য বজায় রাখে। এতে দুটি কিডনি, দুটি মূত্রনালী, মূত্রাশয় এবং মূত্রমার্গ রয়েছে। কিডনি প্রতিদিন প্রায় ২ লিটার বর্জ্য পদার্থ মূত্র আকারে নিষ্কাশন করে। (Removes waste materials from the blood and maintains fluid balance in the body. It consists of two kidneys, two ureters, a bladder, and a urethra. Kidneys filter out about 2 liters of waste in the form of urine daily.)",
+              "position": [-0.2, 0, -0.3]
+            },
+            {
+              "id": "endocrine-system",
+              "name": "অন্তঃক্ষরা তন্ত্র (Endocrine System)",
+              "description": "হরমোন উৎপাদন এবং নিঃসরণের মাধ্যমে শরীরের বিভিন্ন প্রক্রিয়া নিয়ন্ত্রণ করে। এটি পিটুইটারি, থাইরয়েড, প্যারাথাইরয়েড, এড্রিনাল, প্যানক্রিয়াস, গোনাড এবং অন্যান্য হরমোন-উৎপাদনকারী গ্রন্থি নিয়ে গঠিত। হরমোনগুলি বৃদ্ধি, বিপাক, যৌন কার্যকলাপ এবং অন্যান্য প্রক্রিয়া নিয়ন্ত্রণ করে। (Controls various body processes through the production and secretion of hormones. It consists of the pituitary, thyroid, parathyroid, adrenal, pancreas, gonads, and other hormone-producing glands. Hormones regulate growth, metabolism, sexual function, and other processes.)",
+              "position": [0.2, 0.2, -0.2]
+            },
+            {
+              "id": "lymphatic-system",
+              "name": "লসিকা তন্ত্র (Lymphatic System)",
+              "description": "ইমিউন সিস্টেমের অংশ, যা সংক্রমণ ও রোগের বিরুদ্ধে লড়াই করে এবং শরীরের তরল ভারসাম্য বজায় রাখে। এতে লসিকা নালী, লসিকা নোড, স্প্লিন, থাইমাস এবং টনসিল অন্তর্ভুক্ত। এটি শরীরের রোগ প্রতিরোধ ক্ষমতা বাড়াতে সাহায্য করে এবং টিস্যু থেকে অতিরিক্ত তরল সরিয়ে ফেলে। (Part of the immune system, which fights infections and diseases and maintains fluid balance in the body. It includes lymphatic vessels, lymph nodes, spleen, thymus, and tonsils. It helps boost the body's immunity and removes excess fluid from tissues.)",
+              "position": [0.3, -0.2, 0.2]
+            },
+            {
+              "id": "integumentary-system",
+              "name": "ত্বক তন্ত্র (Integumentary System)",
+              "description": "শরীরের বাইরের আবরণ যা ত্বক, চুল, নখ এবং স্বেদ ও তৈল গ্রন্থি নিয়ে গঠিত। এটি শরীরকে সংক্রমণ ও আঘাত থেকে রক্ষা করে, তাপমাত্রা নিয়ন্ত্রণ করে, এবং ভিটামিন ডি সংশ্লেষণে সহায়তা করে। ত্বকে প্রচুর স্নায়ু শেষপ্রান্ত থাকে যা স্পর্শ, তাপ এবং ব্যথা অনুভব করে। (The outer covering of the body consisting of skin, hair, nails, and sweat and oil glands. It protects the body from infections and injuries, regulates temperature, and aids in vitamin D synthesis. The skin contains numerous nerve endings that sense touch, heat, and pain.)",
+              "position": [0, -0.4, 0]
+            },
+            {
+              "id": "reproductive-system",
+              "name": "প্রজনন তন্ত্র (Reproductive System)",
+              "description": "সন্তান উৎপাদনের জন্য দায়ী। পুরুষদের প্রজনন অঙ্গগুলি হল টেস্টিস, শুক্রাশয়, পেনিস এবং প্রোস্টেট, যা শুক্রাণু উৎপাদন করে। মহিলাদের প্রজনন অঙ্গগুলি হল ডিম্বাশয়, ফ্যালোপিয়ান টিউব, জরায়ু এবং যোনি, যা ডিম্বাণু উৎপাদন করে এবং ভ্রূণের বিকাশে সহায়তা করে। (Responsible for producing offspring. Male reproductive organs include the testes, vas deferens, penis, and prostate, which produce sperm. Female reproductive organs include ovaries, fallopian tubes, uterus, and vagina, which produce eggs and support embryo development.)",
+              "position": [-0.3, -0.3, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chromosome-structure",
+      "title": "ক্রোমোজোম গঠন (Chromosome Structure)",
+      "description": "ক্রোমোজোমের বিস্তারিত গঠন এবং সংগঠন সম্পর্কে জানুন - কিভাবে DNA প্যাক হয় এবং সেল বিভাজনের সময় ক্রোমোজোম পরিবর্তিত হয়। (Learn about the detailed structure and organization of chromosomes - how DNA is packed and how chromosomes change during cell division.)",
+      "category": "advanced",
+      "models": [
+        {
+          "id": "chromosome-structure-model",
+          "title": "ক্রোমোজোম গঠনের ত্রিমাত্রিক মডেল (3D Model of Chromosome Structure)",
+          "description": "ক্রোমোজোমের সংগঠনের বিভিন্ন স্তর দেখার জন্য বিস্তারিত ত্রিমাত্রিক মডেল - DNA থেকে শুরু করে নিউক্লিওসোম, ক্রোমাটিন ফাইবার থেকে পূর্ণ ক্রোমোজোম পর্যন্ত। (Detailed 3D model showing the different levels of chromosome organization - from DNA to nucleosomes, chromatin fibers to the complete chromosome.)",
+          "modelUrl": "https://sketchfab.com/models/cc33bb1ebe6141b08d0d06f1bbebc2b7/embed?camera=0&transparent=1",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "dna-double-helix",
+              "name": "DNA ডবল হেলিক্স (DNA Double Helix)",
+              "description": "ক্রোমোজোম গঠনের মৌলিক স্তর। DNA দুই পলিনিউক্লিওটাইড স্ট্রান্ডের একটি ডাবল হেলিক্স, যা জেনেটিক তথ্য বহন করে। মানব কোষে প্রায় ২ মিটার লম্বা DNA কে ৫ মাইক্রোমিটার সাইজের নিউক্লিয়াসে প্যাক করতে হয়। (The fundamental level of chromosome structure. DNA is a double helix of two polynucleotide strands carrying genetic information. In human cells, approximately 2 meters of DNA must be packed into a 5-micrometer-sized nucleus.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "nucleosome",
+              "name": "নিউক্লিওসোম (Nucleosome)",
+              "description": "ক্রোমাটিন গঠনের মৌলিক ইউনিট। DNA হিস্টোন প্রোটিনের অক্টামারের চারপাশে পেঁচানো থাকে, যা 'বিডস অন এ স্ট্রিং' গঠন তৈরি করে। প্রতিটি নিউক্লিওসোমে প্রায় ১৪৬ বেস পেয়ার DNA থাকে। (The fundamental unit of chromatin structure. DNA is wrapped around an octamer of histone proteins forming a 'beads on a string' structure. Each nucleosome contains approximately 146 base pairs of DNA.)",
+              "position": [0.3, 0.2, 0]
+            },
+            {
+              "id": "chromatin-fiber",
+              "name": "ক্রোমাটিন ফাইবার (Chromatin Fiber)",
+              "description": "নিউক্লিওসোম একত্রিত হয়ে ৩০-নেনোমিটার ক্রোমাটিন ফাইবার গঠন করে। হিস্টোন H1 নিউক্লিওসোমগুলিকে স্থিতিশীল করে এবং তাদের আরও ঘন গঠনে সাজাতে সাহায্য করে। এটি DNA প্যাকিং এবং নিয়ন্ত্রণে গুরুত্বপূর্ণ ভূমিকা পালন করে। (Nucleosomes cluster together to form 30-nanometer chromatin fibers. Histone H1 stabilizes the nucleosomes and helps arrange them in a more compact structure. This plays a key role in DNA packing and regulation.)",
+              "position": [0, -0.3, 0]
+            },
+            {
+              "id": "chromatin-loops",
+              "name": "ক্রোমাটিন লুপ (Chromatin Loops)",
+              "description": "ক্রোমাটিন ফাইবার আরও কম্প্যাক্ট হয়ে লুপ গঠন করে। এই লুপগুলি স্ক্যাফোল্ড প্রোটিনের সাথে সংযুক্ত থাকে এবং DNA প্যাকিং এর একটি উচ্চতর স্তর তৈরি করে। এই সংগঠন স্তর জিন এক্সপ্রেশন নিয়ন্ত্রণে গুরুত্বপূর্ণ। (Chromatin fibers form loops that are attached to scaffold proteins, creating a higher level of DNA packaging. This level of organization is important for gene expression regulation.)",
+              "position": [-0.3, -0.2, 0]
+            },
+            {
+              "id": "chromosome-scaffold",
+              "name": "ক্রোমোজোম স্ক্যাফোল্ড (Chromosome Scaffold)",
+              "description": "প্রোটিন স্ক্যাফোল্ড ক্রোমাটিন লুপগুলিকে সংগঠিত করে ক্রোমোজোমের গঠন তৈরি করে। টোপোআইসোমেরেজ II এবং কনডেনসিন এই স্ক্যাফোল্ডে অন্তর্ভুক্ত প্রধান প্রোটিন, যা মাইটোসিসের সময় ক্রোমোজোমের আকার বজায় রাখতে সাহায্য করে। (The protein scaffold organizes chromatin loops to form the chromosome structure. Topoisomerase II and condensin are the main proteins included in this scaffold, helping maintain chromosome shape during mitosis.)",
+              "position": [0.4, 0, 0.3]
+            },
+            {
+              "id": "metaphase-chromosome",
+              "name": "মেটাফেজ ক্রোমোজোম (Metaphase Chromosome)",
+              "description": "সেল বিভাজনের মেটাফেজ দশায় ক্রোমোজোম সর্বাধিক কম্প্যাক্ট অবস্থায় থাকে। এই সময়ে প্রতিটি ক্রোমোজোম দুটি সিস্টার ক্রোমাটিড নিয়ে গঠিত, যা সেন্ট্রোমিয়ার দ্বারা সংযুক্ত থাকে। এটি ক্রোমোজোমের সর্বাধিক দৃশ্যমান রূপ। (During the metaphase stage of cell division, chromosomes are at their most compact state. At this time, each chromosome consists of two sister chromatids connected by a centromere. This is the most visible form of chromosomes.)",
+              "position": [0, 0.4, 0]
+            },
+            {
+              "id": "centromere",
+              "name": "সেন্ট্রোমিয়ার (Centromere)",
+              "description": "ক্রোমোজোমের বিশেষ অঞ্চল যা দুই সিস্টার ক্রোমাটিডকে একসাথে ধরে রাখে এবং মাইটোসিসের সময় স্পিন্ডল ফাইবারের সংযোগ স্থল হিসেবে কাজ করে। এটি কিনেটোকোর প্রোটিন কমপ্লেক্স গঠন করে যা ক্রোমোজোম বিভাজনে গুরুত্বপূর্ণ। (A specialized region of the chromosome that holds the two sister chromatids together and serves as the attachment site for spindle fibers during mitosis. It forms the kinetochore protein complex which is crucial for chromosome segregation.)",
+              "position": [0, 0, -0.3]
+            },
+            {
+              "id": "telomere",
+              "name": "টেলোমিয়ার (Telomere)",
+              "description": "ক্রোমোজোমের প্রান্তভাগ যা বিশেষ পুনরাবৃত্ত DNA সিকোয়েন্স দ্বারা গঠিত। টেলোমিয়ার ক্রোমোজোমকে ক্ষয় থেকে রক্ষা করে এবং প্রতিবার সেল বিভাজনের সাথে ছোট হয়ে যায়। টেলোমেরেজ এনজাইম টেলোমিয়ারের দৈর্ঘ্য পুনরুদ্ধার করতে পারে। (The end region of chromosomes made up of specialized repetitive DNA sequences. Telomeres protect chromosomes from degradation and shorten with each cell division. The enzyme telomerase can restore telomere length.)",
+              "position": [0.5, 0.5, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "b-dna-dodecamer",
+      "title": "বি-ডিএনএ ডোডেক্যামার (B-DNA Dodecamer)",
+      "description": "উচ্চ রেজোলিউশন বি-ডিএনএ ডোডেক্যামার মডেল দেখুন। ডিএনএ-এর সবচেয়ে সাধারণ ফর্ম বি-ডিএনএ এর বিস্তারিত গঠন পর্যবেক্ষণ করুন। (Explore a high-resolution B-DNA dodecamer model. Examine the detailed structure of B-DNA, the most common form of DNA in living organisms.)",
+      "category": "advanced",
+      "models": [
+        {
+          "id": "b-dna-dodecamer-model",
+          "title": "বি-ডিএনএ ডোডেক্যামার মডেল (B-DNA Dodecamer Model)",
+          "description": "বি-ডিএনএ ডোডেক্যামারের উচ্চ-রেজোলিউশন ত্রিমাত্রিক মডেল (High-resolution 3D model of a B-DNA dodecamer)",
+          "modelUrl": "https://sketchfab.com/models/3aafb51201ab414b86d231a1ee4c32a8/embed?autostart=1&ui_theme=dark",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "double-helix",
+              "name": "ডাবল হেলিক্স (Double Helix)",
+              "description": "ডিএনএ-এর দুটি পলিনিউক্লিওটাইড স্ট্র্যান্ড ডান-হাতি স্পাইরাল আকারে পাক খেয়ে থাকে। বি-ডিএনএতে হেলিক্সের পিচ (প্রতি চক্র স্ট্র্যান্ড বৈদুরের দূরত্ব) প্রায় ৩.৪ নানোমিটার হয়। (The two polynucleotide strands of DNA coil around each other in a right-handed spiral. In B-DNA, the pitch of the helix (the distance along the strand per complete turn) is approximately 3.4 nanometers.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "major-groove",
+              "name": "মেজর গ্রুভ (Major Groove)",
+              "description": "হেলিক্সের বড় খাঁজ যেখানে ডিএনএ বেস পেয়ারগুলি সহজেই অ্যাক্সেসযোগ্য। বেশিরভাগ ডিএনএ-প্রোটিন ইন্টারঅ্যাকশন মেজর গ্রুভের মাধ্যমে ঘটে। এটি বেশ প্রশস্ত ও গভীর। (The larger groove of the helix where the DNA base pairs are more accessible. Most DNA-protein interactions occur through the major groove. It is relatively wide and deep.)",
+              "position": [0.3, 0, 0]
+            },
+            {
+              "id": "minor-groove",
+              "name": "মাইনর গ্রুভ (Minor Groove)",
+              "description": "হেলিক্সের ছোট খাঁজ, যা মেজর গ্রুভের তুলনায় সংকীর্ণ। কিছু বিশেষ প্রোটিন এবং ক্ষুদ্র অণু এই গ্রুভে বাঁধতে পারে। (The smaller groove of the helix, which is narrower than the major groove. Certain proteins and small molecules can bind in this groove.)",
+              "position": [-0.3, 0, 0]
+            },
+            {
+              "id": "base-pairs",
+              "name": "বেস পেয়ার (Base Pairs)",
+              "description": "ডোডেক্যামারে ১২টি বেস পেয়ার আছে (এটাই ডোডেক্যামার নামের উৎস)। প্রতিটি বেস পেয়ারে অ্যাডেনিন (A) থাইমিন (T) এর সাথে এবং গুয়ানিন (G) সাইটোসিন (C) এর সাথে নির্দিষ্ট হাইড্রোজেন বন্ধন দ্বারা যুক্ত থাকে। (The dodecamer contains 12 base pairs (hence the name dodecamer). In each base pair, adenine (A) binds with thymine (T) and guanine (G) binds with cytosine (C) through specific hydrogen bonding.)",
+              "position": [0, 0.2, 0]
+            },
+            {
+              "id": "sugar-phosphate-backbone",
+              "name": "শুগার-ফসফেট ব্যাকবোন (Sugar-Phosphate Backbone)",
+              "description": "ডিএনএ স্ট্র্যান্ডের বাইরের অংশে অবস্থিত শুগার (ডিঅক্সিরাইবোজ) এবং ফসফেট গ্রুপের ক্রমবিন্যাস। এটি ডিএনএ কাঠামোর স্থিতিশীলতা প্রদান করে এবং হাইড্রোফিলিক বৈশিষ্ট্য দেখায়। (The alternating arrangement of sugar (deoxyribose) and phosphate groups located on the exterior of the DNA strand. It provides structural stability to DNA and shows hydrophilic properties.)",
+              "position": [0, -0.2, 0]
+            },
+            {
+              "id": "watson-crick-base-pairing",
+              "name": "ওয়াটসন-ক্রিক বেস পেয়ারিং (Watson-Crick Base Pairing)",
+              "description": "ঘূর্ণন সমতল দ্বারা বেস পেয়ারিং বোঝায়, যেখানে দুটি বেস একই তলে থাকে (কোপ্লানার)। বি-ডিএনএতে বেস পেয়ারগুলি ডিএনএ অক্ষের সাথে প্রায় লম্বভাবে অবস্থিত, যা কাঠামোগত স্থিতিশীলতায় অবদান রাখে। (Base pairing characterized by rotation in a plane, where two bases are in the same plane (coplanar). In B-DNA, the base pairs are positioned approximately perpendicular to the DNA axis, contributing to structural stability.)",
+              "position": [0, 0, 0.3]
+            },
+            {
+              "id": "conformation",
+              "name": "কনফরমেশন (Conformation)",
+              "description": "বি-ডিএনএ হল সবচেয়ে প্রচলিত ডিএনএ কনফরমেশন যা উচ্চ আর্দ্রতায় (আনুমানিক ৯২%) পাওয়া যায়। এটি একটি ডান-হাতি হেলিক্স এবং প্রতি চক্রে ১০.৫ বেস পেয়ার থাকে। শুগার পাকারগুলি C2'-এন্ডো কনফিগারেশনে থাকে। (B-DNA is the most common DNA conformation found at high humidity (approximately 92%). It is a right-handed helix with 10.5 base pairs per turn. The sugar puckers are in the C2'-endo configuration.)",
+              "position": [0.4, -0.4, 0]
+            }
+          ]
+        }
+      ]
+    },
+
+    {"parts" : [
+            {
+              "id": "axon",
+              "name": "অ্যাক্সন (Axon)",
+              "description": "একটি দীর্ঘ, পাতলা প্রক্রিয়া যা নিউরনের সেল বডি থেকে সংকেত প্রেরণ করে। এটি সাধারণত মাইলিন শীট দ্বারা আবৃত থাকে, যা সংকেতের গতিকে বাড়িয়ে তোলে। (A long, thin process that transmits signals from the neuron's cell body. It is usually covered by a myelin sheath, which increases the speed of signal transmission.)",
+              "position": [0.5, 0, 0]
+            },
+            {
+              "id": "myelin-sheath",
+              "name": "মাইলিন শীথ (Myelin Sheath)",
+              "description": "অ্যাক্সনের চারপাশে একটি চর্বিযুক্ত স্তর যা সংকেতের গতিকে বাড়িয়ে তোলে এবং নিউরাল সংকেতের কার্যকারিতা উন্নত করে। এটি স্নায়ুতন্ত্রের কার্যকারিতার জন্য অত্যন্ত গুরুত্বপূর্ণ। (A fatty layer surrounding the axon that increases the speed of signal transmission and enhances the efficiency of neural signals. It is crucial for the functioning of the nervous system.)",
+              "position": [-0.5, 0, 0]
+            },
+            {
+              "id": "axon-terminal",
+              "name": "অ্যাক্সন টার্মিনাল (Axon Terminal)",
+              "description": "এক্সনের শেষ প্রান্ত যেখানে নিউরোট্রান্সমিটার মুক্তি পায়। এটি স্নায়ু সংকেতের প্রেরণ এবং গ্রহণে গুরুত্বপূর্ণ ভূমিকা পালন করে। (The end of the axon where neurotransmitters are released. It plays a crucial role in transmitting and receiving nerve signals.)",
+              "position": [-0.5, 0.5, 0]
+            },
+            {
+              "id": "synapse",
+              "name": "সিন্যাপস (Synapse)",
+              "description": "দুই নিউরনের মধ্যে যোগাযোগের স্থান যেখানে নিউরোট্রান্সমিটার মুক্তি পায় এবং গ্রহণ করা হয়। এটি স্নায়ুতন্ত্রের কার্যকলাপের জন্য অত্যন্ত গুরুত্বপূর্ণ। (The junction between two neurons where neurotransmitters are released and received. It is crucial for the functioning of the nervous system.)",
+              "position": [0.5, -0.5, 0]
+            },
+
+            {
+              "id": "neurotransmitter",
+              "name": "নিউরোট্রান্সমিটার (Neurotransmitter)",
+              "description": "একটি রাসায়নিক যা নিউরনের মধ্যে সংকেত প্রেরণ করে। এটি স্নায়ুতন্ত্রের কার্যকলাপের জন্য অত্যন্ত গুরুত্বপূর্ণ। বিভিন্ন ধরনের নিউরোট্রান্সমিটার রয়েছে, যেমন ডোপামিন, সেরোটোনিন এবং অ্যাসিটাইলকোলিন। (A chemical that transmits signals between neurons. It is crucial for the functioning of the nervous system. There are various types of neurotransmitters, such as dopamine, serotonin, and acetylcholine.)",
+              "position": [0.5, -0.5, 0]
+            },
+            {
+              "id": "cell-body",
+              "name": "সেল বডি/সোমা (Cell Body/Soma)",
+              "description": "নিউরনের কেন্দ্রীয় অংশ যা নিউক্লিয়াস এবং অন্যান্য কোষীয় অঙ্গাণু ধারণ করে। এটি নিউরনের মেটাবলিক কার্যকলাপের কেন্দ্র এবং প্রোটিন সংশ্লেষণ, শক্তি উৎপাদন এবং সেলের জীবনকাল নিয়ন্ত্রণে গুরুত্বপূর্ণ ভূমিকা পালন করে। (The central part of the neuron that contains the nucleus and other cellular organelles. It is the center of metabolic activity in the neuron and plays a crucial role in protein synthesis, energy production, and controlling the cell's lifespan.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "dendrites",
+              "name": "ডেনড্রাইট (Dendrites)",
+              "description": "সেল বডি থেকে বিস্তৃত শাখাপ্রশাখাযুক্ত গঠন যা অন্যান্য নিউরন থেকে বিদ্যুৎ সংকেত গ্রহণ করে। ডেনড্রাইট স্পাইন নামক ছোট প্রক্ষেপ থাকে যা সিন্যাপটিক সংযোগ তৈরি করে। একটি নিউরনে হাজার হাজার ডেনড্রাইটিক শাখা থাকতে পারে। (Branched structures extending from the cell body that receive electrical signals from other neurons. Dendrites have small projections called dendritic spines that form synaptic connections. A single neuron may have thousands of dendritic branches.)",
+              "position": [0.2, 0.2, 0]
+            },
+            {
+              "id": "axon",
+              "name": "এক্সন (Axon)",
+              "description": "সেল বডি থেকে বিস্তৃত লম্বা প্রক্ষেপ যা বিদ্যুৎ সংকেত (অ্যাকশন পোটেনশিয়াল) পরিবহন করে। এক্সন মায়েলিন শীথ দ্বারা আবৃত থাকতে পারে, যা বিদ্যুৎ সংকেত দ্রুত পরিবহনে সাহায্য করে। এক্সনের দৈর্ঘ্য কয়েক মাইক্রোমিটার থেকে শুরু করে এক মিটার পর্যন্ত হতে পারে। (A long projection from the cell body that conducts electrical signals (action potentials). The axon may be covered by a myelin sheath, which helps in faster transmission of electrical signals. The length of an axon can range from a few micrometers to a meter.)",
+              "position": [-0.3, 0, 0]
+            },
+            {
+              "id": "myelin-sheath",
+              "name": "মায়েলিন শীথ (Myelin Sheath)",
+              "description": "এক্সনের চারপাশে লিপিড-সমৃদ্ধ আবরণ যা অলিগোডেনড্রোসাইট (কেন্দ্রীয় স্নায়ুতন্ত্রে) বা শোয়ান সেল (পেরিফেরাল স্নায়ুতন্ত্রে) দ্বারা তৈরি। এটি বিদ্যুৎ সংকেতকে আরও দ্রুত এবং কার্যকরভাবে পরিবহন করতে সাহায্য করে। মায়েলিন শীথের মধ্যে রেনভিয়ার নোড নামক ফাঁক থাকে যেখানে অ্যাকশন পোটেনশিয়াল পুনরুৎপাদিত হয়। (A lipid-rich covering around the axon produced by oligodendrocytes (in the central nervous system) or Schwann cells (in the peripheral nervous system). It helps transmit electrical signals faster and more efficiently. The myelin sheath has gaps called Nodes of Ranvier where action potentials are regenerated.)",
+              "position": [-0.2, -0.2, 0]
+            },
+            {
+              "id": "nodes-of-ranvier",
+              "name": "রেনভিয়ার নোড (Nodes of Ranvier)",
+              "description": "মায়েলিন শীথের মধ্যে নিয়মিত বিরতি যেখানে এক্সন আবৃত নয়। এই অঞ্চলগুলিতে সোডিয়াম চ্যানেলের উচ্চ ঘনত্ব থাকে, যা অ্যাকশন পোটেনশিয়ালকে পুনরুজ্জীবিত করে এবং সংকেত পরিবহনকে দ্রুত করে। এই প্রক্রিয়াকে 'সালটাটরি কনডাকশন' বলা হয়। (Regular gaps in the myelin sheath where the axon is exposed. These regions have a high density of sodium channels, which regenerate the action potential and speed up signal transmission. This process is called 'saltatory conduction'.)",
+              "position": [-0.3, -0.3, 0.1]
+            },
+            {
+              "id": "axon-terminal",
+              "name": "এক্সন টার্মিনাল (Axon Terminal)",
+              "description": "এক্সনের শেষ প্রান্ত যেখানে এটি অন্য নিউরন বা লক্ষ্য কোষের সাথে সংযোগ স্থাপন করে। এই অঞ্চলে সিন্যাপটিক ভেসিকল থাকে যা নিউরোট্রান্সমিটার ধারণ করে, যা সিন্যাপটিক ফাঁক পেরিয়ে অন্য কোষে সংকেত পাঠায়। (The end part of the axon where it connects with another neuron or target cell. This region contains synaptic vesicles that hold neurotransmitters, which send signals to other cells across the synaptic gap.)",
+              "position": [-0.4, 0, 0.2]
+            },
+            {
+              "id": "synapse",
+              "name": "সিন্যাপস (Synapse)",
+              "description": "দুটি নিউরনের মধ্যে সংযোগস্থল যেখানে স্নায়বিক সংকেত একটি নিউরন থেকে অন্য নিউরনে পরিবাহিত হয়। প্রি-সিন্যাপটিক নিউরন (সংকেত পাঠানো) নিউরোট্রান্সমিটার মুক্ত করে, যা সিন্যাপটিক ফাঁকের মধ্য দিয়ে যায় এবং পোস্ট-সিন্যাপটিক নিউরনে (সংকেত গ্রহণকারী) রিসেপ্টরের সাথে বাঁধা পড়ে। সিন্যাপস উত্তেজক বা নিরোধক হতে পারে। (The junction between two neurons where neural signals are transmitted from one neuron to another. The pre-synaptic neuron (sending signal) releases neurotransmitters, which cross the synaptic gap and bind to receptors on the post-synaptic neuron (receiving signal). Synapses can be excitatory or inhibitory.)",
+              "position": [-0.5, 0, 0.3]
+            },
+            {
+              "id": "action-potential",
+              "name": "অ্যাকশন পোটেনশিয়াল (Action Potential)",
+              "description": "নিউরনের ঝিল্লিতে অস্থায়ী বৈদ্যুতিক পরিবর্তন যা এক্সনের মাধ্যমে সংকেত পরিবহনের মাধ্যম। এটি 'অল-অর-নান' ঘটনা, যার অর্থ নিউরন হয় সম্পূর্ণ সংকেত পাঠায় নয়তো কিছুই পাঠায় না। অ্যাকশন পোটেনশিয়াল নিউরনের ঝিল্লিতে সোডিয়াম এবং পটাশিয়াম আয়নের চলাচলের ফলে ঘটে। (A temporary electrical change in a neuron's membrane that serves as the means of signal transmission through the axon. It is an 'all-or-none' event, meaning the neuron either sends a complete signal or sends nothing. Action potentials occur due to the movement of sodium and potassium ions across the neuron's membrane.)",
+              "position": [0, -0.4, 0]
+            }
+          ]
+        },
+    {
+      "id": "microscope",
+      "title": "অণুবীক্ষণ যন্ত্র (Microscope)",
+      "description": "জীবাণুর স্বরূপ এবং জীববিজ্ঞানে অণুবীক্ষণ যন্ত্রের গুরুত্ব দেখুন (Explore the microscope and its importance in biological research)",
+      "category": "introduction",
+      "models": [
+        {
+          "id": "microscope-model",
+          "title": "অণুবীক্ষণ যন্ত্র (Microscope)",
+          "description": "আধুনিক অণুবীক্ষণ যন্ত্রের ত্রিমাত্রিক মডেল (3D model of a modern microscope)",
+          "modelUrl": "http://localhost:8000/api/models/microscope.glb",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "eyepiece",
+              "name": "অকুলার লেন্স (Eyepiece)",
+              "description": "অণুবীক্ষণ যন্ত্র দিয়ে দেখার সময় চোখ রাখার স্থান। এটি নমুনার চূড়ান্ত বর্ধিত চিত্র প্রদান করে। (The part of the microscope where you place your eye to observe. It provides the final magnified image of the specimen.)",
+              "position": [0, 1.2, 0]
+            },
+            {
+              "id": "objective-lens",
+              "name": "অবজেকটিভ লেন্স (Objective Lens)",
+              "description": "নমুনার প্রাথমিক বিবর্ধন প্রদান করে। বিভিন্ন আকারের অবজেকটিভ লেন্স বিভিন্ন শক্তিতে বিবর্ধন প্রদান করে। (Provides the primary magnification of the specimen. Different objective lenses provide different levels of magnification.)",
+              "position": [0, 0.2, 0.5]
+            },
+            {
+              "id": "stage",
+              "name": "স্টেজ (Stage)",
+              "description": "নমুনা রাখার জায়গা। স্টেজ ক্লিপ দ্বারা স্লাইড স্থির রাখা যায়। (The platform where the specimen is placed. Stage clips hold the slide in place.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "light-source",
+              "name": "আলো উৎস (Light Source)",
+              "description": "নমুনার মধ্য দিয়ে আলো প্রেরণ করে, যা পর্যবেক্ষণের জন্য অপরিহার্য। (Transmits light through the specimen, which is essential for observation.)",
+              "position": [0, -1.0, 0]
+            },
+            {
+              "id": "focus-knobs",
+              "name": "ফোকাস নব (Focus Knobs)",
+              "description": "মাইক্রোস্কোপের ফোকাস সমন্বয় করতে ব্যবহৃত হয়, যাতে নমুনা স্পষ্টভাবে দেখা যায়। (Used to adjust the microscope's focus so that the specimen can be seen clearly.)",
+              "position": [-0.8, 0.3, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "nucleus",
+      "title": "কোষের নিউক্লিয়াস (Cell Nucleus)",
+      "description": "নিউক্লিয়াসের গঠন এবং কোষে এর গুরুত্বপূর্ণ ভূমিকা সম্পর্কে জানুন (Learn about the structure of the nucleus and its crucial role in the cell)",
+      "category": "introduction",
+      "models": [
+        {
+          "id": "nucleus-model",
+          "title": "নিউক্লিয়াস মডেল (Nucleus Model)",
+          "description": "কোষের নিউক্লিয়াসের ত্রিমাত্রিক মডেল (3D model of cell nucleus)",
+          "modelUrl": "http://localhost:8000/api/models/nucleus.glb",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "nuclear-membrane",
+              "name": "নিউক্লিয়ার ঝিল্লি (Nuclear Membrane)",
+              "description": "নিউক্লিয়াসকে সাইটোপ্লাজম থেকে পৃথক করে এবং নিউক্লিয়াসের ভিতরে এবং বাইরে পদার্থের চলাচল নিয়ন্ত্রণ করে। (Separates the nucleus from the cytoplasm and controls the movement of substances in and out of the nucleus.)",
+              "position": [0, 0.8, 0]
+            },
+            {
+              "id": "nuclear-pore",
+              "name": "নিউক্লিয়ার পোর (Nuclear Pore)",
+              "description": "নিউক্লিয়ার ঝিল্লিতে ছিদ্র যা মোলিকিউলগুলিকে নিউক্লিয়াসে প্রবেশ করতে এবং বের হতে দেয়। (Openings in the nuclear membrane that allow molecules to enter and exit the nucleus.)",
+              "position": [0.5, 0.5, 0]
+            },
+            {
+              "id": "chromatin",
+              "name": "ক্রোমাটিন (Chromatin)",
+              "description": "DNA এবং প্রোটিনের মিশ্রণ যা নিউক্লিয়াসের ভিতরে থাকে এবং সেল বিভাজনের সময় ক্রোমোজোম গঠন করে। (A mixture of DNA and proteins present in the nucleus that forms chromosomes during cell division.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "nucleolus",
+              "name": "নিউক্লিওলাস (Nucleolus)",
+              "description": "নিউক্লিয়াসের ভিতরে একটি ছোট গোলাকার অঞ্চল যেখানে রাইবোজোম উৎপাদিত হয়। (A small spherical region inside the nucleus where ribosomes are produced.)",
+              "position": [-0.2, -0.2, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mitochondria",
+      "title": "মাইটোকন্ড্রিয়া (Mitochondria)",
+      "description": "কোষের শক্তি কেন্দ্র হিসাবে মাইটোকন্ড্রিয়ার গঠন এবং কার্যপ্রণালী সম্পর্কে জানুন (Learn about the structure and function of mitochondria as the powerhouse of the cell)",
+      "category": "introduction",
+      "models": [
+        {
+          "id": "mitochondria-model",
+          "title": "মাইটোকন্ড্রিয়া মডেল (Mitochondria Model)",
+          "description": "মাইটোকন্ড্রিয়ার ত্রিমাত্রিক মডেল (3D model of mitochondria)",
+          "modelUrl": "http://localhost:8000/api/models/mitochondria.glb",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "outer-membrane",
+              "name": "বহিঃঝিল্লি (Outer Membrane)",
+              "description": "মাইটোকন্ড্রিয়ার বাইরের আবরণ যা এটিকে সাইটোপ্লাজম থেকে আলাদা করে। (The outer covering of the mitochondria that separates it from the cytoplasm.)",
+              "position": [0, 0.7, 0]
+            },
+            {
+              "id": "inner-membrane",
+              "name": "অন্তঃঝিল্লি (Inner Membrane)",
+              "description": "ভেতরের ঝিল্লি যা অনেক ভাঁজযুক্ত (ক্রিস্টা) এবং এখানেই শ্বসনের অধিকাংশ প্রক্রিয়া ঘটে। (The inner membrane with many folds (cristae) where most of the respiratory processes take place.)",
+              "position": [0, 0.3, 0]
+            },
+            {
+              "id": "cristae",
+              "name": "ক্রিস্টা (Cristae)",
+              "description": "অন্তঃঝিল্লির ভাঁজ যা পৃষ্ঠক্ষেত্র বৃদ্ধি করে এবং এখানেই ATP উৎপাদন হয়। (Folds of the inner membrane that increase the surface area and where ATP production occurs.)",
+              "position": [0.5, 0, 0]
+            },
+            {
+              "id": "matrix",
+              "name": "ম্যাট্রিক্স (Matrix)",
+              "description": "মাইটোকন্ড্রিয়ার ভিতরের তরল অংশ যেখানে ক্রেবস চক্র এবং অন্যান্য বিপাকীয় প্রক্রিয়া সংঘটিত হয়। (The fluid inside the mitochondria where the Krebs cycle and other metabolic processes occur.)",
+              "position": [0, -0.3, 0]
+            },
+            {
+              "id": "mitochondrial-dna",
+              "name": "মাইটোকন্ড্রিয়াল DNA (Mitochondrial DNA)",
+              "description": "মাইটোকন্ড্রিয়ার নিজস্ব DNA যা মূলত মাতৃসূত্রে বংশানুক্রমে প্রাপ্ত হয়। (The mitochondria's own DNA that is primarily inherited through the maternal line.)",
+              "position": [-0.5, -0.2, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "plant-cell",
+      "title": "উদ্ভিদ কোষ (Plant Cell)",
+      "description": "উদ্ভিদ কোষের বিশেষ গঠন এবং প্রাণীকোষ থেকে এর পার্থক্য সম্পর্কে জানুন (Learn about the special structure of plant cells and how they differ from animal cells)",
+      "category": "introduction",
+      "models": [
+        {
+          "id": "plant-cell-model",
+          "title": "উদ্ভিদ কোষ মডেল (Plant Cell Model)",
+          "description": "উদ্ভিদ কোষের ত্রিমাত্রিক মডেল (3D model of plant cell)",
+          "modelUrl": "http://localhost:8000/api/models/plantcell.glb",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "cell-wall",
+              "name": "কোষ প্রাচীর (Cell Wall)",
+              "description": "উদ্ভিদ কোষকে আকার এবং দৃঢ়তা প্রদান করে এবং কোষকে সুরক্ষিত রাখে। (Provides shape and rigidity to the plant cell and protects the cell.)",
+              "position": [0, 0.9, 0]
+            },
+            {
+              "id": "chloroplast",
+              "name": "ক্লোরোপ্লাস্ট (Chloroplast)",
+              "description": "সালোকসংশ্লেষণের জন্য দায়ী অঙ্গাণু, যেখানে সূর্যের আলো শক্তিতে পরিণত হয়। (Organelle responsible for photosynthesis, where sunlight is converted into energy.)",
+              "position": [0.5, 0.3, 0]
+            },
+            {
+              "id": "central-vacuole",
+              "name": "কেন্দ্রীয় রসধানী (Central Vacuole)",
+              "description": "উদ্ভিদ কোষের একটি বড় অঙ্গাণু যা পানি, খনিজ এবং পুষ্টি সংরক্ষণ করে এবং কোষে টার্গর প্রেসার বজায় রাখে। (A large organelle in plant cells that stores water, minerals, and nutrients and maintains turgor pressure in the cell.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "nucleus",
+              "name": "নিউক্লিয়াস (Nucleus)",
+              "description": "কোষের নিয়ন্ত্রণ কেন্দ্র যা জেনেটিক উপাদান ধারণ করে এবং কোষের কার্যাবলী নিয়ন্ত্রণ করে। (The control center of the cell that contains genetic material and regulates cell functions.)",
+              "position": [-0.5, 0.2, 0]
+            },
+            {
+              "id": "plasmodesmata",
+              "name": "প্লাসমোডেসমাটা (Plasmodesmata)",
+              "description": "পাশাপাশি উদ্ভিদ কোষ সংযোগকারী চ্যানেল যা কোষদের মধ্যে যোগাযোগের সুবিধা দেয়। (Channels connecting adjacent plant cells that facilitate communication between cells.)",
+              "position": [-0.8, -0.3, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "digestive-system",
+      "title": "পাচনতন্ত্রের এনাটমি (Digestive System Anatomy)",
+      "description": "মানব দেহের পাচনতন্ত্রের গঠন এবং এর বিভিন্ন অংশের কার্যাবলী সম্পর্কে ত্রিমাত্রিক মডেলের মাধ্যমে শিখুন (Learn about the structure of the human digestive system and the functions of its various parts through a 3D model)",
+      "category": "systems",
+      "models": [
+        {
+          "id": "digestive-system-model",
+          "title": "পাচনতন্ত্রের মডেল (Digestive System Model)",
+          "description": "মানব পাচনতন্ত্রের ত্রিমাত্রিক মডেল (3D model of the human digestive system)",
+          "modelUrl": "https://sketchfab.com/models/daeca5d88af14fa281f5a53b9cc4f4be/embed",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "mouth",
+              "name": "মুখ (Mouth)",
+              "description": "পাচনের প্রথম ধাপ, যেখানে খাদ্য চিবানো ও লালা মিশ্রিত হয়। (The first step of digestion where food is chewed and mixed with saliva.)",
+              "position": [0, 1.2, 0]
+            },
+            {
+              "id": "esophagus",
+              "name": "খাদ্যনালী (Esophagus)",
+              "description": "একটি পেশীযুক্ত নল যা মুখ থেকে পাকস্থলী পর্যন্ত খাদ্য পরিবহন করে। (A muscular tube that transports food from the mouth to the stomach.)",
+              "position": [0, 0.8, 0]
+            },
+            {
+              "id": "stomach",
+              "name": "পাকস্থলী (Stomach)",
+              "description": "খাদ্যকে হজমযোগ্য আকারে রূপান্তর করতে এসিড ও এনজাইম মিশ্রিত করে। (Mixes acids and enzymes with food to convert it into a digestible form.)",
+              "position": [0, 0.3, 0]
+            },
+            {
+              "id": "small-intestine",
+              "name": "ক্ষুদ্রান্ত্র (Small Intestine)",
+              "description": "খাদ্যের পুষ্টি শোষণের প্রধান স্থান। (The main site for absorption of nutrients from food.)",
+              "position": [0, -0.2, 0]
+            },
+            {
+              "id": "large-intestine",
+              "name": "বৃহদান্ত্র (Large Intestine)",
+              "description": "পানি শোষণ করে এবং মলত্যাগের জন্য বর্জ্য সংগ্রহ করে। (Absorbs water and collects waste for excretion.)",
+              "position": [0, -0.6, 0]
+            },
+            {
+              "id": "liver",
+              "name": "যকৃত (Liver)",
+              "description": "বিষাক্ত পদার্থ পরিষ্কার করে এবং হজমে সাহায্য করার জন্য পিত্ত উৎপাদন করে। (Cleans toxins and produces bile to aid digestion.)",
+              "position": [0.5, 0.3, 0]
+            },
+            {
+              "id": "pancreas",
+              "name": "অগ্ন্যাশয় (Pancreas)",
+              "description": "হজমে সাহায্য করতে এনজাইম উৎপাদন করে। (Produces enzymes to help with digestion.)",
+              "position": [0.3, 0.1, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "photosynthesis",
+      "title": "সালোকসংশ্লেষণ প্রক্রিয়া",
+      "description": "উদ্ভিদ কিভাবে সূর্যালোক, পানি এবং কার্বন ডাই অক্সাইড থেকে খাদ্য তৈরি করে তার ত্রিমাত্রিক সিমুলেশন",
+      "category": "introduction",
+      "models": [
+        {
+          "id": "photosynthesis-model",
+          "title": "সালোকসংশ্লেষণ মডেল",
+          "description": "পাতায় সালোকসংশ্লেষণ প্রক্রিয়ার ত্রিমাত্রিক অ্যানিমেশন",
+          "modelUrl": "",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "leaf-epidermis",
+              "name": "পাতার এপিডার্মিস",
+              "description": "পাতার বাহিরের প্রতিরক্ষামূলক স্তর।",
+              "position": [0, 1.2, 0]
+            },
+            {
+              "id": "stomata",
+              "name": "পত্ররন্ধ্র",
+              "description": "পাতায় ছিদ্র যা গ্যাস বিনিময়ের অনুমতি দেয় (CO₂ ভিতরে, O₂ বাইরে)।",
+              "position": [-0.8, 0.9, 0.5]
+            },
+            {
+              "id": "mesophyll",
+              "name": "মেসোফিল কোষ",
+              "description": "ক্লোরোপ্লাস্টযুক্ত কোষ যেখানে সালোকসংশ্লেষণ হয়।",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "chloroplast",
+              "name": "ক্লোরোপ্লাস্ট",
+              "description": "ক্লোরোফিল ধারণ করে এবং এখানে আলোক শক্তি ধরা হয়।",
+              "position": [0.5, 0, 0.3]
+            },
+            {
+              "id": "xylem",
+              "name": "জাইলেম",
+              "description": "শিকড় থেকে পাতায় পানি পরিবহন করে।",
+              "position": [0, -0.8, 0]
+            },
+            {
+              "id": "phloem",
+              "name": "ফ্লোয়েম",
+              "description": "গ্লুকোজ উদ্ভিদের অন্যান্য অংশে পরিবহন করে।",
+              "position": [0.3, -0.8, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cell-comparison",
+      "title": "উদ্ভিদ ও প্রাণী কোষের তুলনা",
+      "description": "উদ্ভিদ ও প্রাণী কোষের গঠন এবং পার্থক্য সম্পর্কে ত্রিমাত্রিক মডেলের মাধ্যমে জানুন",
+      "category": "introduction",
+      "models": [
+        {
+          "id": "cell-comparison-model",
+          "title": "উদ্ভিদ ও প্রাণী কোষের তুলনামূলক মডেল",
+          "description": "উদ্ভিদ ও প্রাণী কোষের পাশাপাশি ত্রিমাত্রিক প্রদর্শনী",
+          "modelUrl": "/models/cell-comparison.gltf",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "plant-cell",
+              "name": "উদ্ভিদ কোষ",
+              "description": "উদ্ভিদ কোষে কোষ প্রাচীর, ক্লোরোপ্লাস্ট এবং বড় রসধানী থাকে যা প্রাণী কোষে অনুপস্থিত।",
+              "position": [-1, 0, 0]
+            },
+            {
+              "id": "animal-cell",
+              "name": "প্রাণী কোষ",
+              "description": "প্রাণী কোষে লাইসোসোম এবং সেন্ট্রিওলস থাকে যা উদ্ভিদ কোষে থাকে না। এতে কোষ প্রাচীর নেই।",
+              "position": [1, 0, 0]
+            },
+            {
+              "id": "nucleus",
+              "name": "নিউক্লিয়াস",
+              "description": "নিউক্লিয়াস হল কোষের কেন্দ্রীয় অংশ যা ডিএনএ (DNA) ধারণ করে এবং কোষের সমস্ত কার্যকলাপ নিয়ন্ত্রণ করে।",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "chloroplast",
+              "name": "ক্লোরোপ্লাস্ট",
+              "description": "শুধুমাত্র উদ্ভিদ কোষে পাওয়া যায়। এতে ক্লোরোফিল থাকে যা সালোকসংশ্লেষণের জন্য দায়ী।",
+              "position": [-0.8, 0.5, 0]
+            },
+            {
+              "id": "cell-wall",
+              "name": "কোষ প্রাচীর",
+              "description": "শুধুমাত্র উদ্ভিদ কোষে পাওয়া যায়। এটি কোষকে সুরক্ষা ও আকৃতি প্রদান করে।",
+              "position": [-1.5, 0, 0]
+            },
+            {
+              "id": "vacuole",
+              "name": "রসধানী",
+              "description": "উদ্ভিদ কোষে এটি বড় আকারের হয় এবং কোষের বেশিরভাগ স্থান দখল করে। প্রাণী কোষে এটি ছোট এবং একাধিক হতে পারে।",
+              "position": [-0.5, -0.5, 0]
+            },
+            {
+              "id": "lysosome",
+              "name": "লাইসোসোম",
+              "description": "শুধুমাত্র প্রাণী কোষে পাওয়া যায়। এটি পাচক এনজাইম ধারণ করে এবং কোষীয় ধ্বংসাবশেষ ও বর্জ্য পদার্থ হজম করে।",
+              "position": [0.8, 0.5, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "liver-anatomy",
+      "title": "মানব যকৃত (Human Liver)",
+      "description": "যকৃতের গঠন, কার্যপ্রণালী এবং শরীরে এর গুরুত্বপূর্ণ ভূমিকা সম্পর্কে জানুন (Learn about the structure, functions, and vital role of the liver in the human body)",
+      "category": "systems",
+      "models": [
+        {
+          "id": "liver-model",
+          "title": "যকৃত মডেল (Liver Model)",
+          "description": "মানব যকৃতের ত্রিমাত্রিক মডেল (3D model of the human liver)",
+          "modelUrl": "https://sketchfab.com/models/a20686a3e4a54792bfede17ad32f4b1a/embed?transparent=1&dnt=1",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "right-lobe",
+              "name": "ডান লোব (Right Lobe)",
+              "description": "যকৃতের দুটি প্রধান বিভাগের মধ্যে সবচেয়ে বড়টি, যা যকৃতের সম্পূর্ণ আয়তনের প্রায় ৬০-৬৫% দখল করে। (The larger of the two main divisions of the liver, accounting for approximately 60-65% of the liver's total volume.)",
+              "position": [0.5, 0, 0]
+            },
+            {
+              "id": "left-lobe",
+              "name": "বাম লোব (Left Lobe)",
+              "description": "যকৃতের ছোট লোব, যা যকৃতের সম্পূর্ণ আয়তনের প্রায় ৩৫-৪০% দখল করে। (The smaller lobe of the liver, accounting for approximately 35-40% of the liver's total volume.)",
+              "position": [-0.5, 0, 0]
+            },
+            {
+              "id": "falciform-ligament",
+              "name": "ফ্যালসিফর্ম লিগামেন্ট (Falciform Ligament)",
+              "description": "যকৃতের ডান ও বাম লোবকে বিভক্ত করে এমন একটি সিরোসাল ফোল্ড। এটি যকৃতকে পেটের সামনের দেয়ালে আটকে রাখতে সাহায্য করে। (A serosal fold that divides the right and left lobes of the liver. It helps anchor the liver to the anterior abdominal wall.)",
+              "position": [0, 0.3, 0.3]
+            },
+            {
+              "id": "hepatic-portal-vein",
+              "name": "হেপাটিক পোর্টাল শিরা (Hepatic Portal Vein)",
+              "description": "পাকস্থলী ও অন্ত্র থেকে পুষ্টি সমৃদ্ধ রক্ত যকৃতে পরিবহন করে। এই রক্তে খাদ্য হজম থেকে অনেক উপাদান থাকে যা যকৃতে প্রক্রিয়াজাত হয়। (Transports nutrient-rich blood from the stomach and intestines to the liver. This blood contains many substances from digestion that are processed in the liver.)",
+              "position": [0, -0.3, 0.2]
+            },
+            {
+              "id": "hepatic-artery",
+              "name": "হেপাটিক ধমনী (Hepatic Artery)",
+              "description": "হৃৎপিণ্ড থেকে অক্সিজেন সমৃদ্ধ রক্ত যকৃতে সরবরাহ করে, যা যকৃতের টিস্যুর প্রয়োজনীয় অক্সিজেন প্রদান করে। (Supplies oxygen-rich blood from the heart to the liver, providing the necessary oxygen for liver tissue.)",
+              "position": [0.2, -0.2, 0]
+            },
+            {
+              "id": "gallbladder",
+              "name": "পিত্তথলি (Gallbladder)",
+              "description": "যকৃত দ্বারা উৎপাদিত পিত্ত সংরক্ষণ করে এবং খাবার হজমের সময় ক্ষুদ্রান্ত্রে ছেড়ে দেয়। (Stores bile produced by the liver and releases it into the small intestine during digestion.)",
+              "position": [0.3, -0.4, -0.2]
+            },
+            {
+              "id": "hepatocytes",
+              "name": "হেপাটোসাইট (Hepatocytes)",
+              "description": "যকৃতের প্রধান কোষ যা বিষাক্ত পদার্থ ডিটক্সিফাই করে, প্রোটিন সংশ্লেষণ করে, এবং গ্লাইকোজেন সঞ্চয় করে। (The main cells of the liver that detoxify harmful substances, synthesize proteins, and store glycogen.)",
+              "position": [0, 0, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "circulatory-system",
+      "title": "মানব সংবহন তন্ত্র (Human Circulatory System)",
+      "description": "মানব দেহের রক্ত সঞ্চালন ব্যবস্থা এবং এর কার্যপ্রণালী সম্পর্কে ত্রিমাত্রিক মডেলের মাধ্যমে জানুন (Learn about the human circulatory system and its functions through an interactive 3D model)",
+      "category": "systems",
+      "models": [
+        {
+          "id": "circulatory-system-model",
+          "title": "সংবহন তন্ত্রের মডেল (Circulatory System Model)",
+          "description": "মানব সংবহন তন্ত্রের বিস্তারিত ত্রিমাত্রিক মডেল (Detailed 3D model of the human circulatory system)",
+          "modelUrl": "https://sketchfab.com/models/c79bd04fadd642cdb4b0ffda9c3b4497/embed?transparent=1&ui_infos=0&ui_watermark_link=0&ui_watermark=0",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "heart",
+              "name": "হৃদপিণ্ড (Heart)",
+              "description": "সংবহন তন্ত্রের কেন্দ্রীয় অঙ্গ যা শরীরের সব অংশে রক্ত সরবরাহ করার জন্য রক্ত পাম্প করে। হৃদপিণ্ড চারটি কক্ষ নিয়ে গঠিত: দুটি অলিন্দ (atria) এবং দুটি নিলয় (ventricles)। (The central organ of the circulatory system that pumps blood throughout the body. The heart consists of four chambers: two atria and two ventricles.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "aorta",
+              "name": "মহাধমনী (Aorta)",
+              "description": "শরীরের সবচেয়ে বড় ধমনী যা হৃদপিণ্ড থেকে অক্সিজেনযুক্ত রক্ত শরীরের বিভিন্ন অংশে পরিবহন করে। (The largest artery in the body that transports oxygenated blood from the heart to different parts of the body.)",
+              "position": [0, 0.5, 0.3]
+            },
+            {
+              "id": "pulmonary-artery",
+              "name": "ফুসফুসীয় ধমনী (Pulmonary Artery)",
+              "description": "এই ধমনী ডান নিলয় থেকে অক্সিজেন বিহীন রক্ত ফুসফুসে পরিবহন করে, যেখানে রক্ত অক্সিজেন গ্রহণ করে এবং কার্বন ডাই অক্সাইড ত্যাগ করে। (This artery carries deoxygenated blood from the right ventricle to the lungs, where the blood picks up oxygen and releases carbon dioxide.)",
+              "position": [-0.3, 0.3, 0.2]
+            },
+            {
+              "id": "pulmonary-vein",
+              "name": "ফুসফুসীয় শিরা (Pulmonary Vein)",
+              "description": "এই শিরা অক্সিজেনযুক্ত রক্ত ফুসফুস থেকে হৃদপিণ্ডের বাম অলিন্দে ফিরিয়ে আনে। (This vein returns oxygenated blood from the lungs to the left atrium of the heart.)",
+              "position": [-0.3, 0.1, 0.2]
+            },
+            {
+              "id": "superior-vena-cava",
+              "name": "উপরের মহাশিরা (Superior Vena Cava)",
+              "description": "এই বৃহৎ শিরা উপরের শরীর থেকে অক্সিজেন বিহীন রক্ত সংগ্রহ করে হৃদপিণ্ডের ডান অলিন্দে নিয়ে আসে। (This large vein collects deoxygenated blood from the upper body and brings it to the right atrium of the heart.)",
+              "position": [0.3, 0.5, -0.2]
+            },
+            {
+              "id": "inferior-vena-cava",
+              "name": "নিচের মহাশিরা (Inferior Vena Cava)",
+              "description": "এই বৃহৎ শিরা নিচের শরীর থেকে অক্সিজেন বিহীন রক্ত সংগ্রহ করে হৃদপিণ্ডের ডান অলিন্দে নিয়ে আসে। (This large vein collects deoxygenated blood from the lower body and brings it to the right atrium of the heart.)",
+              "position": [0.3, -0.5, -0.2]
+            },
+            {
+              "id": "capillaries",
+              "name": "কেশিকা (Capillaries)",
+              "description": "অতি সূক্ষ্ম রক্তনালী যা কোষগুলিকে ধমনী এবং শিরার সাথে সংযুক্ত করে। এখানেই অক্সিজেন, পুষ্টি এবং বর্জ্য পদার্থের আদান-প্রদান হয়। (Tiny blood vessels that connect arteries to veins and facilitate the exchange of oxygen, nutrients, and waste products with cells.)",
+              "position": [0.8, 0, 0]
+            },
+            {
+              "id": "arteries",
+              "name": "ধমনী (Arteries)",
+              "description": "হৃদপিণ্ড থেকে শরীরের বিভিন্ন অংশে রক্ত পরিবহন করে। ধমনীগুলি সাধারণত অক্সিজেনযুক্ত রক্ত বহন করে (ফুসফুসীয় ধমনী ব্যতীত)। (Transport blood from the heart to various parts of the body. Arteries typically carry oxygenated blood (except the pulmonary artery).)",
+              "position": [0.5, 0.2, 0.5]
+            },
+            {
+              "id": "veins",
+              "name": "শিরা (Veins)",
+              "description": "শরীরের বিভিন্ন অংশ থেকে রক্ত হৃদপিণ্ডে ফিরিয়ে আনে। শিরাগুলি সাধারণত অক্সিজেন বিহীন রক্ত বহন করে (ফুসফুসীয় শিরা ব্যতীত)। (Return blood from various parts of the body to the heart. Veins typically carry deoxygenated blood (except the pulmonary vein).)",
+              "position": [-0.5, 0.2, -0.5]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "heart-anatomy",
-      "title": "মানব হৃদপিণ্ড",
-      "description": "মানব হৃদপিণ্ডের অংশগুলি এবং এর কার্যপ্রণালী সম্পর্কে শিখুন",
+      "title": "মানব হৃদপিণ্ড (Human Heart)",
+      "description": "মানব হৃদপিণ্ডের বিস্তারিত গঠন এবং এর কার্যপ্রণালী সম্পর্কে ত্রিমাত্রিক এনিমেটেড মডেলের মাধ্যমে শিখুন (Learn about the detailed structure and functioning of the human heart through an animated 3D model)",
+      "category": "systems",
       "models": [
         {
           "id": "heart-model",
-          "title": "হৃদপিণ্ড মডেল",
-          "description": "মানব হৃদপিণ্ডের ত্রিমাত্রিক মডেল",
-          "modelUrl": "/models/cube.gltf",
-          "scale": 0.5,
+          "title": "হৃদপিণ্ডের ত্রিমাত্রিক এনিমেটেড মডেল (3D Animated Heart Model)",
+          "description": "একটি অত্যন্ত বিস্তারিত এবং বাস্তবসম্মত মানব হৃদপিণ্ডের ত্রিমাত্রিক এনিমেটেড মডেল যা হৃদপিণ্ডের স্পন্দন এবং রক্ত প্রবাহ দেখায় (A highly detailed and realistic 3D animated model of the human heart showing heartbeat and blood flow)",
+          "modelUrl": "https://sketchfab.com/models/168b474fba564f688048212e99b4159d/embed?transparent=1&ui_theme=dark&dnt=1",
+          "scale": 1.0,
           "position": [0, 0, 0],
           "parts": [
             {
               "id": "left-ventricle",
-              "name": "বাম নিলয়",
-              "description": "বাম নিলয় হৃদপিণ্ডের নিচের বাম অংশে অবস্থিত। এটি অক্সিজেনযুক্ত রক্ত ধমনী দিয়ে সারা শরীরে পাম্প করে।",
+              "name": "বাম নিলয় (Left Ventricle)",
+              "description": "হৃদপিণ্ডের চারটি কক্ষের মধ্যে সবচেয়ে শক্তিশালী এবং পুরু পেশীযুক্ত কক্ষ। এটি অক্সিজেনযুক্ত রক্ত বাম অলিন্দ থেকে গ্রহণ করে এবং মহাধমনীর মাধ্যমে সারা শরীরে পাম্প করে। এর পেশী ঘন হওয়ার কারণে উচ্চ চাপে রক্ত পাম্প করতে পারে। (The strongest and thickest-walled chamber among the heart's four chambers. It receives oxygenated blood from the left atrium and pumps it through the aorta to the rest of the body. Its thick muscles allow it to pump blood at high pressure.)",
               "position": [0.5, -0.2, 0.3]
             },
             {
               "id": "right-ventricle",
-              "name": "ডান নিলয়",
-              "description": "ডান নিলয় হৃদপিণ্ডের নিচের ডান অংশে অবস্থিত। এটি অক্সিজেনবিহীন রক্ত ফুসফুসে পাম্প করে।",
+              "name": "ডান নিলয় (Right Ventricle)",
+              "description": "বাম নিলয়ের তুলনায় পাতলা পেশীযুক্ত কক্ষ যা ডান অলিন্দ থেকে অক্সিজেনবিহীন রক্ত গ্রহণ করে এবং পালমোনারি ধমনীর মাধ্যমে ফুসফুসে পাম্প করে। ফুসফুসে রক্ত পাঠানোর জন্য কম চাপ প্রয়োজন হয় বলে এর পেশী অপেক্ষাকৃত পাতলা। (A chamber with thinner muscles compared to the left ventricle. It receives deoxygenated blood from the right atrium and pumps it to the lungs through the pulmonary artery. Its muscles are relatively thinner because less pressure is needed to send blood to the lungs.)",
               "position": [-0.5, -0.2, 0.3]
             },
             {
               "id": "left-atrium",
-              "name": "বাম অলিন্দ",
-              "description": "বাম অলিন্দ হৃদপিণ্ডের উপরের বাম অংশে অবস্থিত। এটি ফুসফুস থেকে অক্সিজেনযুক্ত রক্ত গ্রহণ করে।",
+              "name": "বাম অলিন্দ (Left Atrium)",
+              "description": "পালমোনারি শিরার মাধ্যমে ফুসফুস থেকে অক্সিজেনযুক্ত রক্ত গ্রহণ করে এবং বাম নিলয়ে প্রেরণ করে। হৃদস্পন্দনের সময় প্রথমে অলিন্দ সংকুচিত হয়। (Receives oxygenated blood from the lungs through the pulmonary veins and sends it to the left ventricle. During the heartbeat, the atria contract first.)",
               "position": [0.5, 0.2, 0.3]
             },
             {
               "id": "right-atrium",
-              "name": "ডান অলিন্দ",
-              "description": "ডান অলিন্দ হৃদপিণ্ডের উপরের ডান অংশে অবস্থিত। এটি শরীর থেকে অক্সিজেনবিহীন রক্ত গ্রহণ করে।",
+              "name": "ডান অলিন্দ (Right Atrium)",
+              "description": "উর্ধ্ব এবং নিম্ন মহাশিরা থেকে শরীরের বিভিন্ন অংশ থেকে অক্সিজেনবিহীন রক্ত গ্রহণ করে এবং ডান নিলয়ে প্রেরণ করে। এতে কর্ণিকাযুক্ত অ্যাপেন্ডেজ থাকে যা এর ধারণক্ষমতা বাড়ায়। (Receives deoxygenated blood from various parts of the body through the superior and inferior vena cava and sends it to the right ventricle. It has an auricle appendage that increases its capacity.)",
               "position": [-0.5, 0.2, 0.3]
             },
             {
               "id": "aorta",
-              "name": "মহাধমনী",
-              "description": "মহাধমনী হৃদপিণ্ড থেকে বের হওয়া সবচেয়ে বড় ধমনী, যা অক্সিজেনযুক্ত রক্ত শরীরের বিভিন্ন অংশে নিয়ে যায়।",
+              "name": "মহাধমনী (Aorta)",
+              "description": "শরীরের সবচেয়ে বড় ধমনী যা বাম নিলয় থেকে অক্সিজেনযুক্ত রক্ত গ্রহণ করে এবং শরীরের বিভিন্ন অংশে বিতরণ করে। এর ঊর্ধ্বমুখী অংশকে আরোহী মহাধমনী, বাঁকা অংশকে মহাধমনী চাপ, এবং নিম্নমুখী অংশকে অবরোহী মহাধমনী বলে। (The largest artery in the body that receives oxygenated blood from the left ventricle and distributes it to various parts of the body. Its upward part is called the ascending aorta, the arch is the aortic arch, and the downward part is the descending aorta.)",
               "position": [0, 0.5, 0.3]
+            },
+            {
+              "id": "pulmonary-artery",
+              "name": "পালমোনারি ধমনী (Pulmonary Artery)",
+              "description": "ডান নিলয় থেকে অক্সিজেনবিহীন রক্ত ফুসফুসে নিয়ে যায়। এটি একমাত্র ধমনী যা অক্সিজেনবিহীন রক্ত বহন করে। ফুসফুসে পৌঁছে এটি ছোট ছোট শাখায় বিভক্ত হয়। (Carries deoxygenated blood from the right ventricle to the lungs. It is the only artery that carries deoxygenated blood. Upon reaching the lungs, it divides into smaller branches.)",
+              "position": [-0.3, 0.4, 0.2]
+            },
+            {
+              "id": "pulmonary-vein",
+              "name": "পালমোনারি শিরা (Pulmonary Vein)",
+              "description": "ফুসফুস থেকে অক্সিজেনযুক্ত রক্ত বাম অলিন্দে ফিরিয়ে আনে। এটি একমাত্র শিরা যা অক্সিজেনযুক্ত রক্ত বহন করে। সাধারণত চারটি পালমোনারি শিরা থাকে — প্রতি ফুসফুসের লোব থেকে দুটি করে। (Returns oxygenated blood from the lungs to the left atrium. It is the only vein that carries oxygenated blood. There are typically four pulmonary veins — two from each lobe of the lungs.)",
+              "position": [0.3, 0.4, 0.2]
+            },
+            {
+              "id": "heart-valves",
+              "name": "হৃদকপাট (Heart Valves)",
+              "description": "হৃদপিণ্ডে চারটি কপাট আছে যা রক্তের একমুখী প্রবাহ নিশ্চিত করে: ট্রাইকাস্পিড কপাট (ডান অলিন্দ ও নিলয়ের মধ্যে), মাইট্রাল কপাট (বাম অলিন্দ ও নিলয়ের মধ্যে), পালমোনারি কপাট (ডান নিলয় ও পালমোনারি ধমনীর মধ্যে), এবং এওরটিক কপাট (বাম নিলয় ও মহাধমনীর মধ্যে)। (The heart has four valves that ensure one-way flow of blood: tricuspid valve (between right atrium and ventricle), mitral valve (between left atrium and ventricle), pulmonary valve (between right ventricle and pulmonary artery), and aortic valve (between left ventricle and aorta).)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "coronary-arteries",
+              "name": "করোনারি ধমনী (Coronary Arteries)",
+              "description": "হৃদপিণ্ডের নিজের পেশীতে রক্ত সরবরাহ করে। এগুলি মহাধমনীর শুরুতে থেকে বের হয় এবং হৃদপিণ্ডের পৃষ্ঠ ঢেকে থাকে। করোনারি ধমনীতে অবরোধ হৃদরোগের কারণ হতে পারে। (Supply blood to the heart muscle itself. They emerge from the beginning of the aorta and cover the surface of the heart. Blockage in coronary arteries can cause heart disease.)",
+              "position": [0.4, 0, 0.4]
+            },
+            {
+              "id": "septum",
+              "name": "সেপ্টাম (Septum)",
+              "description": "হৃদপিণ্ডের মাঝখানে একটি পুরু পেশীযুক্ত প্রাচীর যা হৃদপিণ্ডের বাম ও ডান অংশকে আলাদা করে। এটি রক্তের মিশ্রণ রোধ করে এবং দুটি পৃথক পাম্পিং সিস্টেম হিসেবে কাজ করতে সাহায্য করে। (A thick muscular wall in the middle of the heart that separates the left and right sides. It prevents the mixing of blood and helps the heart function as two separate pumping systems.)",
+              "position": [0, 0, 0.2]
             }
           ]
         }
@@ -51,12 +993,13 @@
       "id": "cell-structure",
       "title": "কোষের গঠন",
       "description": "জীব কোষের আণবিক গঠন এবং এর বিভিন্ন অঙ্গাণু সম্পর্কে জানুন",
+      "category": "introduction",
       "models": [
         {
           "id": "animal-cell",
           "title": "প্রাণী কোষ",
           "description": "প্রাণী কোষের ত্রিমাত্রিক মডেল",
-          "modelUrl": "/models/cube.gltf",
+          "modelUrl": "http://localhost:8000/api/models/animalcell.glb",
           "scale": 0.8,
           "position": [0, 0, 0],
           "parts": [
@@ -89,6 +1032,384 @@
               "name": "কোষ ঝিল্লি",
               "description": "কোষ ঝিল্লি কোষকে ঢেকে রাখে এবং নির্বাচিতভাবে পদার্থের প্রবেশ ও বহির্গমন নিয়ন্ত্রণ করে।",
               "position": [0, 0.6, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "blood-cells",
+      "title": "রক্ত কোষ (Blood Cells)",
+      "description": "রক্তের বিভিন্ন প্রকারের কোষ এবং তাদের কার্যাবলী সম্পর্কে জানুন (Learn about the different types of blood cells and their functions)",
+      "category": "systems",
+      "models": [
+        {
+          "id": "blood-cells-model",
+          "title": "রক্ত কোষের ত্রিমাত্রিক মডেল (3D Model of Blood Cells)",
+          "description": "মানব রক্তের বিভিন্ন কোষের বিস্তারিত ত্রিমাত্রিক মডেল (Detailed 3D model of various human blood cells)",
+          "modelUrl": "https://sketchfab.com/models/06d944f7ca804427956510316bfe9876/embed?preload=1",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "red-blood-cells",
+              "name": "লোহিত রক্তকণিকা (Red Blood Cells/Erythrocytes)",
+              "description": "লোহিত রক্তকণিকা বা এরিথ্রোসাইট রক্তের সবচেয়ে প্রচুর কোষ যা ফুসফুস থেকে অক্সিজেন শরীরের সব কোষে বহন করে এবং কার্বন ডাই অক্সাইড ফেরত নিয়ে আসে। এদের ডিস্ক আকৃতি এবং হিমোগ্লোবিন থাকার কারণে লাল দেখায়। এরা কেন্দ্রক বিহীন এবং শরীরে প্রায় ১২০ দিন বেঁচে থাকে। (Red blood cells or erythrocytes are the most abundant cells in blood that carry oxygen from the lungs to all cells in the body and bring back carbon dioxide. They appear red due to their disc shape and the presence of hemoglobin. They lack a nucleus and survive in the body for about 120 days.)",
+              "position": [0.5, 0, 0]
+            },
+            {
+              "id": "white-blood-cells",
+              "name": "শ্বেত রক্তকণিকা (White Blood Cells/Leukocytes)",
+              "description": "শ্বেত রক্তকণিকা বা লিউকোসাইট শরীরের প্রতিরক্ষা ব্যবস্থার অংশ যা ব্যাকটেরিয়া, ভাইরাস এবং অন্যান্য বিদেশী আক্রমণকারীদের বিরুদ্ধে লড়াই করে। এদের বিভিন্ন ধরন আছে, যেমন নিউট্রোফিল, লিম্ফোসাইট, মনোসাইট, ইওসিনোফিল, এবং বেসোফিল, যাদের প্রত্যেকের আলাদা ভূমিকা রয়েছে। (White blood cells or leukocytes are part of the immune system that fight against bacteria, viruses, and other foreign invaders. They have various types, such as neutrophils, lymphocytes, monocytes, eosinophils, and basophils, each with distinct roles.)",
+              "position": [-0.5, 0, 0]
+            },
+            {
+              "id": "platelets",
+              "name": "অণুচক্রিকা (Platelets/Thrombocytes)",
+              "description": "অণুচক্রিকা বা থ্রম্বোসাইট হল রক্তের ছোট কোষ ফ্র্যাগমেন্ট যা রক্তপাত বন্ধ করতে এবং রক্ত জমাট বাঁধতে সাহায্য করে। যখন কোনো রক্তনালীতে ক্ষত হয়, তখন অণুচক্রিকা সেখানে জমা হয় এবং রক্ত জমাট বাঁধার প্রক্রিয়া শুরু করে। এদের আয়ু প্রায় ৭-১০ দিন। (Platelets or thrombocytes are small cell fragments in blood that help stop bleeding and form blood clots. When a blood vessel is injured, platelets aggregate at the site and initiate the clotting process. Their lifespan is about 7-10 days.)",
+              "position": [0, 0.5, 0]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "human-skeleton",
+      "title": "মানব কঙ্কাল (Human Skeleton)",
+      "description": "মানব কঙ্কালের গঠন, বিভিন্ন হাড়ের কার্যাবলী এবং মানব দেহে এর গুরুত্ব সম্পর্কে জানুন (Learn about the structure of the human skeleton, functions of different bones, and its importance in the human body)",
+      "category": "systems",
+      "models": [
+        {
+          "id": "skeleton-model",
+          "title": "মানব কঙ্কালের ত্রিমাত্রিক মডেল (3D Model of Human Skeleton)",
+          "description": "মানব কঙ্কালের বিস্তারিত ত্রিমাত্রিক মডেল যা হাড়ের বিন্যাস এবং শরীরে তাদের অবস্থান দেখায় (Detailed 3D model of the human skeleton showing the arrangement of bones and their position in the body)",
+          "modelUrl": "https://sketchfab.com/models/6db4f2130c544f628cb349f532d49b1b/embed?autospin=1&ui_theme=dark",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "skull",
+              "name": "খুলি (Skull)",
+              "description": "মস্তিষ্ক এবং অন্যান্য সংবেদনশীল অঙ্গগুলিকে সুরক্ষা প্রদান করে। খুলিতে ২২টি হাড় রয়েছে, যার মধ্যে ৮টি মস্তিষ্ক এবং ১৪টি মুখমণ্ডলের হাড়। (Protects the brain and other sensitive organs. The skull consists of 22 bones, including 8 cranial bones and 14 facial bones.)",
+              "position": [0, 1.0, 0]
+            },
+            {
+              "id": "vertebral-column",
+              "name": "মেরুদণ্ড (Vertebral Column/Spine)",
+              "description": "মেরুদণ্ড শরীরকে সহায়তা প্রদান করে, মেরুরজ্জুকে সুরক্ষা দেয়, এবং মাথা, কাঁধ এবং শ্রোণী অঞ্চলের মধ্যে ভার বহন করে। এতে ৩৩টি মেরুদণ্ডের হাড় (ভার্টিব্রা) রয়েছে যা পাঁচটি অঞ্চলে বিভক্ত: সার্ভিকাল, থোরাসিক, লাম্বার, স্যাক্রাল, এবং কক্সিজিয়াল। (The vertebral column supports the body, protects the spinal cord, and bears weight between the head, shoulders, and pelvis. It consists of 33 vertebrae divided into five regions: cervical, thoracic, lumbar, sacral, and coccygeal.)",
+              "position": [0, 0.3, 0]
+            },
+            {
+              "id": "ribcage",
+              "name": "পাঁজর (Ribcage)",
+              "description": "পাঁজর হৃদপিণ্ড, ফুসফুস এবং অন্যান্য গুরুত্বপূর্ণ অঙ্গগুলিকে সুরক্ষা দেয়। এতে ১২ জোড়া পাঁজর, স্টার্নাম (বুকের হাড়), এবং থোরাসিক ভার্টিব্রা রয়েছে। প্রথম ৭ জোড়াকে প্রকৃত পাঁজর বলে, পরের ৩ জোড়াকে মিথ্যা পাঁজর বলে, এবং শেষ ২ জোড়াকে ভাসমান পাঁজর বলে। (The ribcage protects the heart, lungs, and other vital organs. It consists of 12 pairs of ribs, the sternum (breastbone), and thoracic vertebrae. The first 7 pairs are called true ribs, the next 3 pairs are false ribs, and the last 2 pairs are floating ribs.)",
+              "position": [0, 0.2, 0.3]
+            },
+            {
+              "id": "shoulder-girdle",
+              "name": "স্কন্ধমেখলা (Shoulder Girdle)",
+              "description": "স্কন্ধমেখলা হাত এবং শরীরের মধ্যে একটি সংযোগ প্রদান করে। এতে ক্লাভিকল (কলারবোন) এবং স্ক্যাপুলা (কাঁধের ফলক) অন্তর্ভুক্ত, যা উপরের অঙ্গের নড়াচড়ায় সহায়তা করে। (The shoulder girdle provides a connection between the arm and the body. It includes the clavicle (collarbone) and scapula (shoulder blade), which facilitate the movement of the upper limb.)",
+              "position": [0.5, 0.5, 0]
+            },
+            {
+              "id": "upper-limbs",
+              "name": "উপরের অঙ্গ (Upper Limbs)",
+              "description": "উপরের অঙ্গে হিউমেরাস (বাহুর হাড়), রেডিয়াস এবং আলনা (ফোরআর্মের হাড়), কার্পাল (কব্জির হাড়), মেটাকার্পাল (হাতের মধ্যভাগের হাড়), এবং ফ্যালেঞ্জেস (আঙুলের হাড়) অন্তর্ভুক্ত। এগুলি হাতের বিভিন্ন ধরনের নড়াচড়া এবং কার্যকলাপের জন্য অপরিহার্য। (The upper limbs include the humerus (arm bone), radius and ulna (forearm bones), carpals (wrist bones), metacarpals (hand bones), and phalanges (finger bones). These are essential for various movements and activities of the hands.)",
+              "position": [0.7, 0, 0]
+            },
+            {
+              "id": "pelvic-girdle",
+              "name": "শ্রোণীমেখলা (Pelvic Girdle)",
+              "description": "শ্রোণীমেখলা নিচের অঙ্গ এবং মেরুদণ্ডের মধ্যে সংযোগ প্রদান করে। এটি দুটি হিপবোন (ইননোমিনেট) দ্বারা গঠিত, যা প্রত্যেকটি ইলিয়াম, ইসচিয়াম, এবং পিউবিস হাড়ের সংযোগে তৈরি। এটি নিচের শরীরের ভার বহন করে এবং অভ্যন্তরীণ অঙ্গগুলিকে সুরক্ষা দেয়। (The pelvic girdle provides a connection between the lower limbs and the vertebral column. It is formed by two hipbones (innominates), each created by the fusion of the ilium, ischium, and pubis bones. It bears the weight of the lower body and protects internal organs.)",
+              "position": [0, -0.3, 0]
+            },
+            {
+              "id": "lower-limbs",
+              "name": "নিচের অঙ্গ (Lower Limbs)",
+              "description": "নিচের অঙ্গে ফিমার (উরুর হাড়), টিবিয়া এবং ফিবুলা (পায়ের হাড়), পাটেলা (হাঁটুর হাড়), টারসাল (গোড়ালির হাড়), মেটাটারসাল (পায়ের মধ্যভাগের হাড়), এবং ফ্যালেঞ্জেস (পায়ের আঙুলের হাড়) অন্তর্ভুক্ত। এগুলি শরীরের ভার বহন করে এবং চলাচল ও ভারসাম্য বজায় রাখতে সাহায্য করে। (The lower limbs include the femur (thigh bone), tibia and fibula (leg bones), patella (knee cap), tarsals (ankle bones), metatarsals (foot bones), and phalanges (toe bones). These bear the body's weight and help in locomotion and maintaining balance.)",
+              "position": [0, -0.8, 0]
+            },
+            {
+              "id": "joints",
+              "name": "জয়েন্ট/সন্ধিস্থল (Joints)",
+              "description": "জয়েন্ট হল দুই বা ততোধিক হাড়ের সংযোগস্থল, যা শরীরের বিভিন্ন অংশের নড়াচড়া সম্ভব করে। জয়েন্টের প্রকারভেদ আছে: সাইনোভিয়াল (যেমন হাঁটু, কব্জি), কার্টিলেজিনাস (যেমন সাইমফাইসিস পিউবিস), এবং ফাইব্রাস (যেমন খুলির সিউচার)। (Joints are connections between two or more bones, allowing movement of various body parts. Types of joints include synovial (e.g., knee, wrist), cartilaginous (e.g., symphysis pubis), and fibrous (e.g., skull sutures).)",
+              "position": [0.3, 0, 0.3]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "respiratory-system",
+      "title": "মানব শ্বসন তন্ত্র (Human Respiratory System)",
+      "description": "মানব শ্বসন তন্ত্রের গঠন, এর বিভিন্ন অংশের কার্যাবলী এবং শ্বাস-প্রশ্বাসের প্রক্রিয়া সম্পর্কে জানুন (Learn about the structure of the human respiratory system, functions of its various parts, and the process of breathing)",
+      "category": "systems",
+      "models": [
+        {
+          "id": "respiratory-system-model",
+          "title": "শ্বসন তন্ত্রের ত্রিমাত্রিক মডেল (3D Model of Respiratory System)",
+          "description": "মানব শ্বসন তন্ত্রের বিস্তারিত ত্রিমাত্রিক মডেল যা ফুসফুস, শ্বাসনালী এবং সংশ্লিষ্ট অঙ্গগুলি দেখায় (Detailed 3D model of the human respiratory system showing the lungs, airways, and associated structures)",
+          "modelUrl": "https://sketchfab.com/models/250911151757489da1cf5501b791f363/embed?annotations_visible=0&transparent=1&ui_theme=dark",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "nasal-cavity",
+              "name": "নাসারন্ধ্র ও নাসাগহ্বর (Nasal Cavity)",
+              "description": "শ্বাসের প্রথম প্রবেশপথ, যেখানে বাতাস ফিল্টার, আর্দ্র এবং উষ্ণ হয়। নাসাগহ্বরে থাকা মিউকাস ও সিলিয়া ধুলাবালি এবং জীবাণু আটকে রাখে। (The first entry point for air, where it gets filtered, humidified, and warmed. Mucus and cilia in the nasal cavity trap dust and microorganisms.)",
+              "position": [0, 0.9, 0.2]
+            },
+            {
+              "id": "pharynx",
+              "name": "গ্রসনী (Pharynx/Throat)",
+              "description": "নাসাগহ্বর এবং মুখগহ্বর থেকে স্বরযন্ত্র পর্যন্ত বিস্তৃত নল, যা শ্বাসনালী ও খাদ্যনালী উভয়ের জন্য একটি সাধারণ পথ। এটি নাসোফারিঙ্কস, ওরোফারিঙ্কস, এবং ল্যারিঙ্গোফারিঙ্কস নামক তিনটি অংশে বিভক্ত। (A tube extending from the nasal and oral cavities to the larynx, serving as a common pathway for both the respiratory and digestive tracts. It is divided into three parts: nasopharynx, oropharynx, and laryngopharynx.)",
+              "position": [0, 0.7, 0]
+            },
+            {
+              "id": "larynx",
+              "name": "স্বরযন্ত্র (Larynx/Voice Box)",
+              "description": "গ্রসনী এবং শ্বাসনালীর মধ্যবর্তী অংশ যা ভোকাল কর্ড ধারণ করে এবং কথা বলা, গান গাওয়া এবং কাশির সময় শব্দ তৈরি করে। এপিগ্লটিস নামক ঢাকনা খাবার গিলার সময় শ্বাসনালীতে খাবার প্রবেশ রোধ করে। (The structure between the pharynx and trachea that contains the vocal cords and produces sound during speaking, singing, and coughing. A flap called the epiglottis prevents food from entering the airway during swallowing.)",
+              "position": [0, 0.5, 0]
+            },
+            {
+              "id": "trachea",
+              "name": "শ্বাসনালী (Trachea/Windpipe)",
+              "description": "স্বরযন্ত্র থেকে ব্রঙ্কাই পর্যন্ত প্রায় ১০-১২ সেমি লম্বা একটি নল, যা কার্টিলেজের রিং দ্বারা সমর্থিত যাতে এটি খোলা থাকে। এটি বাতাসকে ফুসফুসে প্রবেশের পথ প্রদান করে এবং এর ভিতরের সিলিয়া ও মিউকাস অবাঞ্ছিত কণা অপসারণে সাহায্য করে। (A tube about 10-12 cm long from the larynx to the bronchi, supported by rings of cartilage to keep it open. It provides a passage for air to enter the lungs, and cilia and mucus inside it help remove unwanted particles.)",
+              "position": [0, 0.3, 0]
+            },
+            {
+              "id": "bronchi",
+              "name": "ব্রঙ্কাস (Bronchi)",
+              "description": "শ্বাসনালী দুটি ব্রঙ্কাসে বিভক্ত হয় - একটি বাম ফুসফুসে এবং অন্যটি ডান ফুসফুসে যায়। ব্রঙ্কাই পরবর্তীতে ক্রমাগত ছোট ছোট শাখায় বিভক্ত হয়ে ব্রঙ্কিওলস গঠন করে। (The trachea divides into two bronchi - one going to the left lung and one to the right lung. The bronchi further divide into progressively smaller branches forming bronchioles.)",
+              "position": [0, 0, 0]
+            },
+            {
+              "id": "bronchioles",
+              "name": "ব্রঙ্কিওল (Bronchioles)",
+              "description": "ব্রঙ্কাই থেকে উৎপন্ন ছোট ছোট বায়ুপথ, যা অবশেষে আরও ছোট টার্মিনাল ব্রঙ্কিওলসে বিভক্ত হয়। এগুলি পেশী দ্বারা বেষ্টিত এবং সংকুচিত বা প্রসারিত হয়ে বায়ু প্রবাহ নিয়ন্ত্রণ করে। (Small airways arising from the bronchi, which eventually divide into even smaller terminal bronchioles. They are surrounded by muscle and can contract or expand to control airflow.)",
+              "position": [0.3, -0.1, 0.2]
+            },
+            {
+              "id": "alveoli",
+              "name": "বায়ুকোষ (Alveoli)",
+              "description": "ফুসফুসের অসংখ্য ছোট বায়ুপূর্ণ থলি যেখানে গ্যাস বিনিময় ঘটে। অক্সিজেন রক্তে প্রবেশ করে এবং কার্বন ডাই অক্সাইড রক্ত থেকে বের হয়ে আসে। একটি প্রাপ্তবয়স্ক মানুষের ফুসফুসে প্রায় ৬০০ মিলিয়ন আলভিওলাই থাকে। (Millions of tiny air sacs in the lungs where gas exchange takes place. Oxygen enters the blood and carbon dioxide leaves the blood. An adult human has approximately 600 million alveoli in their lungs.)",
+              "position": [0.5, -0.3, 0.3]
+            },
+            {
+              "id": "lungs",
+              "name": "ফুসফুস (Lungs)",
+              "description": "শ্বসন তন্ত্রের প্রধান অঙ্গ, বুক গহ্বরের ভিতরে অবস্থিত। ডান ফুসফুসে তিনটি লোব এবং বাম ফুসফুসে দুটি লোব আছে। ফুসফুস ইলাস্টিক টিস্যু দিয়ে তৈরি যা শ্বাস নেওয়া ও ছাড়ার সময় প্রসারিত ও সংকুচিত হয়। (The main organs of the respiratory system, located inside the chest cavity. The right lung has three lobes, and the left lung has two lobes. Lungs are made of elastic tissue that expands and contracts during inhalation and exhalation.)",
+              "position": [0, -0.2, 0]
+            },
+            {
+              "id": "diaphragm",
+              "name": "ডায়াফ্রাম (Diaphragm)",
+              "description": "বুক ও পেটের গহ্বরের মাঝে অবস্থিত একটি পেশীময় পর্দা যা শ্বাস-প্রশ্বাসের প্রক্রিয়ায় গুরুত্বপূর্ণ ভূমিকা পালন করে। শ্বাস নেওয়ার সময় ডায়াফ্রাম সংকুচিত হয়ে নিচে নামে, যা বুক গহ্বরের আয়তন বাড়ায় এবং ফুসফুসে বাতাস প্রবেশ করতে সাহায্য করে। (A muscular partition between the chest and abdominal cavities that plays a crucial role in the breathing process. During inhalation, the diaphragm contracts and moves downward, increasing the volume of the chest cavity and helping air enter the lungs.)",
+              "position": [0, -0.6, 0]
+            },
+            {
+              "id": "pleura",
+              "name": "প্লুরা (Pleura)",
+              "description": "ফুসফুসকে ঘিরে থাকা দুটি পাতলা ঝিল্লি - ভিসেরাল প্লুরা (ফুসফুসের সাথে সংযুক্ত) এবং প্যারাইটাল প্লুরা (বুকের দেয়ালের সাথে সংযুক্ত)। এদের মাঝে প্লুরাল তরল থাকে যা ঘর্ষণ কমায় এবং শ্বাস-প্রশ্বাসের সময় ফুসফুসের চলাচলে সহায়তা করে। (Two thin membranes surrounding the lungs - the visceral pleura (attached to the lungs) and the parietal pleura (attached to the chest wall). Between them is pleural fluid that reduces friction and facilitates lung movement during breathing.)",
+              "position": [-0.3, -0.2, 0.3]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "genetics",
+      "title": "জেনেটিক্স ও আণবিক জীববিজ্ঞান",
+      "description": "DNA, RNA এবং জেনেটিক কোডিং সিস্টেম সম্পর্কে উন্নত ধারণা অর্জন করুন",
+      "category": "advanced",
+      "models": [
+        {
+          "id": "dna-model",
+          "title": "DNA মডেল (DNA Model)",
+          "description": "DNA এর ডবল হেলিক্স কাঠামো এবং মৌলিক গঠন সম্পর্কে জানুন। (Learn about the double helix structure and basic components of DNA.)",
+          "modelUrl": "http://localhost:8000/api/models/dna.glb",
+          "scale": 1.2,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "nucleotide",
+              "name": "নিউক্লিওটাইড",
+              "description": "নিউক্লিওটাইড হল DNA এবং RNA এর সবচেয়ে মৌলিক উপাদান, যা একটি নাইট্রোজেন বেস, একটি পেনটোজ চিনি এবং একটি ফসফেট গ্রুপ নিয়ে গঠিত।"
+            },
+            {
+              "id": "phosphate-group",
+              "name": "ফসফেট গ্রুপ",
+              "description": "ফসফেট গ্রুপ DNA এর মেরুদন্ডের অংশ গঠন করে যা DNA মলিকিউলের বাহ্যিক কাঠামো তৈরি করে।"
+            },
+            {
+              "id": "sugar-group",
+              "name": "চিনি গ্রুপ",
+              "description": "DNA তে ডিঅক্সিরাইবোজ চিনি এবং RNA তে রাইবোজ চিনি থাকে, যা নিউক্লিক অ্যাসিড এর কাঠামো গঠনে সাহায্য করে।"
+            },
+            {
+              "id": "base-pair",
+              "name": "বেস জোড়া",
+              "description": "DNA তে অ্যাডিনিন (A) থাইমিন (T) এর সাথে এবং গুয়ানিন (G) সাইটোসিন (C) এর সাথে জোড়া বাঁধে, যা DNA এর দুই স্ট্র্যান্ডকে একসাথে আবদ্ধ করে।"
+            }
+          ]
+        },
+        {
+          "id": "nucleotide-detailed-model",
+          "title": "নিউক্লিওটাইড গঠন উচ্চ পর্যায়ে (Nucleotide Structure Advanced)",
+          "description": "DNA ও RNA এর মৌলিক গঠন একক নিউক্লিওটাইডের বিস্তারিত ত্রিমাত্রিক মডেল। নাইট্রোজেন বেস, পেন্টোজ শর্করা, এবং ফসফেট গ্রুপের আণবিক গঠন দেখুন। (Detailed 3D model of the basic building block of DNA and RNA - the nucleotide. Explore the molecular structure of nitrogenous bases, pentose sugar, and phosphate groups.)",
+          "modelUrl": "http://localhost:8000/api/models/dna_nucleotide.glb",
+          "scale": 1.5,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "nucleotide-structure",
+              "name": "নিউক্লিওটাইড কাঠামো (Nucleotide Structure)",
+              "description": "নিউক্লিওটাইড হল DNA এবং RNA এর গঠন একক, যা তিনটি অংশে গঠিত: একটি নাইট্রোজেন বেস, একটি পেন্টোজ শর্করা, এবং একটি ফসফেট গ্রুপ। এই ত্রিমাত্রিক মডেলে আপনি তাদের অবস্থান এবং পারস্পরিক সম্পর্ক দেখতে পাবেন। (A nucleotide is the building block of DNA and RNA, consisting of three components: a nitrogenous base, a pentose sugar, and a phosphate group. In this 3D model, you can see their positions and interactions.)"
+            },
+            {
+              "id": "nitrogenous-base",
+              "name": "নাইট্রোজেন বেস (Nitrogenous Base)",
+              "description": "নাইট্রোজেন বেসগুলি দুই প্রকার: পিউরিন (অ্যাডিনিন এবং গুয়ানিন) এবং পিরিমিডিন (সাইটোসিন, থাইমিন, এবং ইউরাসিল)। এগুলি জেনেটিক কোড বহন করে এবং বেস পেয়ারিং এর মাধ্যমে DNA এর দুই স্ট্র্যান্ডকে একসাথে রাখে। (Nitrogenous bases are of two types: purines (adenine and guanine) and pyrimidines (cytosine, thymine, and uracil). They carry the genetic code and hold the two strands of DNA together through base pairing.)"
+            },
+            {
+              "id": "pentose-sugar",
+              "name": "পেন্টোজ শর্করা (Pentose Sugar)",
+              "description": "DNA এ ডিঅক্সিরাইবোজ এবং RNA এ রাইবোজ নামক পেন্টোজ শর্করা থাকে। এটি ৫টি কার্বন পরমাণু দিয়ে গঠিত এবং ৫' কার্বনে ফসফেট গ্রুপ এবং ১' কার্বনে নাইট্রোজেন বেসের সাথে সংযুক্ত থাকে। (DNA contains deoxyribose and RNA contains ribose as pentose sugar. It consists of 5 carbon atoms and is connected to a phosphate group at the 5' carbon and a nitrogenous base at the 1' carbon.)"
+            },
+            {
+              "id": "phosphate-group-detail",
+              "name": "ফসফেট গ্রুপ বিস্তারিত (Phosphate Group Detailed)",
+              "description": "ফসফেট গ্রুপ হল একটি ফসফরাস পরমাণু চারটি অক্সিজেন পরমাণু দিয়ে ঘেরা। এটি নিউক্লিওটাইডের 'স্পাইন' বা মেরুদন্ড গঠন করে এবং DNA ও RNA স্ট্র্যান্ডে ফসফোডাইএস্টার বন্ধন তৈরি করে। (The phosphate group consists of a phosphorus atom surrounded by four oxygen atoms. It forms the 'spine' or backbone of nucleotides and creates phosphodiester bonds in DNA and RNA strands.)"
+            },
+            {
+              "id": "glycosidic-bond",
+              "name": "গ্লাইকোসিডিক বন্ধন (Glycosidic Bond)",
+              "description": "নাইট্রোজেন বেস এবং পেন্টোজ শর্করার মধ্যে গ্লাইকোসিডিক বন্ধন শর্করার ১' কার্বন এবং বেসের একটি নাইট্রোজেন পরমাণুর মধ্যে গঠিত হয়। এই বন্ধন নিউক্লিওটাইডের স্থিরতা নিশ্চিত করে। (The glycosidic bond between the nitrogenous base and pentose sugar forms between the 1' carbon of sugar and a nitrogen atom of the base. This bond ensures nucleotide stability.)"
+            },
+            {
+              "id": "phosphodiester-bond",
+              "name": "ফসফোডাইএস্টার বন্ধন (Phosphodiester Bond)",
+              "description": "ফসফোডাইএস্টার বন্ধন একটি নিউক্লিওটাইডের ৫' ফসফেট গ্রুপ এবং অন্য নিউক্লিওটাইডের ৩' হাইড্রক্সিল গ্রুপের মধ্যে গঠিত হয়। এই বন্ধনগুলি DNA ও RNA স্ট্র্যান্ডের মেরুদন্ড গঠন করে। (Phosphodiester bonds form between the 5' phosphate group of one nucleotide and the 3' hydroxyl group of another nucleotide. These bonds form the backbone of DNA and RNA strands.)"
+            },
+            {
+              "id": "sugar-pucker",
+              "name": "শুগার পাকার (Sugar Pucker)",
+              "description": "পেন্টোজ শর্করা 'পাকার' বা কনফর্মেশন DNA এবং RNA এর কাঠামোগত বৈশিষ্ট্য নির্ধারণে গুরুত্বপূর্ণ। DNA এ C2'-এন্ডো পাকার এবং RNA এ C3'-এন্ডো পাকার থাকে, যা হেলিক্স কাঠামোকে প্রভাবিত করে। (The pentose sugar 'pucker' or conformation is important in determining the structural characteristics of DNA and RNA. DNA has C2'-endo pucker and RNA has C3'-endo pucker, influencing the helical structure.)"
+            }
+          ]
+        },
+        {
+          "id": "dna-replication-3d-model",
+          "title": "ডিএনএ প্রতিলিপি - ধাপ দ্বারা ধাপ (DNA Replication - Step by Step)",
+          "description": "DNA রেপ্লিকেশন প্রক্রিয়ার বিস্তারিত ত্রিমাত্রিক মডেল। হেলিকেস, ডিএনএ পলিমারেজ, প্রাইমেস এবং লাইগেজসহ সমস্ত এনজাইমের ক্রিয়াকলাপ দেখুন। রেপ্লিকেশন ফর্ক, লিডিং স্ট্র্যান্ড এবং ল্যাগিং স্ট্র্যান্ডে প্রতিলিপি প্রক্রিয়া পর্যবেক্ষণ করুন। (Detailed 3D model of the DNA replication process. Observe the activities of all enzymes including helicase, DNA polymerase, primase, and ligase. Watch the replication process at the replication fork, leading strand, and lagging strand.)",
+          "modelUrl": "http://localhost:8000/api/models/dna_replication_model.glb",
+          "scale": 1.2,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "replication-fork",
+              "name": "রেপ্লিকেশন ফর্ক (Replication Fork)",
+              "description": "DNA প্রতিলিপি হওয়ার সময় তৈরি হওয়া Y-আকৃতির কাঠামো, যেখানে প্যারেন্ট DNA আনকয়েলড (অপসারিত) হয় এবং নতুন কমপ্লিমেন্টারি স্ট্র্যান্ড সংশ্লেষিত হয়।"
+            },
+            {
+              "id": "helicase-enzyme",
+              "name": "হেলিকেস এনজাইম (Helicase Enzyme)",
+              "description": "DNA প্রতিলিপির প্রথম ধাপে সক্রিয় এনজাইম যা ডবল হেলিক্সকে ভেঙে খোলে। এটি হাইড্রোজেন বন্ধনগুলি ভেঙে ফেলে এবং DNA কে দুটি সিঙ্গেল স্ট্র্যান্ডে বিভক্ত করে।"
+            },
+            {
+              "id": "dna-polymerase",
+              "name": "ডিএনএ পলিমারেজ (DNA Polymerase)",
+              "description": "DNA প্রতিলিপির মূল এনজাইম যা নতুন DNA স্ট্র্যান্ড সংশ্লেষণ করে। এটি টেমপ্লেট স্ট্র্যান্ডের বিপরীতে কমপ্লিমেন্টারি নিউক্লিওটাইড যোগ করে এবং ৫' থেকে ৩' দিকে সংশ্লেষণ করে।"
+            },
+            {
+              "id": "primase-enzyme",
+              "name": "প্রাইমেস এনজাইম (Primase Enzyme)",
+              "description": "RNA প্রাইমার তৈরি করে এমন এনজাইম, যা DNA পলিমারেজকে নতুন DNA সংশ্লেষণ শুরু করার জন্য প্রয়োজনীয় ৩'-OH গ্রুপ সরবরাহ করে।"
+            },
+            {
+              "id": "leading-strand",
+              "name": "লিডিং স্ট্র্যান্ড (Leading Strand)",
+              "description": "রেপ্লিকেশন ফর্কের দিকে সংশ্লেষিত স্ট্র্যান্ড, যেখানে DNA পলিমারেজ একটানাভাবে কাজ করতে পারে কারণ এটি ৫'→৩' দিকে সংশ্লেষণ করে এবং রেপ্লিকেশন ফর্ক একই দিকে অগ্রসর হয়।"
+            },
+            {
+              "id": "lagging-strand",
+              "name": "ল্যাগিং স্ট্র্যান্ড (Lagging Strand)",
+              "description": "রেপ্লিকেশন ফর্ক থেকে দূরে সংশ্লেষিত স্ট্র্যান্ড, যেখানে DNA পলিমারেজ বিচ্ছিন্নভাবে কাজ করে কারণ এটি রেপ্লিকেশন ফর্কের বিপরীত দিকে সংশ্লেষণ করতে হয়।"
+            },
+            {
+              "id": "okazaki-fragments",
+              "name": "ওকাজাকি ফ্র্যাগমেন্ট (Okazaki Fragments)",
+              "description": "ল্যাগিং স্ট্র্যান্ডে উৎপন্ন ছোট DNA অংশ, যেগুলি পরে DNA লাইগেজ দ্বারা জোড়া লাগানো হয়।"
+            },
+            {
+              "id": "ligase-enzyme",
+              "name": "লাইগেজ এনজাইম (Ligase Enzyme)",
+              "description": "DNA লাইগেজ এনজাইম ল্যাগিং স্ট্র্যান্ডে ওকাজাকি ফ্র্যাগমেন্টগুলিকে একত্রিত করে। এটি দুটি নিউক্লিওটাইডের মধ্যে ফসফোডাইএস্টার বন্ধন তৈরি করে DNA স্ট্র্যান্ড একত্রিত করে।"
+            },
+            {
+              "id": "parent-strand",
+              "name": "প্যারেন্ট স্ট্র্যান্ড (Parent Strand)",
+              "description": "মূল DNA স্ট্র্যান্ড যা টেমপ্লেট হিসাবে ব্যবহৃত হয় এবং যার উপর ভিত্তি করে নতুন কমপ্লিমেন্টারি স্ট্র্যান্ডগুলি সংশ্লেষিত হয়।"
+            },
+            {
+              "id": "daughter-strands",
+              "name": "ডটার স্ট্র্যান্ড (Daughter Strands)",
+              "description": "প্রতিলিপি প্রক্রিয়ার ফলে উৎপন্ন নতুন DNA স্ট্র্যান্ড। প্রতিটি ডটার স্ট্র্যান্ডে একটি প্যারেন্ট স্ট্র্যান্ড এবং একটি নতুন সংশ্লেষিত স্ট্র্যান্ড থাকে।"
+            }
+          ]
+        },
+        {
+          "id": "dna-replication-simulation",
+          "title": "DNA কাঠামো এবং প্রতিলিপি (DNA Structure & Replication)",
+          "description": "DNA এর ত্রিমাত্রিক ইন্টারেক্টিভ সিমুলেশন যা DNA কাঠামো এবং প্রতিলিপি প্রক্রিয়া বুঝতে সাহায্য করে। বেস পেয়ারিং, এনজাইম ক্রিয়া এবং স্ট্র্যান্ড এলঙ্গেশন দেখুন। (A 3D interactive simulation of DNA structure and replication process. Visualize base pairing, enzymatic actions, and strand elongation.)",
+          "modelUrl": "/custom-threejs-dna-simulation",
+          "scale": 1.0,
+          "position": [0, 0, 0],
+          "parts": [
+            {
+              "id": "dna-double-helix",
+              "name": "ডিএনএ ডবল হেলিক্স (DNA Double Helix)",
+              "description": "ডিএনএ-এর ডবল হেলিক্স কাঠামো, যা দুটি পলিনিউক্লিওটাইড স্ট্র্যান্ড নিয়ে গঠিত যা একটি ডান-হাতি স্পাইরাল আকারে পাক খায়। বাইরের শুগার-ফসফেট ব্যাকবোন এবং ভিতরের নাইট্রোজেনযুক্ত বেসগুলি রঙ কোড করা হয়েছে: অ্যাডেনিন (নীল), থাইমিন (লাল), গুয়ানিন (সবুজ), এবং সাইটোসিন (হলুদ)। (The double helix structure of DNA, which consists of two polynucleotide strands coiled around each other in a right-handed spiral. The outer sugar-phosphate backbones and inner nitrogenous bases are color-coded: adenine (blue), thymine (red), guanine (green), and cytosine (yellow).)"
+            },
+            {
+              "id": "base-pairing",
+              "name": "বেস পেয়ারিং (Base Pairing)",
+              "description": "ডিএনএ-এর মধ্যে নির্দিষ্ট বেস পেয়ারিং: অ্যাডেনিন (A) সবসময় থাইমিন (T) এর সাথে জোড়া বাঁধে এবং গুয়ানিন (G) সবসময় সাইটোসিন (C) এর সাথে জোড়া বাঁধে। এই নিয়মটি ওয়াটসন-ক্রিক বেস পেয়ারিং নামে পরিচিত এবং এটি ডিএনএ প্রতিলিপি এবং প্রোটিন সংশ্লেষণের জন্য অপরিহার্য। (Specific base pairing in DNA: adenine (A) always pairs with thymine (T), and guanine (G) always pairs with cytosine (C). This rule, known as Watson-Crick base pairing, is essential for DNA replication and protein synthesis.)"
+            },
+            {
+              "id": "helicase-enzyme",
+              "name": "হেলিকেস এনজাইম (Helicase Enzyme)",
+              "description": "হেলিকেস এনজাইম ডিএনএ প্রতিলিপির প্রথম ধাপে সক্রিয় হয়, যেখানে এটি ডাবল হেলিক্সের মধ্যে হাইড্রোজেন বন্ধনগুলিকে ভেঙে ফেলে এবং ডিএনএকে দুটি পৃথক স্ট্র্যান্ডে আলাদা করে। এটি ডিএনএ প্রতিলিপির জন্য প্রয়োজনীয় টেমপ্লেট স্ট্র্যান্ড প্রকাশ করে এবং রেপ্লিকেশন ফর্ক তৈরি করে। (The helicase enzyme is active in the first step of DNA replication, where it breaks hydrogen bonds between the double helix and separates DNA into two individual strands. It exposes the template strands necessary for DNA replication and creates the replication fork.)"
+            },
+            {
+              "id": "dna-polymerase",
+              "name": "ডিএনএ পলিমারেজ (DNA Polymerase)",
+              "description": "ডিএনএ পলিমারেজ প্রতিলিপি প্রক্রিয়ার প্রধান এনজাইম, যা নতুন ডিএনএ স্ট্র্যান্ড সংশ্লেষণ করে। এটি শুধুমাত্র 5' থেকে 3' দিকে কাজ করতে পারে এবং একটি প্রাইমার প্রয়োজন। লিডিং স্ট্র্যান্ডে একটানা সংশ্লেষণ হয়, আর ল্যাগিং স্ট্র্যান্ডে ওকাজাকি ফ্র্যাগমেন্ট হিসেবে সংশ্লেষণ হয়। (DNA polymerase is the main enzyme in the replication process, which synthesizes new DNA strands. It can only work in the 5' to 3' direction and requires a primer. Synthesis is continuous on the leading strand and as Okazaki fragments on the lagging strand.)"
+            },
+            {
+              "id": "primase-enzyme",
+              "name": "প্রাইমেস এনজাইম (Primase Enzyme)",
+              "description": "প্রাইমেস একটি আরএনএ পলিমারেজ যা আরএনএ প্রাইমার সংশ্লেষণ করে, যা ডিএনএ পলিমারেজকে নতুন ডিএনএ স্ট্র্যান্ড শুরু করার জন্য প্রয়োজনীয় 3'-OH গ্রুপ প্রদান করে। ডিএনএ পলিমারেজ নিজে থেকে ডিএনএ সংশ্লেষণ শুরু করতে পারে না, তাই একটি আরএনএ প্রাইমার প্রয়োজন। (Primase is an RNA polymerase that synthesizes RNA primers, which provide the necessary 3'-OH group for DNA polymerase to start a new DNA strand. DNA polymerase cannot initiate DNA synthesis on its own, so an RNA primer is required.)"
+            },
+            {
+              "id": "ligase-enzyme",
+              "name": "লাইগেজ এনজাইম (Ligase Enzyme)",
+              "description": "ডিএনএ লাইগেজ ল্যাগিং স্ট্র্যান্ডে ওকাজাকি ফ্র্যাগমেন্টগুলিকে একত্রিত করে। এটি নিউক্লিওটাইডের মধ্যে ফসফোডাইএস্টার বন্ধন তৈরি করে ডিএনএ স্ট্র্যান্ডগুলিকে জোড়া দেয়, যা আরএনএ প্রাইমার অপসারণের পরে ফাঁকা পূরণ করে। (DNA ligase joins Okazaki fragments on the lagging strand. It creates phosphodiester bonds between nucleotides to seal DNA strands, filling in gaps after RNA primer removal.)"
+            },
+            {
+              "id": "replication-phases",
+              "name": "প্রতিলিপি পর্যায় (Replication Phases)",
+              "description": "ডিএনএ প্রতিলিপি তিনটি প্রধান পর্যায়ে হয়: ইনিশিয়েশন (শুরু), যেখানে ডিএনএ খোলা হয়; এলঙ্গেশন (বৃদ্ধি), যেখানে নতুন স্ট্র্যান্ড সংশ্লেষিত হয়; এবং টার্মিনেশন (সমাপ্তি), যেখানে সংশ্লেষণ শেষ হয় এবং দুটি সম্পূর্ণ ডিএনএ অণু তৈরি হয়। এই সিমুলেশনে, আপনি প্রতিটি পর্যায়ে সক্রিয় এনজাইমগুলি দেখতে পারেন। (DNA replication occurs in three main phases: initiation, where DNA is opened; elongation, where new strands are synthesized; and termination, where synthesis ends and two complete DNA molecules are formed. In this simulation, you can observe the active enzymes in each phase.)"
+            },
+            {
+              "id": "quiz-feature",
+              "name": "কুইজ ফিচার (Quiz Feature)",
+              "description": "নিজের জ্ঞান পরীক্ষা করতে সিমুলেশনের কুইজ মোড ব্যবহার করুন। ডিএনএ বেস পেয়ারিং নিয়ম, এনজাইমের কার্য, এবং প্রতিলিপি প্রক্রিয়া সম্পর্কে আপনার বোঝাপড়া যাচাই করুন। সঠিক উত্তর দিলে রিয়েল-টাইম ফিডব্যাক পাবেন। (Use the simulation's quiz mode to test your knowledge. Check your understanding of DNA base pairing rules, enzyme functions, and the replication process. You'll receive real-time feedback when you answer correctly.)"
+            },
+            {
+              "id": "bilingual-support",
+              "name": "দ্বিভাষিক সমর্থন (Bilingual Support)",
+              "description": "এই সিমুলেশন ইংরেজি এবং বাংলা উভয় ভাষাতেই উপলব্ধ, যাতে শিক্ষার্থীরা তাদের পছন্দের ভাষায় জৈবিক ধারণাগুলি শিখতে পারে। ভাষা পরিবর্তন করতে নিয়ন্ত্রণ প্যানেলে থাকা ভাষা বোতাম ব্যবহার করুন। (This simulation is available in both English and Bengali, allowing students to learn biological concepts in their preferred language. Use the language button in the control panel to switch languages.)"
             }
           ]
         }

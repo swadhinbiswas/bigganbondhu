@@ -1,0 +1,967 @@
+import DefaultLayout from "@/layouts/default";
+import axios from "axios";
+import {
+  Bodies,
+  Body,
+  Constraint,
+  Engine,
+  Render,
+  Runner,
+  World,
+} from "matter-js";
+import { useEffect, useRef, useState } from "react";
+
+type PhysicsExperiment = {
+  id: string;
+  title: string;
+  description: string;
+  type: "projectile" | "pendulum" | "svganimation";
+  svgPath?: string;
+  params: {
+    [key: string]: {
+      name: string;
+      min: number;
+      max: number;
+      default: number;
+      step: number;
+      unit: string;
+    };
+  };
+};
+
+const PhysicsEngine = () => {
+  const [experiments, setExperiments] = useState<PhysicsExperiment[]>([]);
+  const [selectedExperiment, setSelectedExperiment] =
+    useState<PhysicsExperiment | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [params, setParams] = useState<{ [key: string]: number }>({});
+
+  // Refs for Matter.js
+  const sceneRef = useRef<HTMLDivElement>(null);
+  const engineRef = useRef<Engine | null>(null);
+  const rendererRef = useRef<Render | null>(null);
+  const runnerRef = useRef<Runner | null>(null);
+
+  // Fetch physics experiments
+  useEffect(() => {
+    const fetchExperiments = async () => {
+      try {
+        setLoading(true);
+        const response = await axios.get(
+          "http://localhost:8000/api/experiments/physics"
+        );
+        setExperiments(response.data.experiments);
+        if (response.data.experiments.length > 0) {
+          setSelectedExperiment(response.data.experiments[0]);
+
+          // Initialize params with default values
+          const defaultParams: { [key: string]: number } = {};
+          Object.entries(response.data.experiments[0].params).forEach(
+            ([key, value]: [string, any]) => {
+              defaultParams[key] = value.default;
+            }
+          );
+          setParams(defaultParams);
+        }
+        setLoading(false);
+      } catch (err: any) {
+        let errorMessage = "Failed to load physics experiments";
+        if (err?.response) {
+          // The request was made and the server responded with a status code
+          // that falls out of the range of 2xx
+          errorMessage = `Error ${err.response.status}: ${err.response.data?.detail || errorMessage}`;
+        } else if (err?.request) {
+          // The request was made but no response was received
+          errorMessage =
+            "Could not connect to the server. Please check if the backend is running.";
+        }
+        setError(errorMessage);
+        setLoading(false);
+        console.error("Error fetching physics experiments:", err);
+      }
+    };
+
+    fetchExperiments();
+  }, []);
+
+  // Initialize Matter.js
+  useEffect(() => {
+    if (!selectedExperiment || !sceneRef.current) return;
+
+    // Skip Matter.js setup for SVG animations
+    if (selectedExperiment.type === "svganimation") return;
+
+    // Clean up previous simulation
+    if (engineRef.current) {
+      Runner.stop(runnerRef.current!);
+      World.clear(engineRef.current.world, false);
+      Engine.clear(engineRef.current);
+      rendererRef.current?.canvas.remove();
+    }
+
+    // Setup new simulation
+    const engine = Engine.create();
+    engineRef.current = engine;
+
+    const render = Render.create({
+      element: sceneRef.current,
+      engine: engine,
+      options: {
+        width: sceneRef.current.clientWidth,
+        height: 500,
+        wireframes: false,
+        background: "#f0f0f0",
+      },
+    });
+    rendererRef.current = render;
+
+    // Create bodies based on experiment type
+    if (selectedExperiment.type === "projectile") {
+      setupProjectileSimulation(engine, params);
+    } else if (selectedExperiment.type === "pendulum") {
+      setupPendulumSimulation(engine, params);
+    }
+
+    Render.run(render);
+    const runner = Runner.create();
+    Runner.run(runner, engine);
+    runnerRef.current = runner;
+
+    // Handle window resize
+    const handleResize = () => {
+      if (sceneRef.current && render.canvas) {
+        render.options.width = sceneRef.current.clientWidth;
+        render.options.height = 500;
+        render.canvas.width = sceneRef.current.clientWidth;
+        render.canvas.height = 500;
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      if (engineRef.current) {
+        Runner.stop(runner);
+        World.clear(engineRef.current.world, false);
+        Engine.clear(engineRef.current);
+        render.canvas.remove();
+      }
+    };
+  }, [selectedExperiment, params]);
+
+  // Handle SVG animation rendering
+  useEffect(() => {
+    if (
+      selectedExperiment?.type === "svganimation" &&
+      selectedExperiment?.svgPath &&
+      sceneRef.current
+    ) {
+      // Clear the scene ref if it has any existing content
+      if (sceneRef.current.childNodes.length > 0) {
+        sceneRef.current.innerHTML = "";
+      }
+
+      const fetchAndRenderSVG = async () => {
+        try {
+          // Fetch SVG from the server
+          const response = await axios.get(
+            `http://localhost:8000/api/svg/${selectedExperiment.svgPath}`
+          );
+
+          if (response.data) {
+            // Create a container and set the SVG content
+            const svgContainer = document.createElement("div");
+            svgContainer.innerHTML = response.data;
+            svgContainer.className =
+              "w-full h-full flex items-center justify-center";
+
+            const svgElement = svgContainer.querySelector("svg");
+            if (svgElement) {
+              // Make SVG responsive
+              svgElement.setAttribute("width", "100%");
+              svgElement.setAttribute("height", "100%");
+              svgElement.setAttribute("preserveAspectRatio", "xMidYMid meet");
+
+              // Apply parameter values to modify the SVG if needed
+              if (selectedExperiment.id === "pressure") {
+                // Special handling for pressure simulation
+                const weight = params.weight || 60; // Default to 60 if undefined
+                const footArea = params.footArea || 150; // Default to 150 if undefined
+                const shoeArea = params.shoeArea || 300; // Default to 300 if undefined
+                const mudSoftness = params.mudSoftness || 5; // Default to 5 if undefined
+
+                // Calculate pressures (P = F/A)
+                const barefootPressure = (weight * 9.8) / (footArea / 10000); // Convert cm² to m²
+                const shoePressure = (weight * 9.8) / (shoeArea / 10000); // Convert cm² to m²
+                const pressureRatio = (barefootPressure / shoePressure).toFixed(1);
+
+                // Update the barefoot pressure visualization
+                const barefootPressureIndicator = svgElement.querySelector("#barefootPressureIndicator");
+                if (barefootPressureIndicator) {
+                  // Adjust the size based on pressure - higher pressure = larger indicator
+                  const baseSize = 45;
+                  const pressureScaleFactor = Math.sqrt(barefootPressure / 4000); // Square root for more natural scaling
+                  const newSize = baseSize * pressureScaleFactor;
+                  barefootPressureIndicator.setAttribute("r", newSize.toString());
+                }
+
+                // Update barefoot animation circle
+                const barefootAnimation = svgElement.querySelector("#barefootAnimation");
+                if (barefootAnimation) {
+                  const animationSize = 50 * Math.sqrt(barefootPressure / 4000);
+                  barefootAnimation.setAttribute("r", animationSize.toString());
+                }
+
+                // Update the shoe pressure visualization
+                const shoePressureIndicator = svgElement.querySelector("#shoePressureIndicator");
+                if (shoePressureIndicator) {
+                  // Adjust the width/height based on shoeArea (proportionally)
+                  const baseWidth = 110;
+                  const baseHeight = 80;
+                  const areaRatio = Math.sqrt(shoeArea / 300); // Square root because area = width * height
+
+                  const newWidth = baseWidth * areaRatio;
+                  const newHeight = baseHeight * areaRatio;
+
+                  // Update position to keep centered
+                  shoePressureIndicator.setAttribute("x", (-newWidth / 2).toString());
+                  shoePressureIndicator.setAttribute("y", (-newHeight / 2).toString());
+                  shoePressureIndicator.setAttribute("width", newWidth.toString());
+                  shoePressureIndicator.setAttribute("height", newHeight.toString());
+                }
+
+                // Update shoe animation rectangle
+                const shoeAnimation = svgElement.querySelector("#shoeAnimation");
+                if (shoeAnimation) {
+                  const baseWidth = 110;
+                  const baseHeight = 80;
+                  const areaRatio = Math.sqrt(shoeArea / 300);
+
+                  const newWidth = baseWidth * areaRatio;
+                  const newHeight = baseHeight * areaRatio;
+
+                  shoeAnimation.setAttribute("x", (600 - newWidth / 2).toString());
+                  shoeAnimation.setAttribute("y", (270 - newHeight / 2).toString());
+                  shoeAnimation.setAttribute("width", newWidth.toString());
+                  shoeAnimation.setAttribute("height", newHeight.toString());
+                }
+
+                // Update shoe impression
+                const shoeImpression = svgElement.querySelector("#shoeImpression");
+                if (shoeImpression) {
+                  const areaRatio = Math.sqrt(shoeArea / 300);
+                  const newWidth = 120 * areaRatio;
+                  const newHeight = 90 * areaRatio;
+
+                  shoeImpression.setAttribute("x", (-newWidth / 2).toString());
+                  shoeImpression.setAttribute("y", (-newHeight / 2).toString());
+                  shoeImpression.setAttribute("width", newWidth.toString());
+                  shoeImpression.setAttribute("height", newHeight.toString());
+                }
+
+                // Update barefoot impression depth based on pressure and mud softness
+                const barefootImpression = svgElement.querySelector("#barefootImpression");
+                const barefootDeepImpression = svgElement.querySelector("#barefootDeepImpression");
+                if (barefootImpression && barefootDeepImpression) {
+                  const depthFactor = 1 + (mudSoftness / 5) * (barefootPressure / 4000);
+                  barefootImpression.setAttribute("transform", `scale(1, ${depthFactor})`);
+                  barefootDeepImpression.setAttribute("transform", `scale(1, ${depthFactor})`);
+                }
+
+                // Update shoe impression depth based on pressure and mud softness
+                const shoeDeepImpression = svgElement.querySelector("#shoeDeepImpression");
+                if (shoeDeepImpression) {
+                  const depthFactor = 1 + (mudSoftness / 5) * (shoePressure / 4000);
+                  shoeDeepImpression.setAttribute("transform", `scale(1, ${depthFactor})`);
+                }
+
+                // Update the ripple effect based on mud softness
+                const wetMudArea = svgElement.querySelector("#wetMudArea");
+                if (wetMudArea) {
+                  const rippleIntensity = 5 + mudSoftness;
+                  const rippleFilter = svgElement.querySelector("#ripple feDisplacementMap");
+                  if (rippleFilter) {
+                    rippleFilter.setAttribute("scale", rippleIntensity.toString());
+                  }
+                }
+
+                // Update formula and text displays
+                const formulaTitle = svgElement.querySelector("#formulaTitle");
+                if (formulaTitle) {
+                  formulaTitle.textContent = `চাপ = বল ÷ ক্ষেত্রফল (P = F/A)`;
+                }
+
+                const formulaDetails = svgElement.querySelector("#formulaDetails");
+                if (formulaDetails) {
+                  formulaDetails.textContent = `ওজন: ${weight} kg, নগ্নপা: ${footArea} cm², জুতা: ${shoeArea} cm²`;
+                }
+
+                const formulaExplanation = svgElement.querySelector("#formulaExplanation");
+                if (formulaExplanation) {
+                  formulaExplanation.textContent = `বড় ক্ষেত্রফলে চাপ কম, ছোট ক্ষেত্রফলে চাপ বেশি`;
+                }
+
+                // Update pressure value texts with calculated values
+                const barefootPressureValue = svgElement.querySelector("#barefootPressureValue");
+                if (barefootPressureValue) {
+                  barefootPressureValue.textContent = `নগ্ন পা: ${barefootPressure.toFixed(0)} Pa`;
+                }
+
+                const shoePressureValue = svgElement.querySelector("#shoePressureValue");
+                if (shoePressureValue) {
+                  shoePressureValue.textContent = `জুতা: ${shoePressure.toFixed(0)} Pa`;
+                }
+
+                // Update comparison text
+                const comparisonValue = svgElement.querySelector("#comparisonValue");
+                if (comparisonValue) {
+                  comparisonValue.textContent = `${pressureRatio} গুণ বেশি`;
+                }
+              }
+            }
+
+            // Append to the scene
+            if (sceneRef.current) {
+              sceneRef.current.appendChild(svgContainer);
+            }
+          }
+        } catch (error) {
+          console.error("Error loading SVG:", error);
+          if (sceneRef.current) {
+            const errorMessage = document.createElement("div");
+            errorMessage.className = "text-red-500 p-4 text-center";
+            errorMessage.textContent = "Failed to load SVG animation";
+            sceneRef.current.appendChild(errorMessage);
+          }
+        }
+      };
+
+      fetchAndRenderSVG();
+    }
+  }, [selectedExperiment, params]);
+
+  const setupProjectileSimulation = (
+    engine: Engine,
+    currentParams: { [key: string]: number }
+  ) => {
+    const { world } = engine;
+
+    // Add ground
+    World.add(world, [
+      Bodies.rectangle(400, 500, 800, 50, {
+        isStatic: true,
+        render: { fillStyle: "#2e2e2e" },
+      }),
+    ]);
+
+    // Add projectile
+    const angle = currentParams.angle * (Math.PI / 180); // Convert to radians
+    const velocity = currentParams.velocity;
+    const projectile = Bodies.circle(50, 450, 15, {
+      restitution: 0.5,
+      friction: currentParams.friction || 0.1,
+      mass: currentParams.mass || 1,
+      render: { fillStyle: "#4285F4" },
+    });
+
+    World.add(world, projectile);
+
+    // Apply initial velocity
+    Body.setVelocity(projectile, {
+      x: velocity * Math.cos(angle),
+      y: -velocity * Math.sin(angle),
+    });
+  };
+
+  const setupPendulumSimulation = (
+    engine: Engine,
+    currentParams: { [key: string]: number }
+  ) => {
+    const { world } = engine;
+
+    // Add anchor point
+    const anchor = Bodies.circle(400, 100, 10, {
+      isStatic: true,
+      render: { fillStyle: "#2e2e2e" },
+    });
+
+    // Add pendulum bob
+    const bob = Bodies.circle(
+      400 + 150 * Math.sin(currentParams.angle * (Math.PI / 180)),
+      100 + 150 * Math.cos(currentParams.angle * (Math.PI / 180)),
+      currentParams.mass * 10,
+      { render: { fillStyle: "#DB4437" } }
+    );
+
+    // Add constraint (string)
+    const constraint = Constraint.create({
+      pointA: { x: 400, y: 100 },
+      bodyB: bob,
+      length: 150,
+      stiffness: 0.9,
+      damping: 0.05,
+      render: { strokeStyle: "#555", lineWidth: 2 },
+    });
+
+    World.add(world, [anchor, bob, constraint]);
+  };
+
+  const handleParameterChange = (key: string, value: number) => {
+    setParams((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const playAudioNarration = async () => {
+    if (!selectedExperiment) return;
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/audio?text=${encodeURIComponent(selectedExperiment.description)}`,
+        {
+          responseType: "blob",
+        }
+      );
+
+      const audio = new Audio(URL.createObjectURL(response.data));
+      audio.play();
+    } catch (err) {
+      console.error("Failed to play audio narration", err);
+    }
+  };
+
+  if (loading) {
+    return (
+      <DefaultLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      </DefaultLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <DefaultLayout>
+        <div className="text-center p-4 text-red-500">{error}</div>
+      </DefaultLayout>
+    );
+  }
+
+  return (
+    <DefaultLayout>
+      <div className="container mx-auto px-2 py-4 max-w-5xl">
+        <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center">
+          পদার্থবিজ্ঞান সিমুলেশন
+        </h1>
+
+        {/* Experiment Selector */}
+        <div className="mb-4">
+          <label className="block mb-1 text-base md:text-lg font-medium">
+            পরীক্ষা নির্বাচন করুন:
+          </label>
+          <select
+            className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-gray-100"
+            value={selectedExperiment?.id}
+            onChange={(e) => {
+              const selected = experiments.find(
+                (exp) => exp.id === e.target.value
+              );
+              if (selected) {
+                setSelectedExperiment(selected);
+
+                // Reset params to defaults
+                const defaultParams: { [key: string]: number } = {};
+                Object.entries(selected.params).forEach(
+                  ([key, value]: [string, any]) => {
+                    defaultParams[key] = value.default;
+                  }
+                );
+                setParams(defaultParams);
+              }
+            }}
+          >
+            {experiments.map((exp) => (
+              <option key={exp.id} value={exp.id}>
+                {exp.title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {selectedExperiment && (
+          <>
+            {/* Description and Audio */}
+            <div className="mb-4 bg-blue-50 dark:bg-blue-950 p-3 md:p-4 rounded-md">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                <h2 className="text-lg md:text-xl font-semibold mb-1 md:mb-0 dark:text-gray-100">
+                  {selectedExperiment.title}
+                </h2>
+                <button
+                  onClick={playAudioNarration}
+                  className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
+                  aria-label="Play audio narration"
+                >
+                  <span className="mr-1">🔊</span> শুনুন
+                </button>
+              </div>
+              <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
+                {selectedExperiment.description}
+              </p>
+            </div>
+
+            {/* Simulation Area */}
+            <div className="mb-4">
+              <div
+                ref={sceneRef}
+                className="w-full h-[320px] md:h-[400px] bg-gray-100 dark:bg-gray-800 rounded-md overflow-hidden border border-gray-300 dark:border-gray-700"
+              ></div>
+            </div>
+
+            {/* Controls */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+              {selectedExperiment &&
+                Object.entries(selectedExperiment.params).map(
+                  ([key, param]) => (
+                    <div
+                      key={key}
+                      className="bg-white dark:bg-gray-900 p-3 rounded-md shadow border border-gray-200 dark:border-gray-700"
+                    >
+                      <label
+                        htmlFor={key}
+                        className="block mb-1 font-medium dark:text-gray-100 text-sm md:text-base"
+                      >
+                        {param.name}: {params[key]} {param.unit}
+                      </label>
+                      <input
+                        id={key}
+                        type="range"
+                        min={param.min}
+                        max={param.max}
+                        step={param.step}
+                        value={params[key]}
+                        onChange={(e) =>
+                          handleParameterChange(key, parseFloat(e.target.value))
+                        }
+                        className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                      />
+                      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <span>{param.min}</span>
+                        <span>{param.max}</span>
+                      </div>
+                    </div>
+                  )
+                )}
+            </div>
+          </>
+        )}
+      </div>
+    </DefaultLayout>
+  );
+};
+
+export default PhysicsEngine;
+
+                  shoeImpression.setAttribute("x", (-newWidth / 2).toString());
+                  shoeImpression.setAttribute("y", (-newHeight / 2).toString());
+                  shoeImpression.setAttribute("width", newWidth.toString());
+                  shoeImpression.setAttribute("height", newHeight.toString());
+                }
+
+                // Update barefoot impression depth based on pressure and mud softness
+                const barefootImpression = svgElement.querySelector("#barefootImpression");
+                const barefootDeepImpression = svgElement.querySelector("#barefootDeepImpression");
+                if (barefootImpression && barefootDeepImpression) {
+                  const depthFactor = 1 + (mudSoftness / 5) * (barefootPressure / 4000);
+                  barefootImpression.setAttribute("transform", `scale(1, ${depthFactor})`);
+                  barefootDeepImpression.setAttribute("transform", `scale(1, ${depthFactor})`);
+                }
+
+                // Update shoe impression depth based on pressure and mud softness
+                const shoeDeepImpression = svgElement.querySelector("#shoeDeepImpression");
+                if (shoeDeepImpression) {
+                  const depthFactor = 1 + (mudSoftness / 5) * (shoePressure / 4000);
+                  shoeDeepImpression.setAttribute("transform", `scale(1, ${depthFactor})`);
+                }
+
+                // Update the ripple effect based on mud softness
+                const wetMudArea = svgElement.querySelector("#wetMudArea");
+                if (wetMudArea) {
+                  const rippleIntensity = 5 + mudSoftness;
+                  const rippleFilter = svgElement.querySelector("#ripple feDisplacementMap");
+                  if (rippleFilter) {
+                    rippleFilter.setAttribute("scale", rippleIntensity.toString());
+                  }
+                }
+
+                // Update formula and text displays
+                const formulaTitle = svgElement.querySelector("#formulaTitle");
+                if (formulaTitle) {
+                  formulaTitle.textContent = `চাপ = বল ÷ ক্ষেত্রফল (P = F/A)`;
+                }
+
+                const formulaDetails = svgElement.querySelector("#formulaDetails");
+                if (formulaDetails) {
+                  formulaDetails.textContent = `ওজন: ${weight} kg, নগ্নপা: ${footArea} cm², জুতা: ${shoeArea} cm²`;
+                }
+
+                const formulaExplanation = svgElement.querySelector("#formulaExplanation");
+                if (formulaExplanation) {
+                  formulaExplanation.textContent = `বড় ক্ষেত্রফলে চাপ কম, ছোট ক্ষেত্রফলে চাপ বেশি`;
+                }
+
+                // Update pressure value texts with calculated values
+                const barefootPressureValue = svgElement.querySelector("#barefootPressureValue");
+                if (barefootPressureValue) {
+                  barefootPressureValue.textContent = `নগ্ন পা: ${barefootPressure.toFixed(0)} Pa`;
+                }
+
+                const shoePressureValue = svgElement.querySelector("#shoePressureValue");
+                if (shoePressureValue) {
+                  shoePressureValue.textContent = `জুতা: ${shoePressure.toFixed(0)} Pa`;
+                }
+
+                // Update comparison text
+                const comparisonValue = svgElement.querySelector("#comparisonValue");
+                if (comparisonValue) {
+                  comparisonValue.textContent = `${pressureRatio} গুণ বেশি`;
+                }
+              }
+            }
+
+            // Append to the scene
+            if (sceneRef.current) {
+              sceneRef.current.appendChild(svgContainer);
+            }
+          }
+        } catch (error) {
+          console.error("Error loading SVG:", error);
+          if (sceneRef.current) {
+            const errorMessage = document.createElement("div");
+            errorMessage.className = "text-red-500 p-4 text-center";
+            errorMessage.textContent = "Failed to load SVG animation";
+            sceneRef.current.appendChild(errorMessage);
+          }
+        }
+      };
+
+      fetchAndRenderSVG();
+                    shoeAnimation.setAttribute('y', (270 - newHeight / 2).toString());
+                    shoeAnimation.setAttribute('width', newWidth.toString());
+                    shoeAnimation.setAttribute('height', newHeight.toString());
+                  }
+
+                  // Update shoe impression
+                  const shoeImpression = svgElement.querySelector('#shoeImpression');
+                  if (shoeImpression) {
+                    const areaRatio = Math.sqrt(shoeArea / 300);
+                    const newWidth = 120 * areaRatio;
+                    const newHeight = 90 * areaRatio;
+
+                    shoeImpression.setAttribute('x', (-newWidth / 2).toString());
+                    shoeImpression.setAttribute('y', (-newHeight / 2).toString());
+                    shoeImpression.setAttribute('width', newWidth.toString());
+                    shoeImpression.setAttribute('height', newHeight.toString());
+                  }
+
+                  // Update barefoot impression depth based on pressure and mud softness
+                  const barefootImpression = svgElement.querySelector('#barefootImpression');
+                  const barefootDeepImpression = svgElement.querySelector('#barefootDeepImpression');
+                  if (barefootImpression && barefootDeepImpression) {
+                    const depthFactor = 1 + (mudSoftness / 5) * (barefootPressure / 4000);
+                    barefootImpression.setAttribute('transform', `scale(1, ${depthFactor})`);
+                    barefootDeepImpression.setAttribute('transform', `scale(1, ${depthFactor})`);
+                  }
+
+                  // Update shoe impression depth based on pressure and mud softness
+                  const shoeDeepImpression = svgElement.querySelector('#shoeDeepImpression');
+                  if (shoeDeepImpression) {
+                    const depthFactor = 1 + (mudSoftness / 5) * (shoePressure / 4000);
+                    shoeDeepImpression.setAttribute('transform', `scale(1, ${depthFactor})`);
+                  }
+
+                  // Update the ripple effect based on mud softness
+                  const wetMudArea = svgElement.querySelector('#wetMudArea');
+                  if (wetMudArea) {
+                    const rippleIntensity = 5 + mudSoftness;
+                    const rippleFilter = svgElement.querySelector('#ripple feDisplacementMap');
+                    if (rippleFilter) {
+                      rippleFilter.setAttribute('scale', rippleIntensity.toString());
+                    }
+                  }
+
+                  // Update formula and text displays
+                  const formulaTitle = svgElement.querySelector('#formulaTitle');
+                  if (formulaTitle) {
+                    formulaTitle.textContent = `চাপ = বল ÷ ক্ষেত্রফল (P = F/A)`;
+                  }
+
+                  const formulaDetails = svgElement.querySelector('#formulaDetails');
+                  if (formulaDetails) {
+                    formulaDetails.textContent = `ওজন: ${weight} kg, নগ্নপা: ${footArea} cm², জুতা: ${shoeArea} cm²`;
+                  }
+
+                  const formulaExplanation = svgElement.querySelector('#formulaExplanation');
+                  if (formulaExplanation) {
+                    formulaExplanation.textContent = `বড় ক্ষেত্রফলে চাপ কম, ছোট ক্ষেত্রফলে চাপ বেশি`;
+                  }
+
+                  // Update pressure value texts with calculated values
+                  const barefootPressureValue = svgElement.querySelector('#barefootPressureValue');
+                  if (barefootPressureValue) {
+                    barefootPressureValue.textContent = `নগ্ন পা: ${barefootPressure.toFixed(0)} Pa`;
+                  }
+
+                  const shoePressureValue = svgElement.querySelector('#shoePressureValue');
+                  if (shoePressureValue) {
+                    shoePressureValue.textContent = `জুতা: ${shoePressure.toFixed(0)} Pa`;
+                  }
+
+                  // Update comparison text
+                  const comparisonValue = svgElement.querySelector('#comparisonValue');
+                  if (comparisonValue) {
+                    comparisonValue.textContent = `${pressureRatio} গুণ বেশি`;
+                  }
+                }
+              }
+            }
+
+            // Append to the scene
+            if (sceneRef.current) {
+              sceneRef.current.appendChild(svgContainer);
+            }
+          }
+        } catch (error) {
+          console.error("Error loading SVG:", error);
+          if (sceneRef.current) {
+            const errorMessage = document.createElement("div");
+            errorMessage.className = "text-red-500 p-4 text-center";
+            errorMessage.textContent = "Failed to load SVG animation";
+            sceneRef.current.appendChild(errorMessage);
+          }
+        }
+      };
+
+      fetchAndRenderSVG();
+    }
+  }, [selectedExperiment, params]);
+
+  const setupProjectileSimulation = (
+    engine: Engine,
+    currentParams: { [key: string]: number }
+  ) => {
+    const { world } = engine;
+
+    // Add ground
+    World.add(world, [
+      Bodies.rectangle(400, 500, 800, 50, {
+        isStatic: true,
+        render: { fillStyle: "#2e2e2e" },
+      }),
+    ]);
+
+    // Add projectile
+    const angle = currentParams.angle * (Math.PI / 180); // Convert to radians
+    const velocity = currentParams.velocity;
+    const projectile = Bodies.circle(50, 450, 15, {
+      restitution: 0.5,
+      friction: currentParams.friction || 0.1,
+      mass: currentParams.mass || 1,
+      render: { fillStyle: "#4285F4" },
+    });
+
+    World.add(world, projectile);
+
+    // Apply initial velocity
+    Body.setVelocity(projectile, {
+      x: velocity * Math.cos(angle),
+      y: -velocity * Math.sin(angle),
+    });
+  };
+
+  const setupPendulumSimulation = (
+    engine: Engine,
+    currentParams: { [key: string]: number }
+  ) => {
+    const { world } = engine;
+
+    // Add anchor point
+    const anchor = Bodies.circle(400, 100, 10, {
+      isStatic: true,
+      render: { fillStyle: "#2e2e2e" },
+    });
+
+    // Add pendulum bob
+    const bob = Bodies.circle(
+      400 + 150 * Math.sin(currentParams.angle * (Math.PI / 180)),
+      100 + 150 * Math.cos(currentParams.angle * (Math.PI / 180)),
+      currentParams.mass * 10,
+      { render: { fillStyle: "#DB4437" } }
+    );
+
+    // Add constraint (string)
+    const constraint = Constraint.create({
+      pointA: { x: 400, y: 100 },
+      bodyB: bob,
+      length: 150,
+      stiffness: 0.9,
+      damping: 0.05,
+      render: { strokeStyle: "#555", lineWidth: 2 },
+    });
+
+    World.add(world, [anchor, bob, constraint]);
+  };
+
+  const handleParameterChange = (key: string, value: number) => {
+    setParams((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const playAudioNarration = async () => {
+    if (!selectedExperiment) return;
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8000/api/audio?text=${encodeURIComponent(selectedExperiment.description)}`,
+        {
+          responseType: "blob",
+        }
+      );
+
+      const audio = new Audio(URL.createObjectURL(response.data));
+      audio.play();
+    } catch (err) {
+      console.error("Failed to play audio narration", err);
+    }
+  };
+
+  if (loading) {
+    return (
+      <DefaultLayout>
+        <div className="flex items-center justify-center h-64">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      </DefaultLayout>
+    );
+  }
+
+  if (error) {
+    return (
+      <DefaultLayout>
+        <div className="text-center p-4 text-red-500">{error}</div>
+      </DefaultLayout>
+    );
+  }
+
+  return (
+    <DefaultLayout>
+      <div className="container mx-auto px-2 py-4 max-w-5xl">
+        <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center">
+          পদার্থবিজ্ঞান সিমুলেশন
+        </h1>
+
+        {/* Experiment Selector */}
+        <div className="mb-4">
+          <label className="block mb-1 text-base md:text-lg font-medium">
+            পরীক্ষা নির্বাচন করুন:
+          </label>
+          <select
+            className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-gray-100"
+            value={selectedExperiment?.id}
+            onChange={(e) => {
+              const selected = experiments.find(
+                (exp) => exp.id === e.target.value
+              );
+              if (selected) {
+                setSelectedExperiment(selected);
+
+                // Reset params to defaults
+                const defaultParams: { [key: string]: number } = {};
+                Object.entries(selected.params).forEach(
+                  ([key, value]: [string, any]) => {
+                    defaultParams[key] = value.default;
+                  }
+                );
+                setParams(defaultParams);
+              }
+            }}
+          >
+            {experiments.map((exp) => (
+              <option key={exp.id} value={exp.id}>
+                {exp.title}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {selectedExperiment && (
+          <>
+            {/* Description and Audio */}
+            <div className="mb-4 bg-blue-50 dark:bg-blue-950 p-3 md:p-4 rounded-md">
+              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
+                <h2 className="text-lg md:text-xl font-semibold mb-1 md:mb-0 dark:text-gray-100">
+                  {selectedExperiment.title}
+                </h2>
+                <button
+                  onClick={playAudioNarration}
+                  className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
+                  aria-label="Play audio narration"
+                >
+                  <span className="mr-1">🔊</span> শুনুন
+                </button>
+              </div>
+              <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
+                {selectedExperiment.description}
+              </p>
+            </div>
+
+            {/* Simulation Area */}
+            <div className="mb-4">
+              <div
+                ref={sceneRef}
+                className="w-full h-[320px] md:h-[400px] bg-gray-100 dark:bg-gray-800 rounded-md overflow-hidden border border-gray-300 dark:border-gray-700"
+              ></div>
+            </div>
+
+            {/* Controls */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+              {selectedExperiment &&
+                Object.entries(selectedExperiment.params).map(
+                  ([key, param]) => (
+                    <div
+                      key={key}
+                      className="bg-white dark:bg-gray-900 p-3 rounded-md shadow border border-gray-200 dark:border-gray-700"
+                    >
+                      <label
+                        htmlFor={key}
+                        className="block mb-1 font-medium dark:text-gray-100 text-sm md:text-base"
+                      >
+                        {param.name}: {params[key]} {param.unit}
+                      </label>
+                      <input
+                        id={key}
+                        type="range"
+                        min={param.min}
+                        max={param.max}
+                        step={param.step}
+                        value={params[key]}
+                        onChange={(e) =>
+                          handleParameterChange(key, parseFloat(e.target.value))
+                        }
+                        className="w-full h-2 bg-gray-200 dark:bg-gray-700 rounded-lg appearance-none cursor-pointer"
+                      />
+                      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
+                        <span>{param.min}</span>
+                        <span>{param.max}</span>
+                      </div>
+                    </div>
+                  )
+                )}
+            </div>
+          </>
+        )}
+      </div>
+    </DefaultLayout>
+  );
+};
+
+export default PhysicsEngine;

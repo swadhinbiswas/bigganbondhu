@@ -71,6 +71,175 @@
           "unit": "kg"
         }
       }
+    },
+    {
+      "id": "newton-laws-interactive",
+      "title": "নিউটনের গতিসূত্র",
+      "description": "নিউটনের তিনটি গতিসূত্র ইন্টারেক্টিভভাবে দেখুন - প্রথম সূত্র: বস্তু স্থির বা সমবেগে চলমান থাকে যতক্ষণ না বাহিরের বল কাজ করে। দ্বিতীয় সূত্র: বল = ভর × ত্বরণ। তৃতীয় সূত্র: প্রতিটি ক্রিয়ার জন্য সমান ও বিপরীত প্রতিক্রিয়া আছে।",
+      "type": "newton",
+      "params": {
+        "lawNumber": {
+          "name": "নিউটনের সূত্র",
+          "min": 1,
+          "max": 3,
+          "default": 1,
+          "step": 1,
+          "unit": ""
+        },
+        "mass": {
+          "name": "ভর",
+          "min": 1,
+          "max": 10,
+          "default": 2,
+          "step": 0.5,
+          "unit": "kg"
+        },
+        "force": {
+          "name": "বল",
+          "min": 0.01,
+          "max": 0.2,
+          "default": 0.05,
+          "step": 0.01,
+          "unit": "N"
+        },
+        "friction": {
+          "name": "ঘর্ষণ",
+          "min": 0,
+          "max": 1,
+          "default": 0.3,
+          "step": 0.1,
+          "unit": ""
+        }
+      }
+    },
+    {
+      "id": "pressure",
+      "title": "চাপ: কাদামাটিতে হাঁটা",
+      "description": "কাদামাটিতে নগ্নপা এবং জুতা পরা অবস্থায় হাঁটার সময় চাপের পার্থক্য দেখানো হয়েছে। যখন বল একটি ছোট এলাকায় প্রয়োগ করা হয়, তখন চাপ বেশি হয়।",
+      "type": "svganimation",
+      "svgPath": "pressure.svg",
+      "params": {
+        "weight": {
+          "name": "ব্যক্তির ওজন",
+          "min": 30,
+          "max": 100,
+          "default": 60,
+          "step": 5,
+          "unit": "kg"
+        },
+        "footArea": {
+          "name": "নগ্ন পায়ের ক্ষেত্রফল",
+          "min": 100,
+          "max": 300,
+          "default": 150,
+          "step": 10,
+          "unit": "cm²"
+        },
+        "shoeArea": {
+          "name": "জুতার ক্ষেত্রফল",
+          "min": 200,
+          "max": 500,
+          "default": 300,
+          "step": 20,
+          "unit": "cm²"
+        },
+        "mudSoftness": {
+          "name": "কাদার নরম স্তর",
+          "min": 1,
+          "max": 10,
+          "default": 5,
+          "step": 1,
+          "unit": ""
+        }
+      }
+    },
+    {
+      "id": "freefall",
+      "title": "মুক্ত পতন ও উল্লম্ব গতি",
+      "description": "মুক্ত পতন ও উল্লম্ব গতির সময় বস্তুর অবস্থান, বেগ এবং ত্বরণ কিভাবে পরিবর্তিত হয় তা দেখুন।",
+      "type": "freefall",
+      "params": {
+        "initialHeight": {
+          "name": "প্রারম্ভিক উচ্চতা",
+          "min": 1,
+          "max": 100,
+          "default": 20,
+          "step": 1,
+          "unit": "m"
+        },
+        "initialVelocity": {
+          "name": "প্রারম্ভিক বেগ",
+          "min": -50,
+          "max": 50,
+          "default": 0,
+          "step": 1,
+          "unit": "m/s"
+        },
+        "gravity": {
+          "name": "মাধ্যাকর্ষণ ত্বরণ",
+          "min": 1,
+          "max": 20,
+          "default": 9.8,
+          "step": 0.1,
+          "unit": "m/s²"
+        }
+      }
+    },
+    {
+      "id": "ray-diagram-optics",
+      "title": "লেন্স ও দর্পণের রশ্মি চিত্র",
+      "description": "উত্তল/অবতল লেন্স ও দর্পণের জন্য রশ্মি চিত্র, প্রতিচ্ছবি গঠন এবং বাস্তব/ভার্চুয়াল ইমেজ দেখুন। বস্তু ও ফোকাসের অবস্থান পরিবর্তন করে ইন্টারেক্টিভভাবে শিখুন।",
+      "type": "svganimation",
+      "params": {
+        "objectPos": {
+          "name": "বস্তুর অবস্থান (u)",
+          "min": 2,
+          "max": 12,
+          "default": 6,
+          "step": 0.1,
+          "unit": "unit"
+        },
+        "focalLength": {
+          "name": "ফোকাল দৈর্ঘ্য (ƒ)",
+          "min": 1,
+          "max": 6,
+          "default": 3,
+          "step": 0.1,
+          "unit": "unit"
+        }
+      }
+    },
+    {
+      "id": "inclined-plane",
+      "title": "Inclined Plane | ঢালু তলে বল ও ঘর্ষণ",
+      "description": "Explore forces, friction, and motion of a block on an inclined plane. ঢালু তলে ব্লকের বল, ঘর্ষণ, ও গতিশীলতা অন্বেষণ করুন।",
+      "type": "inclinedplane",
+      "params": {
+        "mass": {
+          "name": "Mass | ভর",
+          "min": 0.5,
+          "max": 10,
+          "default": 2,
+          "step": 0.1,
+          "unit": "kg"
+        },
+        "angle": {
+          "name": "Angle (θ) | ঢালের কোণ (θ)",
+          "min": 0,
+          "max": 60,
+          "default": 20,
+          "step": 1,
+          "unit": "°"
+        },
+        "friction": {
+          "name": "Friction (μ) | ঘর্ষণ সহগ (μ)",
+          "min": 0,
+          "max": 1,
+          "default": 0.2,
+          "step": 0.01,
+          "unit": ""
+        }
+      }
     }
   ]
 }

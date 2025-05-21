@@ -5,26 +5,35 @@ import {
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  NavbarMenuToggle,
   NavbarMenu,
   NavbarMenuItem,
+  NavbarMenuToggle,
 } from "@heroui/navbar";
 import { link as linkStyles } from "@heroui/theme";
-import { useLocation } from "react-router-dom";
 import clsx from "clsx";
+import { useLocation } from "react-router-dom";
 
-import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
+import { siteConfig } from "@/config/site";
 
 export const Navbar = () => {
   const location = useLocation();
 
   return (
-    <HeroUINavbar maxWidth="xl" position="sticky">
+    <HeroUINavbar
+      maxWidth="xl"
+      position="sticky"
+      className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800"
+    >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <Link className="flex justify-start items-center gap-1" href="/">
-            <span className="text-2xl font-bold">বিজ্ঞান<span className="text-blue-600">বন্ধু</span></span>
+            <span className="text-2xl font-bold text-gray-800 dark:text-gray-100">
+              বিজ্ঞান
+              <span className="text-emerald-600 dark:text-emerald-500">
+                বন্ধু
+              </span>
+            </span>
           </Link>
         </NavbarBrand>
         <ul className="hidden lg:flex gap-4 justify-start ml-2">
@@ -33,7 +42,7 @@ export const Navbar = () => {
               <Link
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:font-medium data-[active=true]:text-blue-600",
+                  "data-[active=true]:font-medium data-[active=true]:text-blue-600"
                 )}
                 color="foreground"
                 data-active={location.pathname === item.href}
@@ -93,8 +102,8 @@ export const Navbar = () => {
                   index === 0
                     ? "primary"
                     : location.pathname === item.href
-                    ? "primary"
-                    : "foreground"
+                      ? "primary"
+                      : "foreground"
                 }
                 href={item.href}
                 size="lg"

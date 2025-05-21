@@ -1,0 +1,8 @@
+<svg width="60" height="40" viewBox="0 0 60 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect x="5" y="8" width="50" height="24" rx="6" fill="#f8fafc" stroke="#222" stroke-width="2"/>
+  <rect x="50" y="14" width="6" height="12" rx="2" fill="#fbbf24" stroke="#222" stroke-width="1.5"/>
+  <rect x="7" y="10" width="46" height="20" rx="4" fill="#f59e42" stroke="#222" stroke-width="1.5"/>
+  <rect x="12" y="15" width="8" height="10" rx="2" fill="#fff" stroke="#222" stroke-width="1"/>
+  <rect x="40" y="15" width="8" height="10" rx="2" fill="#fff" stroke="#222" stroke-width="1"/>
+  <text x="30" y="28" text-anchor="middle" font-size="10" fill="#222" font-family="Arial">BAT</text>
+</svg>
