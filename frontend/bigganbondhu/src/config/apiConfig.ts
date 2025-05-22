@@ -1,8 +1,7 @@
 const apiConfig = {
-  // In production, use the full backend URL directly instead of proxy
-  baseURL: import.meta.env.PROD
-    ? import.meta.env.VITE_API_URL || "http://34.87.148.171:8088"
-    : "",
+  // Always use empty baseURL to go through proxy/rewrite
+  // This avoids mixed content issues (HTTPS frontend -> HTTP backend)
+  baseURL: "",
 
   apiServerUrl: import.meta.env.VITE_API_URL || "http://34.87.148.171:8088",
 
@@ -27,19 +26,13 @@ const apiConfig = {
       return endpoint;
     }
 
-    // For relative URLs, decide whether to use proxy or direct URL
+    // Always use relative URLs to go through proxy/rewrite
+    // This avoids mixed content issues and works in both dev and production
     const path = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
-
-    // In production, use the full backend URL
-    const baseUrl = import.meta.env.PROD
-      ? import.meta.env.VITE_API_URL || "http://34.87.148.171:8088"
-      : "";
-
-    const fullPath = baseUrl + path;
 
     // If there are no params, return the path directly
     if (Object.keys(params).length === 0) {
-      return fullPath;
+      return path;
     }
 
     // Otherwise, add the query parameters
@@ -51,7 +44,7 @@ const apiConfig = {
       }
     });
 
-    return `${fullPath}?${queryParams.toString()}`;
+    return `${path}?${queryParams.toString()}`;
   },
 };
 

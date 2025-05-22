@@ -2,9 +2,9 @@ import axios from "axios";
 
 import apiConfig from "../config/apiConfig";
 
-// Create axios instance with proper base URL handling
+// Create axios instance with relative URLs that go through proxy/rewrite
 const apiClient = axios.create({
-  baseURL: apiConfig.baseURL, // Will be empty in dev (for proxy) or full URL in prod
+  baseURL: apiConfig.baseURL, // Empty string for relative URLs
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -21,7 +21,7 @@ apiClient.interceptors.request.use((config) => {
 });
 
 export const apiService = {
-  // Generic GET with environment-aware URL handling
+  // Generic GET with relative URLs (proxy/rewrite handled by Vite dev server or Vercel)
   get: async <T>(endpoint: string, params = {}): Promise<T> => {
     const url = apiConfig.getUrl(endpoint);
 
