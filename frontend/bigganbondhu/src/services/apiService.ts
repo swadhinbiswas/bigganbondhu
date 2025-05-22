@@ -67,14 +67,26 @@ export const apiService = {
   },
 
   // File URLs
-  getModelUrl: (filename: string) =>
-    apiConfig.getUrl(`${apiConfig.endpoints.models}/${filename}`),
+  getModelUrl: (filename: string) => apiConfig.getUrl(`/${filename}`),
 
   getSvgUrl: (filename: string) =>
-    apiConfig.getUrl(`${apiConfig.endpoints.svg}/${filename}`),
+    apiConfig.getUrl(`http://34.87.148.171:8088/api/${filename}`),
 
   // Health check
   checkHealth: () => apiService.get(apiConfig.endpoints.health),
+
+  // Image analysis
+  analyzeImage: async (imageUrl: string) => {
+    try {
+      const response = await apiClient.post(apiConfig.endpoints.analyzeImage, {
+        image_url: imageUrl,
+      });
+      return response.data;
+    } catch (error) {
+      console.error("Image analysis failed:", error);
+      throw error;
+    }
+  },
 };
 
 export default apiService;

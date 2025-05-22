@@ -4,7 +4,7 @@ const apiConfig = {
   baseURL: "", // Empty string for relative URLs
 
   // Original baseURL kept for reference but not used directly in API calls
-  apiServerUrl: import.meta.env.VITE_API_URL || "http://0.0.0.0:8000",
+  apiServerUrl: import.meta.env.VITE_API_URL || "http://34.87.148.171:8088",
 
   // API endpoints (must start with /)
   endpoints: {
@@ -18,6 +18,7 @@ const apiConfig = {
     audio: "/api/audio",
     models: "/api/models",
     svg: "/api/svg",
+    analyzeImage: "/api/analyze-image",
   },
 
   // Simplified URL constructor

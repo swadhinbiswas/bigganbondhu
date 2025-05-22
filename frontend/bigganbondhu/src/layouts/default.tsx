@@ -31,7 +31,7 @@ export default function DefaultLayout({
               আমাদের সম্পর্কে
             </Link>
             <Link
-              href="/docs"
+              href="/usage-guide"
               className="text-sm text-gray-600 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400"
             >
               নির্দেশিকা

@@ -21,8 +21,12 @@ export const siteConfig = {
       href: "/engines/chemistry",
     },
     {
+      label: "ক্ষুদ্র গবেষণা",
+      href: "/small-research",
+    },
+    {
       label: "নির্দেশিকা",
-      href: "/docs",
+      href: "/usage-guide",
     },
   ],
   navMenuItems: [
@@ -43,8 +47,12 @@ export const siteConfig = {
       href: "/engines/chemistry",
     },
     {
+      label: "ক্ষুদ্র গবেষণা",
+      href: "/small-research",
+    },
+    {
       label: "নির্দেশিকা",
-      href: "/docs",
+      href: "/usage-guide",
     },
     {
       label: "আমাদের সম্পর্কে",

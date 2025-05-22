@@ -84,7 +84,7 @@ export const Navbar = () => {
             as={Link}
             className="text-sm font-normal"
             color="primary"
-            href="/docs"
+            href="/usage-guide"
             variant="flat"
           >
             নির্দেশিকা

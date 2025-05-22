@@ -15,6 +15,8 @@ import SolarSystem from "@/pages/hands-on/solar-system";
 import IndexPage from "@/pages/index";
 import PricingPage from "@/pages/pricing";
 import DNASimulation from "./components/biology/DNASimulation";
+import SmallResearchPage from "./pages/small-research";
+import UsageGuidePage from "./pages/usage-guide";
 
 function App() {
   return (
@@ -24,6 +26,8 @@ function App() {
       <Route element={<PricingPage />} path="/pricing" />
       <Route element={<BlogPage />} path="/blog" />
       <Route element={<AboutPage />} path="/about" />
+      <Route element={<SmallResearchPage />} path="/small-research" />
+      <Route element={<UsageGuidePage />} path="/usage-guide" />
       <Route element={<PhysicsEngine />} path="/engines/physics" />
       <Route element={<BiologyCategories />} path="/engines/biology" />
       <Route
