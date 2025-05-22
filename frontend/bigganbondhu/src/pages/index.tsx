@@ -103,6 +103,8 @@ export default function IndexPage() {
             </button>
           </div>
 
+
+
           <div
             onClick={() => navigate("/hands-on")}
             className="bg-white dark:bg-gray-900 border border-blue-100 dark:border-blue-900 rounded-xl shadow-md p-6 cursor-pointer hover:shadow-lg transition-all flex flex-col items-center text-center"
@@ -114,7 +116,7 @@ export default function IndexPage() {
               হ্যান্ডস-অন এক্সপেরিয়েন্স
             </h2>
             <p className="text-gray-600 dark:text-gray-300">
-              সার্কিট ডিজাইনসহ আরও ইন্টারেক্টিভ এক্সপেরিয়েন্স এখানে যুক্ত হবে।
+              সার্কিট ডিজাইন, অ্যাটম বিল্ডার এবং অন্যান্য ইন্টারেক্টিভ এক্সপেরিয়েন্স
             </p>
             <button
               className={buttonStyles({

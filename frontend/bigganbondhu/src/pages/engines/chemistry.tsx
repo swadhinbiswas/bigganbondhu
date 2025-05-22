@@ -635,7 +635,13 @@ const ChemistryEngine = () => {
         }
       };
     }
-  }, [canvasRef, reaction, labSettings.temperature, labSettings.mixingSpeed, labSettings.viewMode]);
+  }, [
+    canvasRef,
+    reaction,
+    labSettings.temperature,
+    labSettings.mixingSpeed,
+    labSettings.viewMode,
+  ]);
 
   const performReaction = async () => {
     if (selectedChemicals.length < 2) {
@@ -715,7 +721,7 @@ const ChemistryEngine = () => {
     const drawBeaker = () => {
       // Draw the beaker's glass with a more realistic appearance
       ctx.save();
-      
+
       // Draw background reflection/shadow for 3D effect
       ctx.beginPath();
       ctx.ellipse(
@@ -723,20 +729,26 @@ const ChemistryEngine = () => {
         canvas.height * 0.8 + 5,
         canvas.width * 0.35,
         10,
-        0, 0, Math.PI * 2
+        0,
+        0,
+        Math.PI * 2
       );
       const shadowGradient = ctx.createRadialGradient(
-        canvas.width * 0.5, canvas.height * 0.8 + 5, 0,
-        canvas.width * 0.5, canvas.height * 0.8 + 5, canvas.width * 0.35
+        canvas.width * 0.5,
+        canvas.height * 0.8 + 5,
+        0,
+        canvas.width * 0.5,
+        canvas.height * 0.8 + 5,
+        canvas.width * 0.35
       );
-      shadowGradient.addColorStop(0, 'rgba(0, 0, 0, 0.2)');
-      shadowGradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+      shadowGradient.addColorStop(0, "rgba(0, 0, 0, 0.2)");
+      shadowGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = shadowGradient;
       ctx.fill();
-      
+
       // Draw beaker outline with rounded corners
       const cornerRadius = 5;
-      
+
       // Draw main beaker body with rounded corners at the bottom
       ctx.beginPath();
       // Top lip left
@@ -745,24 +757,28 @@ const ChemistryEngine = () => {
       ctx.lineTo(canvas.width * 0.2, canvas.height * 0.2);
       // Left side down to bottom-left corner
       ctx.lineTo(canvas.width * 0.2, canvas.height * 0.8 - cornerRadius);
-      
+
       // Bottom-left corner
       ctx.arcTo(
-        canvas.width * 0.2, canvas.height * 0.8,
-        canvas.width * 0.2 + cornerRadius, canvas.height * 0.8,
+        canvas.width * 0.2,
+        canvas.height * 0.8,
+        canvas.width * 0.2 + cornerRadius,
+        canvas.height * 0.8,
         cornerRadius
       );
-      
+
       // Bottom side
       ctx.lineTo(canvas.width * 0.8 - cornerRadius, canvas.height * 0.8);
-      
+
       // Bottom-right corner
       ctx.arcTo(
-        canvas.width * 0.8, canvas.height * 0.8,
-        canvas.width * 0.8, canvas.height * 0.8 - cornerRadius,
+        canvas.width * 0.8,
+        canvas.height * 0.8,
+        canvas.width * 0.8,
+        canvas.height * 0.8 - cornerRadius,
         cornerRadius
       );
-      
+
       // Right side
       ctx.lineTo(canvas.width * 0.8, canvas.height * 0.2);
       // Top-right neck
@@ -772,12 +788,14 @@ const ChemistryEngine = () => {
       // Create a glass-like fill using multiple gradients
       // First a subtle color for the glass (slightly blue tinted)
       const glassBodyGradient = ctx.createLinearGradient(
-        canvas.width * 0.2, 0,
-        canvas.width * 0.8, 0
+        canvas.width * 0.2,
+        0,
+        canvas.width * 0.8,
+        0
       );
-      glassBodyGradient.addColorStop(0, 'rgba(220, 240, 250, 0.08)');
-      glassBodyGradient.addColorStop(0.5, 'rgba(240, 245, 250, 0.05)');
-      glassBodyGradient.addColorStop(1, 'rgba(220, 240, 250, 0.08)');
+      glassBodyGradient.addColorStop(0, "rgba(220, 240, 250, 0.08)");
+      glassBodyGradient.addColorStop(0.5, "rgba(240, 245, 250, 0.05)");
+      glassBodyGradient.addColorStop(1, "rgba(220, 240, 250, 0.08)");
       ctx.fillStyle = glassBodyGradient;
       ctx.fill();
 
@@ -785,7 +803,7 @@ const ChemistryEngine = () => {
       ctx.strokeStyle = "#8fa3b0";
       ctx.lineWidth = 2;
       ctx.stroke();
-      
+
       // Add light reflection highlights
       // Vertical reflection on left side
       const leftReflection = ctx.createLinearGradient(
@@ -794,9 +812,9 @@ const ChemistryEngine = () => {
         canvas.width * 0.24,
         canvas.height * 0.2
       );
-      leftReflection.addColorStop(0, 'rgba(255, 255, 255, 0.4)');
-      leftReflection.addColorStop(1, 'rgba(255, 255, 255, 0)');
-      
+      leftReflection.addColorStop(0, "rgba(255, 255, 255, 0.4)");
+      leftReflection.addColorStop(1, "rgba(255, 255, 255, 0)");
+
       ctx.beginPath();
       ctx.moveTo(canvas.width * 0.21, canvas.height * 0.2);
       ctx.lineTo(canvas.width * 0.21, canvas.height * 0.75);
@@ -805,12 +823,12 @@ const ChemistryEngine = () => {
       ctx.closePath();
       ctx.fillStyle = leftReflection;
       ctx.fill();
-      
+
       // Top rim highlight
       ctx.beginPath();
-      ctx.moveTo(canvas.width * 0.25, canvas.height * 0.15); 
+      ctx.moveTo(canvas.width * 0.25, canvas.height * 0.15);
       ctx.lineTo(canvas.width * 0.75, canvas.height * 0.15);
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.5)";
       ctx.lineWidth = 1.5;
       ctx.stroke();
 
@@ -818,7 +836,7 @@ const ChemistryEngine = () => {
       for (let i = 0.3; i <= 0.7; i += 0.1) {
         const isMain = i % 0.2 === 0;
         const lineWidth = isMain ? canvas.width * 0.04 : canvas.width * 0.02;
-        
+
         ctx.beginPath();
         ctx.moveTo(canvas.width * 0.2, canvas.height * i);
         ctx.lineTo(canvas.width * 0.2 + lineWidth, canvas.height * i);
@@ -1002,7 +1020,12 @@ const ChemistryEngine = () => {
         let progress = 0;
         // Parse initial and target colors safely
         const parseHexColor = (hex: string) => {
-          if (!hex || typeof hex !== 'string' || !hex.startsWith("#") || hex.length < 7) {
+          if (
+            !hex ||
+            typeof hex !== "string" ||
+            !hex.startsWith("#") ||
+            hex.length < 7
+          ) {
             return { r: 224, g: 224, b: 255 }; // Default light blue
           }
           try {
@@ -1018,11 +1041,11 @@ const ChemistryEngine = () => {
         };
 
         // Get reaction type for special visual effects
-        const isAcidBasic = reaction?.reactionType?.includes('acid') || false;
-        
+        const isAcidBasic = reaction?.reactionType?.includes("acid") || false;
+
         // Choose better starting color based on reaction type
         const effectiveStartColor = isAcidBasic ? "#e6fcf5" : "#f8f9fa";
-        
+
         const startRgb = parseHexColor(effectiveStartColor);
         const targetRgb = parseHexColor(color || "#e0e0ff");
 
@@ -1187,7 +1210,10 @@ const ChemistryEngine = () => {
                 canvas.height * 0.6,
                 canvas.width * 0.4
               );
-              glowGradient.addColorStop(0, `rgba(255, 220, 150, ${0.1 * progress})`); // Warm glow
+              glowGradient.addColorStop(
+                0,
+                `rgba(255, 220, 150, ${0.1 * progress})`
+              ); // Warm glow
               glowGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
               ctx.fillStyle = glowGradient;
               ctx.fillRect(
@@ -1197,37 +1223,41 @@ const ChemistryEngine = () => {
                 canvas.height * 0.39
               );
               ctx.globalCompositeOperation = "source-over";
-              
+
               // Add micro-bubbles for boiling/reaction effect
               if (labSettings.temperature > 60) {
                 for (let i = 0; i < 12; i++) {
                   const bubbleX = canvas.width * (0.25 + Math.random() * 0.5);
                   const bubbleY = canvas.height * (0.5 + Math.random() * 0.25);
-                  const bubbleSize = 1 + Math.random() * 3 * (labSettings.temperature / 100);
-                  
+                  const bubbleSize =
+                    1 + Math.random() * 3 * (labSettings.temperature / 100);
+
                   ctx.beginPath();
                   ctx.arc(bubbleX, bubbleY, bubbleSize, 0, Math.PI * 2);
                   ctx.fillStyle = "rgba(255, 255, 255, 0.4)";
                   ctx.fill();
                 }
               }
-              
+
               // Add steam effect
-              const steamCount = Math.floor(3 + (labSettings.temperature - 30) / 10);
+              const steamCount = Math.floor(
+                3 + (labSettings.temperature - 30) / 10
+              );
               for (let i = 0; i < steamCount; i++) {
                 const steamX = canvas.width * (0.3 + Math.random() * 0.4);
                 const steamBaseY = canvas.height * 0.39;
-                const steamHeight = 20 + Math.random() * 15 + (labSettings.temperature / 10);
+                const steamHeight =
+                  20 + Math.random() * 15 + labSettings.temperature / 10;
 
                 ctx.beginPath();
                 ctx.moveTo(steamX, steamBaseY);
                 // Create more natural curved steam path
                 ctx.bezierCurveTo(
-                  steamX + (Math.random() * 10 - 5), 
+                  steamX + (Math.random() * 10 - 5),
                   steamBaseY - steamHeight * 0.3,
-                  steamX + (Math.random() * 20 - 10), 
+                  steamX + (Math.random() * 20 - 10),
                   steamBaseY - steamHeight * 0.7,
-                  steamX + (Math.random() * 30 - 15), 
+                  steamX + (Math.random() * 30 - 15),
                   steamBaseY - steamHeight
                 );
 
@@ -1315,16 +1345,16 @@ const ChemistryEngine = () => {
           settled: boolean;
           wobble: number;
           color: string;
-          shape: 'circle' | 'crystal' | 'flake';
+          shape: "circle" | "crystal" | "flake";
         }
-        
+
         let particles: PrecipitateParticle[] = [];
-        
+
         // Use different particle appearances based on the reaction type
-        const precipitateColors = reaction?.reactionType?.includes('metal') 
-          ? ['#d4d4d8', '#a1a1aa', '#71717a'] // Metallic
-          : ['#555555', '#666666', '#777777']; // Default
-            
+        const precipitateColors = reaction?.reactionType?.includes("metal")
+          ? ["#d4d4d8", "#a1a1aa", "#71717a"] // Metallic
+          : ["#555555", "#666666", "#777777"]; // Default
+
         // Create initial particles
         for (let i = 0; i < 80; i++) {
           // Create clustering effect - particles appear more in certain areas
@@ -1336,12 +1366,15 @@ const ChemistryEngine = () => {
           } else {
             xCluster = Math.random() * 0.2 + 0.4; // Center cluster
           }
-          
+
           // Randomly choose particle shape for visual variety
-          const shape = Math.random() < 0.6 
-            ? 'circle' 
-            : (Math.random() < 0.5 ? 'crystal' : 'flake');
-            
+          const shape =
+            Math.random() < 0.6
+              ? "circle"
+              : Math.random() < 0.5
+                ? "crystal"
+                : "flake";
+
           particles.push({
             x: canvas.width * (0.21 + xCluster * 0.58),
             y: canvas.height * 0.4 + Math.random() * (canvas.height * 0.1),
@@ -1350,8 +1383,11 @@ const ChemistryEngine = () => {
             opacity: 0.5 + Math.random() * 0.5,
             settled: false,
             wobble: Math.random() * 6.28, // Random initial phase (0 to 2π)
-            color: precipitateColors[Math.floor(Math.random() * precipitateColors.length)],
-            shape: shape
+            color:
+              precipitateColors[
+                Math.floor(Math.random() * precipitateColors.length)
+              ],
+            shape: shape,
           });
         }
 
@@ -1462,7 +1498,7 @@ const ChemistryEngine = () => {
             // Get base and highlight colors
             const baseColor = (particle as any).color || "#555555";
             const highlightColor = adjustColorBrightness(baseColor, 30);
-            
+
             // Create a slight gradient within each particle for 3D effect
             const particleGradient = ctx.createRadialGradient(
               particle.x,
@@ -1480,56 +1516,63 @@ const ChemistryEngine = () => {
             ctx.beginPath();
 
             // Draw different shapes based on particle type
-            if ((particle as any).shape === 'crystal') {
+            if ((particle as any).shape === "crystal") {
               // Draw a crystalline shape
               const points = 5 + Math.floor(Math.random() * 3);
               const rotation = Math.random() * Math.PI;
               const size = particle.size / 2;
-              
+
               ctx.save();
               ctx.translate(particle.x + wobbleAmount, particle.y);
               ctx.rotate(rotation);
-              
+
               ctx.beginPath();
               for (let i = 0; i < points; i++) {
                 const angle = (i / points) * Math.PI * 2;
                 const radius = size * (0.7 + Math.random() * 0.3);
-                
+
                 if (i === 0) {
-                  ctx.moveTo(radius * Math.cos(angle), radius * Math.sin(angle));
+                  ctx.moveTo(
+                    radius * Math.cos(angle),
+                    radius * Math.sin(angle)
+                  );
                 } else {
-                  ctx.lineTo(radius * Math.cos(angle), radius * Math.sin(angle));
+                  ctx.lineTo(
+                    radius * Math.cos(angle),
+                    radius * Math.sin(angle)
+                  );
                 }
               }
               ctx.closePath();
               ctx.fill();
               ctx.restore();
-            } 
-            else if ((particle as any).shape === 'flake') {
+            } else if ((particle as any).shape === "flake") {
               // Draw a flake-like precipitate
               const size = particle.size / 2;
-              
+
               ctx.save();
               ctx.translate(particle.x + wobbleAmount, particle.y);
-              
+
               // Draw a 6-pointed star/flake shape
               ctx.beginPath();
               for (let i = 0; i < 6; i++) {
                 const angle = (i / 6) * Math.PI * 2;
                 const longRadius = size;
                 const shortRadius = size * 0.4;
-                
-                ctx.lineTo(longRadius * Math.cos(angle), longRadius * Math.sin(angle));
+
                 ctx.lineTo(
-                  shortRadius * Math.cos(angle + Math.PI / 6), 
+                  longRadius * Math.cos(angle),
+                  longRadius * Math.sin(angle)
+                );
+                ctx.lineTo(
+                  shortRadius * Math.cos(angle + Math.PI / 6),
                   shortRadius * Math.sin(angle + Math.PI / 6)
                 );
               }
               ctx.closePath();
               ctx.fill();
               ctx.restore();
-            }
-            else {
+            } else {
               // Draw a circular particle (default)
               ctx.arc(
                 particle.x + wobbleAmount,
@@ -1540,7 +1583,7 @@ const ChemistryEngine = () => {
               );
               ctx.fill();
             }
-            
+
             ctx.globalAlpha = 1;
 
             // Update particle position if not settled
@@ -1917,7 +1960,7 @@ const ChemistryEngine = () => {
       setAnimationActive(false);
       setReaction(null);
     }
-    
+
     setSelectedChemicals(selectedChemicals.filter((id) => id !== chemicalId));
   };
 
@@ -1927,7 +1970,7 @@ const ChemistryEngine = () => {
       ...labSettings,
       temperature: newTemperature,
     });
-    
+
     // If there's an active reaction and animation, redraw with new temperature
     if (reaction && animationActive && canvasRef.current) {
       // Clear current animation frame first
@@ -1946,7 +1989,7 @@ const ChemistryEngine = () => {
       ...labSettings,
       mixingSpeed: newMixingSpeed,
     });
-    
+
     // If there's an active reaction and animation, redraw with new mixing speed
     if (reaction && animationActive && canvasRef.current) {
       // Clear current animation frame first
@@ -1964,7 +2007,7 @@ const ChemistryEngine = () => {
       ...labSettings,
       viewMode,
     });
-    
+
     // If there's an active reaction and animation, redraw with new view mode
     if (reaction && animationActive && canvasRef.current) {
       // Clear current animation frame first
@@ -2016,17 +2059,24 @@ const ChemistryEngine = () => {
 
   return (
     <DefaultLayout>
-      <div className="container mx-auto px-2 py-4 max-w-6xl">
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl md:text-3xl font-bold text-center">
-            {getText("Chemistry Lab", "রসায়ন পরীক্ষাগার")}
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">
+            {getText("Chemistry Lab", "রসায়ন ল্যাব")}
           </h1>
-          <button
-            onClick={toggleLanguage}
-            className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
-          >
-            {labSettings.language === "en" ? "বাংলা" : "English"}
-          </button>
+
+          {/* Add Atom Builder link */}
+          <div className="mt-4 md:mt-0 flex gap-4">
+            <a
+              href="/engines/atom-builder"
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:shadow-lg transition-all"
+            >
+              <span>⚛️</span>
+              <span>
+                {getText("Try Atom Builder", "অ্যাটম বিল্ডার ব্যবহার করুন")}
+              </span>
+            </a>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
@@ -2271,9 +2321,7 @@ const ChemistryEngine = () => {
                           name="viewMode"
                           value="2d"
                           checked={labSettings.viewMode === "2d"}
-                          onChange={() =>
-                            handleViewModeChange("2d")
-                          }
+                          onChange={() => handleViewModeChange("2d")}
                         />
                         <span className="ml-2 text-sm dark:text-gray-300">
                           2D
@@ -2286,9 +2334,7 @@ const ChemistryEngine = () => {
                           name="viewMode"
                           value="3d"
                           checked={labSettings.viewMode === "3d"}
-                          onChange={() =>
-                            handleViewModeChange("3d")
-                          }
+                          onChange={() => handleViewModeChange("3d")}
                         />
                         <span className="ml-2 text-sm dark:text-gray-300">
                           3D
@@ -2308,7 +2354,7 @@ const ChemistryEngine = () => {
                   <span className="mr-2">🧪</span>
                   {getText("Reaction Chamber", "রাসায়নিক বিক্রিয়া")}
                 </h2>
-                
+
                 {labSettings.viewMode === "3d" && (
                   <span className="bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300 text-xs font-medium px-2.5 py-0.5 rounded">
                     3D Mode
@@ -2392,7 +2438,9 @@ const ChemistryEngine = () => {
                       {reaction.reactionType && (
                         <div className="bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700 flex items-center">
                           <div className="bg-purple-100 dark:bg-purple-900 rounded-full w-8 h-8 flex items-center justify-center mr-2">
-                            <span className="text-purple-800 dark:text-purple-200 text-xs">⚛️</span>
+                            <span className="text-purple-800 dark:text-purple-200 text-xs">
+                              ⚛️
+                            </span>
                           </div>
                           <div>
                             <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -2408,7 +2456,9 @@ const ChemistryEngine = () => {
                       {reaction.temperature && (
                         <div className="bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700 flex items-center">
                           <div className="bg-red-100 dark:bg-red-900 rounded-full w-8 h-8 flex items-center justify-center mr-2">
-                            <span className="text-red-800 dark:text-red-200 text-xs">🌡️</span>
+                            <span className="text-red-800 dark:text-red-200 text-xs">
+                              🌡️
+                            </span>
                           </div>
                           <div>
                             <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -2424,7 +2474,9 @@ const ChemistryEngine = () => {
                       {reaction.energyChange && (
                         <div className="bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700 flex items-center">
                           <div className="bg-yellow-100 dark:bg-yellow-900 rounded-full w-8 h-8 flex items-center justify-center mr-2">
-                            <span className="text-yellow-800 dark:text-yellow-200 text-xs">⚡</span>
+                            <span className="text-yellow-800 dark:text-yellow-200 text-xs">
+                              ⚡
+                            </span>
                           </div>
                           <div>
                             <span className="text-xs text-gray-500 dark:text-gray-400">
@@ -2440,7 +2492,9 @@ const ChemistryEngine = () => {
                       {reaction.hazards && (
                         <div className="bg-white dark:bg-gray-800 p-2 rounded-md border border-gray-200 dark:border-gray-700 flex items-center">
                           <div className="bg-orange-100 dark:bg-orange-900 rounded-full w-8 h-8 flex items-center justify-center mr-2">
-                            <span className="text-orange-800 dark:text-orange-200 text-xs">⚠️</span>
+                            <span className="text-orange-800 dark:text-orange-200 text-xs">
+                              ⚠️
+                            </span>
                           </div>
                           <div>
                             <span className="text-xs text-gray-500 dark:text-gray-400">
