@@ -1,8 +1,8 @@
-import DefaultLayout from "@/layouts/default";
-import axios from "axios";
-import { useEffect, useRef, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Slider } from "@/components/ui/slider";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import DefaultLayout from "@/layouts/default";
+import apiService from "@/services/apiService";
+import { useEffect, useRef, useState } from "react";
 
 type Chemical = {
   id: string;
@@ -50,7 +50,7 @@ const render3DView = (
   if (!canvasRef.current) return null;
 
   const canvas = canvasRef.current;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   if (!ctx) return null;
 
   // Draw a perspective/3D looking beaker with contents
@@ -69,7 +69,7 @@ const render3DView = (
   // Top ellipse (opening)
   ctx.beginPath();
   ctx.ellipse(centerX, centerY - 100, 100, 40, 0, 0, Math.PI * 2);
-  ctx.strokeStyle = '#888';
+  ctx.strokeStyle = "#888";
   ctx.lineWidth = 2;
   ctx.stroke();
 
@@ -99,11 +99,11 @@ const render3DView = (
   // Draw liquid surface with perspective
   ctx.beginPath();
   ctx.ellipse(centerX, centerY + 50, 95, 38, 0, 0, Math.PI * 2);
-  ctx.strokeStyle = '#ffffff55';
+  ctx.strokeStyle = "#ffffff55";
   ctx.stroke();
 
   // Draw effects based on reaction animation type
-  if (reaction?.animation === 'bubble' && animationActive) {
+  if (reaction?.animation === "bubble" && animationActive) {
     // Draw bubbles rising
     for (let i = 0; i < 15; i++) {
       const x = centerX - 70 + Math.random() * 140;
@@ -112,20 +112,20 @@ const render3DView = (
 
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
       ctx.fill();
     }
-  } else if (reaction?.animation === 'precipitate' && animationActive) {
+  } else if (reaction?.animation === "precipitate" && animationActive) {
     // Draw precipitate particles
     for (let i = 0; i < 30; i++) {
       const x = centerX - 80 + Math.random() * 160;
       const y = centerY + 80 + Math.random() * 60;
       const size = 2 + Math.random() * 3;
 
-      ctx.fillStyle = '#555';
+      ctx.fillStyle = "#555";
       ctx.fillRect(x, y, size, size);
     }
-  } else if (reaction?.animation === 'smoke' && animationActive) {
+  } else if (reaction?.animation === "smoke" && animationActive) {
     // Draw smoke rising
     ctx.save();
     for (let i = 0; i < 10; i++) {
@@ -135,28 +135,31 @@ const render3DView = (
 
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
+      ctx.fillStyle = "rgba(200, 200, 200, 0.4)";
       ctx.fill();
     }
     ctx.restore();
   }
 
   // Add 3D label
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '16px Arial';
-  ctx.textAlign = 'center';
-  ctx.fillText('3D View Mode', centerX, canvas.height - 20);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "16px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("3D View Mode", centerX, canvas.height - 20);
 
   ctx.restore();
 };
 
-
 // Helper function for 3D view mode (simplified)
-const renderLabView3D = (canvasRef: React.RefObject<HTMLCanvasElement>, reaction: Reaction | null, labSettings: LabSettings) => {
+const renderLabView3D = (
+  canvasRef: React.RefObject<HTMLCanvasElement>,
+  reaction: Reaction | null,
+  labSettings: LabSettings
+) => {
   if (!canvasRef.current) return null;
 
   const canvas = canvasRef.current;
-  const ctx = canvas.getContext('2d');
+  const ctx = canvas.getContext("2d");
   if (!ctx) return null;
 
   // Draw a perspective/3D looking beaker with contents
@@ -175,7 +178,7 @@ const renderLabView3D = (canvasRef: React.RefObject<HTMLCanvasElement>, reaction
   // Top ellipse (opening)
   ctx.beginPath();
   ctx.ellipse(centerX, centerY - 100, 100, 40, 0, 0, Math.PI * 2);
-  ctx.strokeStyle = '#888';
+  ctx.strokeStyle = "#888";
   ctx.lineWidth = 2;
   ctx.stroke();
 
@@ -205,11 +208,11 @@ const renderLabView3D = (canvasRef: React.RefObject<HTMLCanvasElement>, reaction
   // Draw liquid surface with perspective
   ctx.beginPath();
   ctx.ellipse(centerX, centerY + 50, 95, 38, 0, 0, Math.PI * 2);
-  ctx.strokeStyle = '#ffffff55';
+  ctx.strokeStyle = "#ffffff55";
   ctx.stroke();
 
   // Draw effects based on reaction animation type
-  if (reaction?.animation === 'bubble') {
+  if (reaction?.animation === "bubble") {
     // Draw bubbles rising
     for (let i = 0; i < 15; i++) {
       const x = centerX - 70 + Math.random() * 140;
@@ -218,20 +221,20 @@ const renderLabView3D = (canvasRef: React.RefObject<HTMLCanvasElement>, reaction
 
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+      ctx.fillStyle = "rgba(255, 255, 255, 0.6)";
       ctx.fill();
     }
-  } else if (reaction?.animation === 'precipitate') {
+  } else if (reaction?.animation === "precipitate") {
     // Draw precipitate particles
     for (let i = 0; i < 30; i++) {
       const x = centerX - 80 + Math.random() * 160;
       const y = centerY + 80 + Math.random() * 60;
       const size = 2 + Math.random() * 3;
 
-      ctx.fillStyle = '#555';
+      ctx.fillStyle = "#555";
       ctx.fillRect(x, y, size, size);
     }
-  } else if (reaction?.animation === 'smoke') {
+  } else if (reaction?.animation === "smoke") {
     // Draw smoke rising
     ctx.save();
     for (let i = 0; i < 10; i++) {
@@ -241,17 +244,17 @@ const renderLabView3D = (canvasRef: React.RefObject<HTMLCanvasElement>, reaction
 
       ctx.beginPath();
       ctx.arc(x, y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(200, 200, 200, 0.4)';
+      ctx.fillStyle = "rgba(200, 200, 200, 0.4)";
       ctx.fill();
     }
     ctx.restore();
   }
 
   // Add 3D label
-  ctx.fillStyle = '#ffffff';
-  ctx.font = '16px Arial';
-  ctx.textAlign = 'center';
-  ctx.fillText('3D View Mode', centerX, canvas.height - 20);
+  ctx.fillStyle = "#ffffff";
+  ctx.font = "16px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText("3D View Mode", centerX, canvas.height - 20);
 
   ctx.restore();
 };
@@ -277,18 +280,14 @@ const ChemistryEngine = () => {
     const fetchChemicals = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          "http://localhost:8000/api/experiments/chemistry"
-        );
-        setChemicals(response.data.chemicals || []);
+        const data = await apiService.chemistry.getAll();
+        setChemicals(data.chemicals || []);
         setLoading(false);
       } catch (err) {
         console.error("Failed to load from API, trying local data", err);
         try {
-          const response = await axios.get(
-            "http://localhost:8000/api/experiments/chemicals"
-          );
-          setChemicals(response.data.chemicals || []);
+          const data = await apiService.chemistry.getChemicals();
+          setChemicals(data.chemicals || []);
           setLoading(false);
         } catch (fetchErr) {
           setError("Failed to load chemistry data");
@@ -312,24 +311,27 @@ const ChemistryEngine = () => {
       const temperature = labSettings.temperature;
       const mixingSpeed = labSettings.mixingSpeed;
 
-      const response = await axios.get(
-        `http://localhost:8000/api/reactions?chem1=${chem1}&chem2=${chem2}&temperature=${temperature}&mixing_speed=${mixingSpeed}`
+      const data = await apiService.chemistry.performReaction(
+        chem1,
+        chem2,
+        temperature,
+        mixingSpeed
       );
 
-      setReaction(response.data);
+      setReaction(data);
       setAnimationActive(true);
 
-      applyLabSettingsToReaction(response.data);
+      applyLabSettingsToReaction(data);
 
       const descriptionText =
         labSettings.language === "bn"
-          ? response.data.bengaliDescription || response.data.description
-          : response.data.description;
+          ? data.bengaliDescription || data.description
+          : data.description;
 
       playAudioNarration(descriptionText);
 
       if (canvasRef.current) {
-        drawReactionAnimation(response.data.animation, response.data.color);
+        drawReactionAnimation(data.animation, data.color);
       }
     } catch (err) {
       console.error("Failed to perform reaction", err);
@@ -607,18 +609,16 @@ const ChemistryEngine = () => {
 
   const playAudioNarration = async (text: string) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/audio?text=${encodeURIComponent(text)}`,
-        {
-          responseType: "blob",
-        }
-      );
+      const audioEndpoint = apiService.audio.getAudio(text);
+      const response = await fetch(audioEndpoint, {
+        method: "GET",
+      });
 
       if (audioRef.current) {
         audioRef.current.pause();
       }
 
-      const audioBlob = new Blob([response.data], { type: "audio/mpeg" });
+      const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
 
       const audio = new Audio(audioUrl);
@@ -779,10 +779,7 @@ const ChemistryEngine = () => {
                             ></div>
                             <div>
                               <span className="font-medium">
-                                {getText(
-                                  chemical.name,
-                                  chemical.bengaliName
-                                )}
+                                {getText(chemical.name, chemical.bengaliName)}
                               </span>
                               <div className="text-xs text-gray-500 dark:text-gray-400">
                                 {chemical.formula}
@@ -833,10 +830,7 @@ const ChemistryEngine = () => {
                                   style={{ backgroundColor: chemical.color }}
                                 ></div>
                                 <h3 className="font-medium dark:text-gray-100">
-                                  {getText(
-                                    chemical.name,
-                                    chemical.bengaliName
-                                  )}{" "}
+                                  {getText(chemical.name, chemical.bengaliName)}{" "}
                                   ({chemical.formula})
                                 </h3>
                               </div>
@@ -853,13 +847,13 @@ const ChemistryEngine = () => {
                                     chemical.state === "solid"
                                       ? "Solid"
                                       : chemical.state === "liquid"
-                                      ? "Liquid"
-                                      : "Gas",
+                                        ? "Liquid"
+                                        : "Gas",
                                     chemical.state === "solid"
                                       ? "কঠিন"
                                       : chemical.state === "liquid"
-                                      ? "তরল"
-                                      : "গ্যাস"
+                                        ? "তরল"
+                                        : "গ্যাস"
                                   )}
                                 </span>
                                 <span>
@@ -1034,11 +1028,11 @@ const ChemistryEngine = () => {
                         </h3>
                         <p className="text-sm mb-2 dark:text-gray-200">
                           {reaction.equation ||
-                            `${getChemicalById(
-                              reaction.reactant1
-                            )?.formula} + ${getChemicalById(
-                              reaction.reactant2
-                            )?.formula} → ${reaction.product}`}
+                            `${
+                              getChemicalById(reaction.reactant1)?.formula
+                            } + ${
+                              getChemicalById(reaction.reactant2)?.formula
+                            } → ${reaction.product}`}
                         </p>
                       </div>
 
@@ -1047,7 +1041,7 @@ const ChemistryEngine = () => {
                           playAudioNarration(
                             labSettings.language === "bn"
                               ? reaction.bengaliDescription ||
-                                reaction.description
+                                  reaction.description
                               : reaction.description
                           )
                         }
@@ -1070,10 +1064,7 @@ const ChemistryEngine = () => {
                       {reaction.reactionType && (
                         <div>
                           <span className="font-medium dark:text-gray-300">
-                            {getText(
-                              "Reaction Type",
-                              "বিক্রিয়ার ধরন"
-                            )}:
+                            {getText("Reaction Type", "বিক্রিয়ার ধরন")}:
                           </span>{" "}
                           <span className="text-gray-700 dark:text-gray-400 capitalize">
                             {reaction.reactionType}
@@ -1095,10 +1086,7 @@ const ChemistryEngine = () => {
                       {reaction.energyChange && (
                         <div>
                           <span className="font-medium dark:text-gray-300">
-                            {getText(
-                              "Energy Change",
-                              "শক্তি পরিবর্তন"
-                            )}:
+                            {getText("Energy Change", "শক্তি পরিবর্তন")}:
                           </span>{" "}
                           <span className="text-gray-700 dark:text-gray-400 capitalize">
                             {reaction.energyChange}
@@ -1109,10 +1097,7 @@ const ChemistryEngine = () => {
                       {reaction.hazards && (
                         <div>
                           <span className="font-medium dark:text-gray-300">
-                            {getText(
-                              "Safety Note",
-                              "নিরাপত্তা তথ্য"
-                            )}:
+                            {getText("Safety Note", "নিরাপত্তা তথ্য")}:
                           </span>{" "}
                           <span className="text-gray-700 dark:text-gray-400">
                             {reaction.hazards}

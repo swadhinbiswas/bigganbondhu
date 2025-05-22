@@ -20,8 +20,8 @@ FROM nginx:alpine
 # Copy built files from the builder stage to nginx server
 COPY --from=builder /app/dist /usr/share/nginx/html
 
-# Copy custom nginx config if needed
-# COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Expose port for the frontend
 EXPOSE 80

@@ -4,8 +4,8 @@ import LoadingSpinner from "@/components/physics/LoadingSpinner";
 import ParameterControls from "@/components/physics/ParameterControls";
 import SimulationArea from "@/components/physics/SimulationArea";
 import DefaultLayout from "@/layouts/default";
+import apiService from "@/services/apiService";
 import { PhysicsExperiment } from "@/types/physics";
-import axios from "axios";
 import {
   Bodies,
   Body,
@@ -452,21 +452,31 @@ const PhysicsEngine = () => {
     const fetchExperiments = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          "http://localhost:8000/api/experiments/physics"
-        );
-        setExperiments(response.data.experiments);
-        if (response.data.experiments.length > 0) {
-          setSelectedExperiment(response.data.experiments[0]);
+        const data = await apiService.physics.getExperiments();
 
-          // Initialize params with default values
-          const defaultParams: { [key: string]: number } = {};
-          Object.entries(response.data.experiments[0].params).forEach(
-            ([key, value]: [string, any]) => {
-              defaultParams[key] = value.default;
+        // Add null check for the experiments array
+        if (data && data.experiments && Array.isArray(data.experiments)) {
+          setExperiments(data.experiments);
+
+          if (data.experiments.length > 0) {
+            setSelectedExperiment(data.experiments[0]);
+
+            // Initialize params with default values
+            const defaultParams: { [key: string]: number } = {};
+            // Make sure params exist before attempting to iterate
+            if (data.experiments[0].params) {
+              Object.entries(data.experiments[0].params).forEach(
+                ([key, value]: [string, any]) => {
+                  defaultParams[key] = value.default;
+                }
+              );
             }
-          );
-          setParams(defaultParams);
+            setParams(defaultParams);
+          }
+        } else {
+          // Handle case when experiments array is missing or invalid
+          console.warn("Invalid experiments data format received:", data);
+          setExperiments([]);
         }
         setLoading(false);
       } catch (err: any) {
@@ -493,6 +503,8 @@ const PhysicsEngine = () => {
   useEffect(() => {
     if (
       !loading &&
+      experiments &&
+      Array.isArray(experiments) &&
       experiments.length > 0 &&
       !experiments.some((e) => e.id === "wave-interference")
     ) {
@@ -649,20 +661,29 @@ const PhysicsEngine = () => {
       const fetchAndRenderSVG = async () => {
         try {
           // Fetch SVG from the server
-          const response = await axios.get(
-            `http://localhost:8000/api/svg/${selectedExperiment.svgPath}`
-          );
+          if (!selectedExperiment || !selectedExperiment.svgPath) {
+            console.warn("No SVG path available for the selected experiment");
+            return;
+          }
 
-          if (response.data) {
+          const svgUrl = apiService.getSvgUrl(selectedExperiment.svgPath);
+          const response = await fetch(svgUrl);
+          const data = await response.text();
+
+          if (data) {
             // Create a container and set the SVG content
             const svgContainer = document.createElement("div");
-            svgContainer.innerHTML = response.data;
+            svgContainer.innerHTML = data;
             svgContainer.className =
               "w-full h-full flex items-center justify-center";
 
             // Apply dark mode class if needed
-            const isDarkMode =
-              document.documentElement.classList.contains("dark");
+            const isDarkMode = document.documentElement.classList.contains(
+              "dark"
+            )
+              ? true
+              : false;
+            document.documentElement.classList.contains("dark");
 
             const svgElement = svgContainer.querySelector("svg");
             if (svgElement) {
@@ -752,13 +773,12 @@ const PhysicsEngine = () => {
   };
 
   const playAudioNarration = async () => {
-    if (!selectedExperiment) return;
+    if (!selectedExperiment || !selectedExperiment.description) return;
     try {
-      const audio = new Audio(
-        `http://localhost:8000/api/audio?text=${encodeURIComponent(
-          selectedExperiment.description
-        )}`
+      const audioUrl = apiService.audio.getAudio(
+        selectedExperiment.description
       );
+      const audio = new Audio(audioUrl);
       audio.play();
     } catch (err) {
       console.error("Error playing audio narration:", err);

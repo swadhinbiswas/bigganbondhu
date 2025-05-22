@@ -3,9 +3,9 @@ import CellComparison from "@/components/biology/CellComparison";
 import DNASimulation from "@/components/biology/DNASimulation";
 import PhotosynthesisModel from "@/components/biology/PhotosynthesisModel";
 import DefaultLayout from "@/layouts/default";
+import apiService from "@/services/apiService";
 import { Html, OrbitControls, useGLTF, useProgress } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import axios from "axios";
 import {
   Component,
   ReactNode,
@@ -212,24 +212,32 @@ const BiologyExperiments = () => {
     const fetchExperiments = async () => {
       try {
         setLoading(true);
-        let apiUrl = "http://localhost:8000/api/experiments/biology";
 
-        // If we have a category, add it as a query parameter
-        if (category) {
-          apiUrl += `?category=${category}`;
-        }
+        // Use apiService to get biology experiments with optional category parameter
+        const data = await apiService.biology.getExperiments(category);
 
-        const response = await axios.get(apiUrl);
+        console.log("Loaded experiments:", data?.experiments);
 
-        console.log("Loaded experiments:", response.data.experiments);
-
-        setExperiments(response.data.experiments);
-        if (response.data.experiments.length > 0) {
-          setSelectedExperiment(response.data.experiments[0]);
-          if (response.data.experiments[0].models.length > 0) {
-            setSelectedModel(response.data.experiments[0].models[0]);
+        // Check if data exists and has experiments property
+        if (data && Array.isArray(data.experiments)) {
+          setExperiments(data.experiments);
+          if (data.experiments.length > 0) {
+            setSelectedExperiment(data.experiments[0]);
+            if (
+              data.experiments[0].models &&
+              data.experiments[0].models.length > 0
+            ) {
+              setSelectedModel(data.experiments[0].models[0]);
+            }
           }
+        } else {
+          // Handle case when data.experiments is undefined or not an array
+          console.warn(
+            "No experiments data returned from API or invalid format"
+          );
+          setExperiments([]);
         }
+
         setLoading(false);
       } catch (err) {
         setError("Failed to load biology experiments");
@@ -268,12 +276,10 @@ const BiologyExperiments = () => {
 
   const playAudioNarration = async (text: string) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/audio?text=${encodeURIComponent(text)}`,
-        {
-          responseType: "blob",
-        }
-      );
+      const audioUrl = apiService.audio.getAudio(text);
+      const response = await fetch(audioUrl, {
+        method: "GET",
+      });
 
       // Stop any currently playing audio to prevent AbortError
       if (audioRef.current) {
@@ -284,10 +290,10 @@ const BiologyExperiments = () => {
         audioRef.current.pause();
       }
 
-      const audioBlob = new Blob([response.data], { type: "audio/mpeg" });
-      const audioUrl = URL.createObjectURL(audioBlob);
+      const audioBlob = await response.blob();
+      const audioObjectUrl = URL.createObjectURL(audioBlob);
 
-      const audio = new Audio(audioUrl);
+      const audio = new Audio(audioObjectUrl);
 
       // Store the audio element for later cleanup
       audioRef.current = audio;

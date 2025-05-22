@@ -1,9 +1,16 @@
-import { useEffect, useRef, useState, Component, ReactNode, Suspense } from "react";
-import { Html, useGLTF, useProgress, OrbitControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
-import * as THREE from "three";
 import DefaultLayout from "@/layouts/default";
-import axios from "axios";
+import apiService from "@/services/apiService";
+import { Html, OrbitControls, useGLTF, useProgress } from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import {
+  Component,
+  ReactNode,
+  Suspense,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import * as THREE from "three";
 
 // Error Boundary Component
 class ErrorBoundary extends Component<
@@ -158,14 +165,12 @@ const BiologyEngine = () => {
     const fetchExperiments = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          "http://localhost:8000/api/experiments/biology"
-        );
-        setExperiments(response.data.experiments);
-        if (response.data.experiments.length > 0) {
-          setSelectedExperiment(response.data.experiments[0]);
-          if (response.data.experiments[0].models.length > 0) {
-            setSelectedModel(response.data.experiments[0].models[0]);
+        const data = await apiService.biology.getExperiments();
+        setExperiments(data.experiments);
+        if (data.experiments.length > 0) {
+          setSelectedExperiment(data.experiments[0]);
+          if (data.experiments[0].models.length > 0) {
+            setSelectedModel(data.experiments[0].models[0]);
           }
         }
         setLoading(false);
@@ -186,21 +191,15 @@ const BiologyEngine = () => {
 
   const playAudioNarration = async (text: string) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/audio?text=${encodeURIComponent(text)}`,
-        {
-          responseType: "blob",
-        }
-      );
+      // Get the full URL for the audio endpoint
+      const audioUrl = apiService.audio.getAudio(text);
 
       // Stop any currently playing audio
       if (audioRef.current) {
         audioRef.current.pause();
       }
 
-      const audioBlob = new Blob([response.data], { type: "audio/mpeg" });
-      const audioUrl = URL.createObjectURL(audioBlob);
-
+      // Create and play new audio
       const audio = new Audio(audioUrl);
       audioRef.current = audio;
       audio.play();

@@ -21,7 +21,7 @@ app = FastAPI(title="Science Education Platform API")
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Adjust for production
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -524,10 +524,6 @@ async def get_model_file(filename: str):
         error_message = f"Error retrieving model file {filename}: {str(e)}"
         print(error_message)
         raise HTTPException(status_code=500, detail=error_message)
-
-    except Exception as e:
-        print(f"Error retrieving model file {filename}: {str(e)}")
-        raise HTTPException(status_code=500, detail=f"Failed to retrieve model: {str(e)}")
 
 if __name__ == "__main__":
     import uvicorn

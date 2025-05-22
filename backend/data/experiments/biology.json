@@ -519,7 +519,7 @@
           "id": "mitochondria-model",
           "title": "মাইটোকন্ড্রিয়া মডেল (Mitochondria Model)",
           "description": "মাইটোকন্ড্রিয়ার ত্রিমাত্রিক মডেল (3D model of mitochondria)",
-          "modelUrl": "http://localhost:8000/api/models/mitochondria.glb",
+          "modelUrl": "http://0.0.0.0:8000/api/models/mitochondria.glb",
           "scale": 1.0,
           "position": [0, 0, 0],
           "parts": [
@@ -567,7 +567,7 @@
           "id": "plant-cell-model",
           "title": "উদ্ভিদ কোষ মডেল (Plant Cell Model)",
           "description": "উদ্ভিদ কোষের ত্রিমাত্রিক মডেল (3D model of plant cell)",
-          "modelUrl": "http://localhost:8000/api/models/plantcell.glb",
+          "modelUrl": "http://0.0.0.0:8000/api/models/plantcell.glb",
           "scale": 1.0,
           "position": [0, 0, 0],
           "parts": [
@@ -999,7 +999,7 @@
           "id": "animal-cell",
           "title": "প্রাণী কোষ",
           "description": "প্রাণী কোষের ত্রিমাত্রিক মডেল",
-          "modelUrl": "http://localhost:8000/api/models/animalcell.glb",
+          "modelUrl": "http://0.0.0.0:8000/api/models/animalcell.glb",
           "scale": 0.8,
           "position": [0, 0, 0],
           "parts": [
@@ -1227,7 +1227,7 @@
           "id": "dna-model",
           "title": "DNA মডেল (DNA Model)",
           "description": "DNA এর ডবল হেলিক্স কাঠামো এবং মৌলিক গঠন সম্পর্কে জানুন। (Learn about the double helix structure and basic components of DNA.)",
-          "modelUrl": "http://localhost:8000/api/models/dna.glb",
+          "modelUrl": "http://0.0.0.0:8000/api/models/dna.glb",
           "scale": 1.2,
           "position": [0, 0, 0],
           "parts": [
@@ -1257,7 +1257,7 @@
           "id": "nucleotide-detailed-model",
           "title": "নিউক্লিওটাইড গঠন উচ্চ পর্যায়ে (Nucleotide Structure Advanced)",
           "description": "DNA ও RNA এর মৌলিক গঠন একক নিউক্লিওটাইডের বিস্তারিত ত্রিমাত্রিক মডেল। নাইট্রোজেন বেস, পেন্টোজ শর্করা, এবং ফসফেট গ্রুপের আণবিক গঠন দেখুন। (Detailed 3D model of the basic building block of DNA and RNA - the nucleotide. Explore the molecular structure of nitrogenous bases, pentose sugar, and phosphate groups.)",
-          "modelUrl": "http://localhost:8000/api/models/dna_nucleotide.glb",
+          "modelUrl": "http://0.0.0.0:8000/api/models/dna_nucleotide.glb",
           "scale": 1.5,
           "position": [0, 0, 0],
           "parts": [
@@ -1302,7 +1302,7 @@
           "id": "dna-replication-3d-model",
           "title": "ডিএনএ প্রতিলিপি - ধাপ দ্বারা ধাপ (DNA Replication - Step by Step)",
           "description": "DNA রেপ্লিকেশন প্রক্রিয়ার বিস্তারিত ত্রিমাত্রিক মডেল। হেলিকেস, ডিএনএ পলিমারেজ, প্রাইমেস এবং লাইগেজসহ সমস্ত এনজাইমের ক্রিয়াকলাপ দেখুন। রেপ্লিকেশন ফর্ক, লিডিং স্ট্র্যান্ড এবং ল্যাগিং স্ট্র্যান্ডে প্রতিলিপি প্রক্রিয়া পর্যবেক্ষণ করুন। (Detailed 3D model of the DNA replication process. Observe the activities of all enzymes including helicase, DNA polymerase, primase, and ligase. Watch the replication process at the replication fork, leading strand, and lagging strand.)",
-          "modelUrl": "http://localhost:8000/api/models/dna_replication_model.glb",
+          "modelUrl": "http://0.0.0.0:8000/api/models/dna_replication_model.glb",
           "scale": 1.2,
           "position": [0, 0, 0],
           "parts": [

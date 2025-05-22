@@ -1,7 +1,7 @@
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DefaultLayout from "@/layouts/default";
-import axios from "axios";
+import apiService from "@/services/apiService";
 import { useEffect, useRef, useState } from "react";
 
 type Chemical = {
@@ -171,18 +171,14 @@ const ChemistryEngine = () => {
     const fetchChemicals = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(
-          "http://localhost:8000/api/experiments/chemistry"
-        );
-        setChemicals(response.data.chemicals || []);
+        const data = await apiService.chemistry.getAll();
+        setChemicals(data.chemicals || []);
         setLoading(false);
       } catch (err) {
         console.error("Failed to load from API, trying local data", err);
         try {
-          const response = await axios.get(
-            "http://localhost:8000/api/experiments/chemicals"
-          );
-          setChemicals(response.data.chemicals || []);
+          const data = await apiService.chemistry.getChemicals();
+          setChemicals(data.chemicals || []);
           setLoading(false);
         } catch (fetchErr) {
           setError("Failed to load chemistry data");
@@ -206,24 +202,27 @@ const ChemistryEngine = () => {
       const temperature = labSettings.temperature;
       const mixingSpeed = labSettings.mixingSpeed;
 
-      const response = await axios.get(
-        `http://localhost:8000/api/reactions?chem1=${chem1}&chem2=${chem2}&temperature=${temperature}&mixing_speed=${mixingSpeed}`
+      const data = await apiService.chemistry.performReaction(
+        chem1,
+        chem2,
+        temperature,
+        mixingSpeed
       );
 
-      setReaction(response.data);
+      setReaction(data);
       setAnimationActive(true);
 
-      applyLabSettingsToReaction(response.data);
+      applyLabSettingsToReaction(data);
 
       const descriptionText =
         labSettings.language === "bn"
-          ? response.data.bengaliDescription || response.data.description
-          : response.data.description;
+          ? data.bengaliDescription || data.description
+          : data.description;
 
       playAudioNarration(descriptionText);
 
       if (canvasRef.current) {
-        drawReactionAnimation(response.data.animation, response.data.color);
+        drawReactionAnimation(data.animation, data.color);
       }
     } catch (err) {
       console.error("Failed to perform reaction", err);
@@ -501,18 +500,16 @@ const ChemistryEngine = () => {
 
   const playAudioNarration = async (text: string) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8000/api/audio?text=${encodeURIComponent(text)}`,
-        {
-          responseType: "blob",
-        }
-      );
+      const audioUrl = apiService.audio.getAudio(text);
+      const response = await fetch(audioUrl, {
+        method: "GET",
+      });
 
       if (audioRef.current) {
         audioRef.current.pause();
       }
 
-      const audioBlob = new Blob([response.data], { type: "audio/mpeg" });
+      const audioBlob = await response.blob();
       const audioUrl = URL.createObjectURL(audioBlob);
 
       const audio = new Audio(audioUrl);

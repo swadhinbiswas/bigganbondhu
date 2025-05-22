@@ -10,7 +10,7 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ message }) => (
       <p className="font-bold text-red-600 dark:text-red-400 text-lg">Error</p>
       <p className="my-2">{message}</p>
       <p className="mt-3 text-gray-600 dark:text-gray-400">
-        Please make sure the backend server is running at http://localhost:8000
+        Please make sure the backend server is running and accessible
       </p>
     </div>
   </div>
