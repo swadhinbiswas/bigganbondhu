@@ -4,11 +4,13 @@ This document explains how to configure the API endpoints for the BigganBondhu f
 
 ## Environment Variables
 
-The frontend uses environment variables to determine the API URL. The primary variable is:
+The frontend uses environment variables to configure the API proxy. The primary variable is:
 
 ```
 VITE_API_URL=http://your-backend-server:8000
 ```
+
+> **Note**: This URL is not exposed to the browser. It's only used server-side by the Vite development server or in production builds to configure the proxy.
 
 ## Configuration Methods
 
@@ -21,7 +23,7 @@ VITE_API_URL=http://your-backend-server:8000
    VITE_API_URL=http://your-backend-server:8000
    ```
 
-2. The frontend will automatically load this environment variable during development.
+2. The frontend will automatically use this value to configure the API proxy during development.
 
 ### Production Deployment
 
@@ -39,8 +41,16 @@ VITE_API_URL=http://your-backend-server:8000
 
 If `VITE_API_URL` is not set:
 
-1. For relative API paths, the frontend will use the same origin (same server hosting the frontend)
-2. For development on localhost, it will default to `http://localhost:8000` as the backend URL
+1. The proxy will default to `http://0.0.0.0:8000` as the backend URL
+2. All API requests will be proxied through `/api` path
+
+## API Request Privacy
+
+All API requests are proxied through the Vite development server (in development) or your production server (in production). This means:
+
+1. The actual backend URL is not exposed in browser network requests
+2. API requests appear to come from the same origin as your frontend
+3. The browser only sees relative URLs like `/api/experiments/physics` rather than the full backend URL
 
 ## Centralized API Configuration
 
@@ -49,14 +59,4 @@ All API endpoints are centralized in:
 - `/src/config/apiConfig.ts` - Main configuration file
 - `/src/services/apiService.ts` - Service utilities for API calls
 
-This ensures that if the API structure changes, updates only need to be made in these central files.
-
-## Checking API Configuration
-
-To verify the current API configuration, open the browser console and run:
-
-```javascript
-import.meta.env.VITE_API_URL;
-```
-
-This will show the current API URL being used by the application.
+These files are configured to use relative URLs that go through the proxy, hiding the actual backend URL from the client.

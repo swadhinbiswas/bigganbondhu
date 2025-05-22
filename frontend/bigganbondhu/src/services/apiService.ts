@@ -1,9 +1,9 @@
 import axios from "axios";
 import apiConfig from "../config/apiConfig";
 
-// Create axios instance with ABSOLUTE baseURL
+// Create axios instance with relative paths that will be handled by Vite's proxy
 const apiClient = axios.create({
-  baseURL: apiConfig.baseURL, // Now guaranteed to be absolute
+  baseURL: apiConfig.baseURL, // Empty string for relative URLs
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -12,14 +12,8 @@ const apiClient = axios.create({
   withCredentials: false, // Disable cookie sending
 });
 
-// Configure axios to prevent relative paths
-apiClient.interceptors.request.use((config) => {
-  // If URL starts with /, prepend baseURL
-  if (config.url?.startsWith("/")) {
-    config.url = `${apiConfig.baseURL}${config.url}`;
-  }
-  return config;
-});
+// No need to modify paths - let the requests be relative so they go through the proxy
+// This removes the interceptor that was prepending the absolute baseURL
 
 export const apiService = {
   // Generic GET with absolute URL enforcement

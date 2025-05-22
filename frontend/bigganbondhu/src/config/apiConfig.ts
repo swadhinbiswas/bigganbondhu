@@ -1,6 +1,10 @@
 const apiConfig = {
-  // Force absolute URL - remove any automatic path joining
-  baseURL: import.meta.env.VITE_API_URL || "http://0.0.0.0:8000",
+  // In development, use relative URLs that will be handled by Vite's proxy
+  // In production, this can be configured via env variables if needed
+  baseURL: "", // Empty string for relative URLs
+
+  // Original baseURL kept for reference but not used directly in API calls
+  apiServerUrl: import.meta.env.VITE_API_URL || "http://0.0.0.0:8000",
 
   // API endpoints (must start with /)
   endpoints: {
@@ -23,20 +27,25 @@ const apiConfig = {
       return endpoint;
     }
 
-    // Create URL object with proper base
-    const url = new URL(
-      endpoint.startsWith("/") ? endpoint : `/${endpoint}`,
-      apiConfig.baseURL
-    );
+    // For relative URLs (to be proxied by Vite), just return the path with parameters
+    const path = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
 
-    // Add query parameters
+    // If there are no params, return the path directly
+    if (Object.keys(params).length === 0) {
+      return path;
+    }
+
+    // Otherwise, add the query parameters
+    const queryParams = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
-        url.searchParams.append(key, String(value));
+        queryParams.append(key, String(value));
       }
     });
 
-    return url.toString();
+    return `${path}?${queryParams.toString()}`;
+
+    // This section is replaced by the new implementation above
   },
 };
 
