@@ -2,6 +2,205 @@ import { elements, useAtomStore } from "@/lib/stores/atomStore";
 import { animate } from "animejs";
 import React, { useEffect, useRef, useState } from "react";
 
+// Element categories for coloring the legend
+const CATEGORIES = {
+  alkali: { name: "Alkali metals", color: "bg-red-500 dark:bg-red-600" },
+  alkaline: {
+    name: "Alkaline earth metals",
+    color: "bg-orange-500 dark:bg-orange-600",
+  },
+  transition: {
+    name: "Transition metals",
+    color: "bg-purple-500 dark:bg-purple-600",
+  },
+  post_transition: {
+    name: "Post-transition metals",
+    color: "bg-blue-400 dark:bg-blue-500",
+  },
+  metalloid: { name: "Metalloids", color: "bg-green-500 dark:bg-green-600" },
+  nonmetal: {
+    name: "Reactive non-metals",
+    color: "bg-blue-500 dark:bg-blue-600",
+  },
+  noble: { name: "Noble gases", color: "bg-pink-500 dark:bg-pink-600" },
+  lanthanide: {
+    name: "Lanthanides",
+    color: "bg-yellow-500 dark:bg-yellow-600",
+  },
+  actinide: { name: "Actinides", color: "bg-orange-600 dark:bg-orange-700" },
+  unknown: {
+    name: "Unknown properties",
+    color: "bg-gray-500 dark:bg-gray-600",
+  },
+};
+
+// Element category mapping
+const elementCategories = {
+  H: "nonmetal",
+  He: "noble",
+  Li: "alkali",
+  Be: "alkaline",
+  B: "metalloid",
+  C: "nonmetal",
+  N: "nonmetal",
+  O: "nonmetal",
+  F: "nonmetal",
+  Ne: "noble",
+  Na: "alkali",
+  Mg: "alkaline",
+  Al: "post_transition",
+  Si: "metalloid",
+  P: "nonmetal",
+  S: "nonmetal",
+  Cl: "nonmetal",
+  Ar: "noble",
+  K: "alkali",
+  Ca: "alkaline",
+  Sc: "transition",
+  Ti: "transition",
+  V: "transition",
+  Cr: "transition",
+  Mn: "transition",
+  Fe: "transition",
+  Co: "transition",
+  Ni: "transition",
+  Cu: "transition",
+  Zn: "transition",
+  Ga: "post_transition",
+  Ge: "metalloid",
+  As: "metalloid",
+  Se: "nonmetal",
+  Br: "nonmetal",
+  Kr: "noble",
+  Rb: "alkali",
+  Sr: "alkaline",
+  Y: "transition",
+  Zr: "transition",
+  Nb: "transition",
+  Mo: "transition",
+  Tc: "transition",
+  Ru: "transition",
+  Rh: "transition",
+  Pd: "transition",
+  Ag: "transition",
+  Cd: "transition",
+  In: "post_transition",
+  Sn: "post_transition",
+  Sb: "metalloid",
+  Te: "metalloid",
+  I: "nonmetal",
+  Xe: "noble",
+  Cs: "alkali",
+  Ba: "alkaline",
+  La: "lanthanide",
+  Hf: "transition",
+  Ta: "transition",
+  W: "transition",
+  Re: "transition",
+  Os: "transition",
+  Ir: "transition",
+  Pt: "transition",
+  Au: "transition",
+  Hg: "transition",
+  Tl: "post_transition",
+  Pb: "post_transition",
+  Bi: "post_transition",
+  Po: "post_transition",
+  At: "metalloid",
+  Rn: "noble",
+  Fr: "alkali",
+  Ra: "alkaline",
+  Ac: "actinide",
+};
+
+// Simplified periodic table for the first 36 elements
+const PERIODIC_TABLE = [
+  // Period 1
+  [
+    { number: 1, symbol: "H", name: "Hydrogen", category: "nonmetal" },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    { number: 2, symbol: "He", name: "Helium", category: "noble" },
+  ],
+  // Period 2
+  [
+    { number: 3, symbol: "Li", name: "Lithium", category: "alkali" },
+    { number: 4, symbol: "Be", name: "Beryllium", category: "alkaline" },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    { number: 5, symbol: "B", name: "Boron", category: "metalloid" },
+    { number: 6, symbol: "C", name: "Carbon", category: "nonmetal" },
+    { number: 7, symbol: "N", name: "Nitrogen", category: "nonmetal" },
+    { number: 8, symbol: "O", name: "Oxygen", category: "nonmetal" },
+    { number: 9, symbol: "F", name: "Fluorine", category: "nonmetal" },
+    { number: 10, symbol: "Ne", name: "Neon", category: "noble" },
+  ],
+  // Period 3
+  [
+    { number: 11, symbol: "Na", name: "Sodium", category: "alkali" },
+    { number: 12, symbol: "Mg", name: "Magnesium", category: "alkaline" },
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    { number: 13, symbol: "Al", name: "Aluminum", category: "post_transition" },
+    { number: 14, symbol: "Si", name: "Silicon", category: "metalloid" },
+    { number: 15, symbol: "P", name: "Phosphorus", category: "nonmetal" },
+    { number: 16, symbol: "S", name: "Sulfur", category: "nonmetal" },
+    { number: 17, symbol: "Cl", name: "Chlorine", category: "nonmetal" },
+    { number: 18, symbol: "Ar", name: "Argon", category: "noble" },
+  ],
+  // Period 4
+  [
+    { number: 19, symbol: "K", name: "Potassium", category: "alkali" },
+    { number: 20, symbol: "Ca", name: "Calcium", category: "alkaline" },
+    { number: 21, symbol: "Sc", name: "Scandium", category: "transition" },
+    { number: 22, symbol: "Ti", name: "Titanium", category: "transition" },
+    { number: 23, symbol: "V", name: "Vanadium", category: "transition" },
+    { number: 24, symbol: "Cr", name: "Chromium", category: "transition" },
+    { number: 25, symbol: "Mn", name: "Manganese", category: "transition" },
+    { number: 26, symbol: "Fe", name: "Iron", category: "transition" },
+    { number: 27, symbol: "Co", name: "Cobalt", category: "transition" },
+    { number: 28, symbol: "Ni", name: "Nickel", category: "transition" },
+    { number: 29, symbol: "Cu", name: "Copper", category: "transition" },
+    { number: 30, symbol: "Zn", name: "Zinc", category: "transition" },
+    { number: 31, symbol: "Ga", name: "Gallium", category: "post_transition" },
+    { number: 32, symbol: "Ge", name: "Germanium", category: "metalloid" },
+    { number: 33, symbol: "As", name: "Arsenic", category: "metalloid" },
+    { number: 34, symbol: "Se", name: "Selenium", category: "nonmetal" },
+    { number: 35, symbol: "Br", name: "Bromine", category: "nonmetal" },
+    { number: 36, symbol: "Kr", name: "Krypton", category: "noble" },
+  ],
+];
+
 const MiniPeriodicTable: React.FC = () => {
   const {
     protons,
@@ -20,72 +219,11 @@ const MiniPeriodicTable: React.FC = () => {
   const [tooltipContent, setTooltipContent] = useState("");
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
 
-  // First 20 elements arranged in a grid matching their position in the periodic table
-  const periodicTableLayout = [
-    // Row 1
-    { number: 1, symbol: "H", group: 1, period: 1, category: "nonmetal" },
-    { number: 0, symbol: "", group: 2, period: 1 }, // Empty cell
-    { number: 0, symbol: "", group: 13, period: 1 }, // Empty cell
-    { number: 0, symbol: "", group: 14, period: 1 }, // Empty cell
-    { number: 0, symbol: "", group: 15, period: 1 }, // Empty cell
-    { number: 0, symbol: "", group: 16, period: 1 }, // Empty cell
-    { number: 0, symbol: "", group: 17, period: 1 }, // Empty cell
-    { number: 2, symbol: "He", group: 18, period: 1, category: "noble" },
-
-    // Row 2
-    { number: 3, symbol: "Li", group: 1, period: 2, category: "alkali" },
-    { number: 4, symbol: "Be", group: 2, period: 2, category: "alkaline" },
-    { number: 0, symbol: "", group: 3, period: 2 }, // Empty cell
-    { number: 0, symbol: "", group: 4, period: 2 }, // Empty cell
-    { number: 0, symbol: "", group: 5, period: 2 }, // Empty cell
-    { number: 0, symbol: "", group: 6, period: 2 }, // Empty cell
-    { number: 0, symbol: "", group: 7, period: 2 }, // Empty cell
-    { number: 0, symbol: "", group: 8, period: 2 }, // Empty cell
-    { number: 0, symbol: "", group: 9, period: 2 }, // Empty cell
-    { number: 0, symbol: "", group: 10, period: 2 }, // Empty cell
-    { number: 0, symbol: "", group: 11, period: 2 }, // Empty cell
-    { number: 0, symbol: "", group: 12, period: 2 }, // Empty cell
-    { number: 5, symbol: "B", group: 13, period: 2, category: "metalloid" },
-    { number: 6, symbol: "C", group: 14, period: 2, category: "nonmetal" },
-    { number: 7, symbol: "N", group: 15, period: 2, category: "nonmetal" },
-    { number: 8, symbol: "O", group: 16, period: 2, category: "nonmetal" },
-    { number: 9, symbol: "F", group: 17, period: 2, category: "halogen" },
-    { number: 10, symbol: "Ne", group: 18, period: 2, category: "noble" },
-
-    // Row 3
-    { number: 11, symbol: "Na", group: 1, period: 3, category: "alkali" },
-    { number: 12, symbol: "Mg", group: 2, period: 3, category: "alkaline" },
-    { number: 0, symbol: "", group: 3, period: 3 }, // Empty cell
-    { number: 0, symbol: "", group: 4, period: 3 }, // Empty cell
-    { number: 0, symbol: "", group: 5, period: 3 }, // Empty cell
-    { number: 0, symbol: "", group: 6, period: 3 }, // Empty cell
-    { number: 0, symbol: "", group: 7, period: 3 }, // Empty cell
-    { number: 0, symbol: "", group: 8, period: 3 }, // Empty cell
-    { number: 0, symbol: "", group: 9, period: 3 }, // Empty cell
-    { number: 0, symbol: "", group: 10, period: 3 }, // Empty cell
-    { number: 0, symbol: "", group: 11, period: 3 }, // Empty cell
-    { number: 0, symbol: "", group: 12, period: 3 }, // Empty cell
-    { number: 13, symbol: "Al", group: 13, period: 3, category: "metal" },
-    { number: 14, symbol: "Si", group: 14, period: 3, category: "metalloid" },
-    { number: 15, symbol: "P", group: 15, period: 3, category: "nonmetal" },
-    { number: 16, symbol: "S", group: 16, period: 3, category: "nonmetal" },
-    { number: 17, symbol: "Cl", group: 17, period: 3, category: "halogen" },
-    { number: 18, symbol: "Ar", group: 18, period: 3, category: "noble" },
-
-    // Row 4 (first two elements only)
-    { number: 19, symbol: "K", group: 1, period: 4, category: "alkali" },
-    { number: 20, symbol: "Ca", group: 2, period: 4, category: "alkaline" },
-  ];
-
-  // Filter out empty cells
-  const displayElements = periodicTableLayout.filter((el) => el.number > 0);
-
   // Animation when the active element changes
   useEffect(() => {
     if (activeElementRef.current) {
       animate(activeElementRef.current, {
         scale: [1, 1.2, 1],
-        backgroundColor: ["#4F46E5", "#6366F1", "#4F46E5"],
         duration: 500,
         easing: "easeInOutQuad",
       });
@@ -104,35 +242,26 @@ const MiniPeriodicTable: React.FC = () => {
     }
   }, []);
 
-  // Get element info for tooltip
-  const getElementInfo = (atomicNumber: number) => {
-    const element = elements[atomicNumber];
-    if (!element) return "";
-    return `${element.name} (${atomicNumber})`;
-  };
-
   // Handle element click
-  const handleElementClick = (atomicNumber: number) => {
+  const handleElementClick = (element: any) => {
+    if (!element) return;
+
     // First reset the atom
     resetAtom();
 
     // Then set it to the desired element by adding protons
-    for (let i = 1; i < atomicNumber; i++) {
+    for (let i = 1; i < element.number; i++) {
       addProton();
     }
 
     // Add some neutrons (approximately equal to protons for simplicity)
-    for (let i = 0; i < atomicNumber; i++) {
+    for (let i = 0; i < element.number; i++) {
       addNeutron();
     }
   };
 
-  // Handle element hover for detailed tooltip
-  const handleElementHover = (
-    atomicNumber: number,
-    event: React.MouseEvent
-  ) => {
-    const element = elements[atomicNumber];
+  // Handle element hover for tooltip
+  const handleElementHover = (element: any, event: React.MouseEvent) => {
     if (!element) return;
 
     const rect = (event.target as HTMLElement).getBoundingClientRect();
@@ -141,112 +270,137 @@ const MiniPeriodicTable: React.FC = () => {
       y: rect.top - 10,
     });
 
+    // Get the element category
+    const category =
+      elementCategories[element.symbol as keyof typeof elementCategories] ||
+      "unknown";
+
     setTooltipContent(`
       <div class="font-bold">${element.name} (${element.symbol})</div>
-      <div>Atomic Number: ${atomicNumber}</div>
+      <div>Atomic Number: ${element.number}</div>
+      <div>Category: ${CATEGORIES[category as keyof typeof CATEGORIES]?.name || "Unknown"}</div>
     `);
     setShowTooltip(true);
   };
 
-  // Get color class based on element category
-  const getCategoryColorClass = (category?: string) => {
-    switch (category) {
-      case "alkali":
-        return "bg-red-500 hover:bg-red-400";
-      case "alkaline":
-        return "bg-orange-500 hover:bg-orange-400";
-      case "metal":
-        return "bg-yellow-600 hover:bg-yellow-500";
-      case "metalloid":
-        return "bg-green-600 hover:bg-green-500";
-      case "nonmetal":
-        return "bg-blue-500 hover:bg-blue-400";
-      case "halogen":
-        return "bg-purple-500 hover:bg-purple-400";
-      case "noble":
-        return "bg-pink-500 hover:bg-pink-400";
-      default:
-        return "bg-gray-500 hover:bg-gray-400";
+  // Get element by atomic number
+  const getElementByNumber = (number: number) => {
+    for (const row of PERIODIC_TABLE) {
+      for (const element of row) {
+        if (element && element.number === number) {
+          return element;
+        }
+      }
     }
+    return null;
+  };
+
+  // Get current selected element
+  const selectedElement = protons > 0 ? getElementByNumber(protons) : null;
+
+  // Function to get element background style based on its color in the elements data
+  const getElementStyle = (elementNumber: number) => {
+    if (elementNumber === protons) {
+      return {
+        backgroundColor: "#4F46E5", // Active element color
+        color: "white",
+        border: "1px solid #818CF8",
+      };
+    }
+
+    const elementData = elements[elementNumber];
+    if (!elementData) return {};
+
+    // Convert hex color to RGB for better text contrast calculation
+    const hexToRgb = (hex: string) => {
+      const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+      return result
+        ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16),
+          }
+        : { r: 0, g: 0, b: 0 };
+    };
+
+    // Calculate if text should be dark or light based on background brightness
+    const rgb = hexToRgb(elementData.color);
+    const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000;
+    const textColor = brightness > 125 ? "black" : "white";
+
+    return {
+      backgroundColor: elementData.color,
+      color: textColor,
+      border: "1px solid rgba(255,255,255,0.1)",
+    };
   };
 
   return (
     <div
       ref={tableRef}
-      className="bg-white dark:bg-slate-800/90 backdrop-blur-sm rounded-lg shadow-lg p-4 transition-all duration-300"
+      className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-lg shadow-lg p-3 transition-all duration-300 border border-indigo-100 dark:border-indigo-900/30"
     >
-      <h2 className="font-semibold text-indigo-600 dark:text-indigo-400 mb-3">
+      <h2 className="font-semibold text-indigo-600 dark:text-indigo-400 mb-2 text-center">
         Periodic Table
       </h2>
 
-      <div className="grid grid-cols-9 gap-1 text-xs">
-        {displayElements.map((el) => (
+      <div className="grid gap-0.5 max-w-full overflow-visible">
+        {PERIODIC_TABLE.map((row, rowIndex) => (
           <div
-            key={el.number}
-            ref={el.number === protons ? activeElementRef : null}
-            className={`
-              flex flex-col items-center justify-center
-              h-9 w-9 rounded
-              ${
-                el.number === protons
-                  ? "bg-indigo-600 text-white font-bold shadow-lg ring-2 ring-indigo-300 dark:ring-indigo-500 transform scale-110 z-10"
-                  : `${getCategoryColorClass(el.category)} text-white`
-              }
-              transition-all duration-200 cursor-pointer
-              hover:shadow-md hover:scale-105
-            `}
-            onClick={() => handleElementClick(el.number)}
-            onMouseEnter={(e) => handleElementHover(el.number, e)}
-            onMouseLeave={() => setShowTooltip(false)}
+            key={`row-${rowIndex}`}
+            className="flex flex-wrap gap-0.5 justify-center"
           >
-            <div className="text-[8px] opacity-70">{el.number}</div>
-            <div className="font-bold text-sm">{el.symbol}</div>
+            {row.map((element, colIndex) => (
+              <div key={`cell-${rowIndex}-${colIndex}`} className="relative">
+                {element ? (
+                  <div
+                    ref={element.number === protons ? activeElementRef : null}
+                    className="flex flex-col items-center justify-center h-7 w-7 rounded transition-all duration-200 cursor-pointer hover:shadow-sm hover:scale-105"
+                    style={getElementStyle(element.number)}
+                    onClick={() => handleElementClick(element)}
+                    onMouseEnter={(e) => handleElementHover(element, e)}
+                    onMouseLeave={() => setShowTooltip(false)}
+                  >
+                    <div className="text-[6px] opacity-70">
+                      {element.number}
+                    </div>
+                    <div className="font-bold text-[10px]">
+                      {element.symbol}
+                    </div>
+                  </div>
+                ) : (
+                  <div className="h-7 w-7"></div>
+                )}
+              </div>
+            ))}
           </div>
         ))}
       </div>
 
-      <div className="mt-2 text-xs text-gray-500 dark:text-gray-400">
-        {protons > 0
-          ? `Selected: ${elements[protons]?.name} (${protons})`
+      <div className="mt-2 text-xs text-center text-gray-600 dark:text-gray-400">
+        {selectedElement
+          ? `Selected: ${selectedElement.name} (${selectedElement.number})`
           : "No element selected"}
       </div>
 
-      {/* Category legend */}
-      <div className="mt-3 grid grid-cols-3 gap-x-2 gap-y-1 text-[9px]">
-        <div className="flex items-center">
-          <div className="w-2 h-2 rounded-full bg-red-500 mr-1"></div>
-          <span className="text-gray-600 dark:text-gray-300">
-            Alkali Metals
-          </span>
-        </div>
-        <div className="flex items-center">
-          <div className="w-2 h-2 rounded-full bg-orange-500 mr-1"></div>
-          <span className="text-gray-600 dark:text-gray-300">
-            Alkaline Earth
-          </span>
-        </div>
-        <div className="flex items-center">
-          <div className="w-2 h-2 rounded-full bg-blue-500 mr-1"></div>
-          <span className="text-gray-600 dark:text-gray-300">Nonmetals</span>
-        </div>
-        <div className="flex items-center">
-          <div className="w-2 h-2 rounded-full bg-green-600 mr-1"></div>
-          <span className="text-gray-600 dark:text-gray-300">Metalloids</span>
-        </div>
-        <div className="flex items-center">
-          <div className="w-2 h-2 rounded-full bg-purple-500 mr-1"></div>
-          <span className="text-gray-600 dark:text-gray-300">Halogens</span>
-        </div>
-        <div className="flex items-center">
-          <div className="w-2 h-2 rounded-full bg-pink-500 mr-1"></div>
-          <span className="text-gray-600 dark:text-gray-300">Noble Gases</span>
-        </div>
+      {/* Category legend - compact layout */}
+      <div className="mt-2 flex flex-wrap justify-center gap-x-2 gap-y-1 text-[7px]">
+        {Object.entries(CATEGORIES)
+          .slice(0, 6)
+          .map(([key, { name, color }]) => (
+            <div key={key} className="flex items-center">
+              <div className={`w-1.5 h-1.5 rounded-full ${color} mr-0.5`}></div>
+              <span className="text-gray-600 dark:text-gray-300">
+                {name.split(" ")[0]}
+              </span>
+            </div>
+          ))}
       </div>
 
       {/* Detailed tooltip */}
       {showTooltip && (
         <div
-          className="fixed bg-white dark:bg-slate-700 p-2 rounded shadow-lg text-xs z-50 pointer-events-none"
+          className="fixed bg-white dark:bg-slate-700 p-2 rounded shadow-lg text-xs z-50 pointer-events-none border border-gray-200 dark:border-gray-600"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y - 5}px`,

@@ -241,7 +241,7 @@ async def perform_reaction(
                         result["description"] = result["description"] + f" At {temperature}°C, the precipitation forms more quickly."
                         result["bengaliDescription"] = result.get("bengaliDescription", "") + f" {temperature}°C তাপমাত্রায়, অধঃক্ষেপণ দ্রুত হয়।"
                 elif temperature < 10:
-                    # Reduced effects at lower temperatures
+                   
                     result["description"] = result["description"] + f" At {temperature}°C, the reaction is slowed down."
                     result["bengaliDescription"] = result.get("bengaliDescription", "") + f" {temperature}°C তাপমাত্রায়, বিক্রিয়াটি ধীর হয়।"
 
@@ -509,7 +509,7 @@ async def get_model_file(filename: str):
         error_message = f"Error retrieving model file {filename}: {str(e)}"
         print(error_message)
         raise HTTPException(status_code=500, detail=error_message)
-        
+
     except Exception as e:
         print(f"Error retrieving model file {filename}: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Failed to retrieve model: {str(e)}")

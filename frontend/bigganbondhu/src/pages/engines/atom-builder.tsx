@@ -32,36 +32,6 @@ export default function AtomBuilderPage() {
         </div>
 
         <AtomBuilder />
-
-        <div className="mt-6 bg-white dark:bg-slate-800 p-4 rounded-lg shadow">
-          <h2 className="text-xl font-semibold mb-2">Instructions</h2>
-          <ol className="list-decimal list-inside space-y-2 pl-4">
-            <li>
-              Drag protons, neutrons, and electrons to the atom or click to add
-              them
-            </li>
-            <li>
-              Use the particle counter controls to add or remove specific
-              particles
-            </li>
-            <li>
-              Switch between 'Orbit' and 'Cloud' views to see different atomic
-              models
-            </li>
-            <li>
-              Notice how the element identity changes as you add or remove
-              protons
-            </li>
-            <li>
-              Observe how the charge changes as you modify the electron count
-            </li>
-            <li>
-              Check the atom stability indicator and try to create stable
-              configurations
-            </li>
-            <li>Use the reset button to start with a fresh atom</li>
-          </ol>
-        </div>
       </div>
     </DefaultLayout>
   );
