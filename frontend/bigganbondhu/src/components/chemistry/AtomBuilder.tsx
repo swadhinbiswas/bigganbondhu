@@ -1,10 +1,10 @@
 import React from "react";
 import AtomBuilder3D from "../AtomBuilder3D";
+import ParticlePalette from "../ParticlePalette";
 import AtomInfoPanel from "../AtomInfoPanel";
 import MiniPeriodicTable from "../MiniPeriodicTable";
-import ParticlePalette from "../ParticlePalette";
-import ResetButton from "../ResetButton";
 import ViewToggles from "../ViewToggles";
+import ResetButton from "../ResetButton";
 
 const AtomBuilder: React.FC = () => {
   return (
