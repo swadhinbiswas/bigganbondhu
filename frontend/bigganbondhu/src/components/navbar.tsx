@@ -27,7 +27,14 @@ export const Navbar = () => {
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
-          <Link className="flex justify-start items-center gap-1" href="/">
+          <Link className="flex justify-start items-center gap-2" href="/">
+            <div className="relative h-9 w-9 rounded-full overflow-hidden bg-blue-50 p-1 flex items-center justify-center border border-blue-200 shadow-sm transition-all duration-300 hover:shadow-md hover:bg-blue-100 group">
+              <img
+                src="/microscope.gif"
+                alt="Microscope"
+                className="h-7 w-7 microscope-logo animate-microscope group-hover:scale-110 transition-transform duration-300 object-contain"
+              />
+            </div>
             <span className="text-2xl font-bold text-gray-800 dark:text-gray-100">
               বিজ্ঞান
               <span className="text-emerald-600 dark:text-emerald-500">
