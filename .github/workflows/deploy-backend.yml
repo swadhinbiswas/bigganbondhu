@@ -1,0 +1,75 @@
+name: Deploy Backend to GCP VM
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "backend/**"
+      - ".github/workflows/deploy-backend.yml"
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          push: true
+          tags: ghcr.io/${{ github.repository_owner }}/bigganbondhu-backend:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+
+      - name: Adding Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.GCP_VM_IP }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to GCP VM
+        env:
+          GCP_VM_IP: ${{ secrets.GCP_VM_IP }}
+          GCP_VM_USER: ${{ secrets.GCP_VM_USER }}
+        run: |
+          ssh ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_IP }} "mkdir -p ~/bigganbondhu/data"
+          # Create or update docker-compose file on the VM
+          cat > docker-compose.yml << 'EOL'
+          version: '3.8'
+
+          services:
+            backend:
+              image: ghcr.io/${{ github.repository_owner }}/bigganbondhu-backend:latest
+              restart: always
+              ports:
+                - "8000:8000"
+              volumes:
+                - ~/bigganbondhu/data:/app/data
+              environment:
+                - TZ=UTC
+          EOL
+
+          scp docker-compose.yml ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_IP }}:~/bigganbondhu/
+
+          # Pull the latest image and restart the service
+          ssh ${{ secrets.GCP_VM_USER }}@${{ secrets.GCP_VM_IP }} "cd ~/bigganbondhu && \
+            docker pull ghcr.io/${{ github.repository_owner }}/bigganbondhu-backend:latest && \
+            docker-compose up -d"

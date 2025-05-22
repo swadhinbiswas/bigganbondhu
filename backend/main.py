@@ -8,6 +8,8 @@ import uuid
 from pydantic import BaseModel
 from pathlib import Path
 from typing import List, Dict, Any, Optional
+import time
+import platform
 
 # Create necessary directories
 os.makedirs("data", exist_ok=True)
@@ -24,6 +26,19 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Health check endpoint
+@app.get("/api/health")
+async def health_check():
+    """Health check endpoint for monitoring and Docker healthchecks"""
+    return {
+        "status": "healthy",
+        "timestamp": time.time(),
+        "version": "0.1.0",
+        "environment": os.environ.get("ENVIRONMENT", "development"),
+        "system": platform.system(),
+        "python_version": platform.python_version()
+    }
 
 # Load experiment data
 def load_experiment_data(category: str):
@@ -241,7 +256,7 @@ async def perform_reaction(
                         result["description"] = result["description"] + f" At {temperature}°C, the precipitation forms more quickly."
                         result["bengaliDescription"] = result.get("bengaliDescription", "") + f" {temperature}°C তাপমাত্রায়, অধঃক্ষেপণ দ্রুত হয়।"
                 elif temperature < 10:
-                   
+
                     result["description"] = result["description"] + f" At {temperature}°C, the reaction is slowed down."
                     result["bengaliDescription"] = result.get("bengaliDescription", "") + f" {temperature}°C তাপমাত্রায়, বিক্রিয়াটি ধীর হয়।"
 

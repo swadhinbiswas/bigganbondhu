@@ -49,15 +49,98 @@ This project provides a complete web-based science education platform with three
 2. Install dependencies:
 
    ```bash
-   pip install -e .
-   # OR
    pip install -r requirements.txt
    ```
 
 3. Run the server:
    ```bash
-   python main.py
+   uvicorn main:app --reload
    ```
+
+### Frontend Setup
+
+1. Navigate to the frontend directory:
+
+   ```bash
+   cd frontend/bigganbondhu
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Docker Deployment
+
+This project is containerized with Docker for easy deployment:
+
+1. Build and run both services with Docker Compose:
+
+   ```bash
+   docker-compose up -d
+   ```
+
+2. Access the application:
+   - Backend API: http://localhost:8000
+   - Frontend: http://localhost:3000 (when frontend service is uncommented)
+
+For detailed deployment instructions, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+## Continuous Integration/Continuous Deployment
+
+This project uses GitHub Actions for CI/CD:
+
+1. **Automatic Deployment**: Changes pushed to the main branch automatically trigger deployment
+2. **Containerized Builds**: Docker images are built and pushed to GitHub Container Registry
+3. **VM Deployment**: Backend service is automatically deployed to a Google Cloud VM
+
+Configure the GitHub workflow by setting up required secrets in your repository settings.
+See [GITHUB-ACTIONS.md](GITHUB-ACTIONS.md) for more information.
+
+## Infrastructure Management
+
+### Using the Makefile
+
+The project includes a Makefile for common tasks:
+
+```bash
+# Show available commands
+make help
+
+# Build and run locally
+make run-local
+
+# Deploy to VM
+make deploy VM_USER=username VM_IP=10.0.0.10
+```
+
+### Server Monitoring
+
+A monitoring script is included to check server health:
+
+```bash
+# Run the monitoring script
+./server-monitor.sh
+
+# Setup as a cron job
+crontab -e
+# Add: */15 * * * * /path/to/bigganbondhu/server-monitor.sh
+```
+
+For VM setup instructions, see [VM-SETUP.md](VM-SETUP.md).
+
+````
+
+3. Run the server:
+```bash
+python main.py
+````
 
 The backend API will be available at http://localhost:8000.
 

@@ -429,7 +429,7 @@
           "id": "microscope-model",
           "title": "অণুবীক্ষণ যন্ত্র (Microscope)",
           "description": "আধুনিক অণুবীক্ষণ যন্ত্রের ত্রিমাত্রিক মডেল (3D model of a modern microscope)",
-          "modelUrl": "http://localhost:8000/api/models/microscope.glb",
+          "modelUrl": "http://0.0.0.0:8000/api/models/microscope.glb",
           "scale": 1.0,
           "position": [0, 0, 0],
           "parts": [
@@ -477,7 +477,7 @@
           "id": "nucleus-model",
           "title": "নিউক্লিয়াস মডেল (Nucleus Model)",
           "description": "কোষের নিউক্লিয়াসের ত্রিমাত্রিক মডেল (3D model of cell nucleus)",
-          "modelUrl": "http://localhost:8000/api/models/nucleus.glb",
+          "modelUrl": "http://0.0.0.0:8000/api/models/nucleus.glb",
           "scale": 1.0,
           "position": [0, 0, 0],
           "parts": [
