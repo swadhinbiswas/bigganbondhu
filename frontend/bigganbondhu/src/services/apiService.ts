@@ -2,9 +2,9 @@ import axios from "axios";
 
 import apiConfig from "../config/apiConfig";
 
-// Create axios instance with relative paths that will be handled by Vite's proxy
+// Create axios instance with proper base URL handling
 const apiClient = axios.create({
-  baseURL: apiConfig.baseURL, // Empty string for relative URLs
+  baseURL: apiConfig.baseURL, // Will be empty in dev (for proxy) or full URL in prod
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -13,11 +13,15 @@ const apiClient = axios.create({
   withCredentials: false, // Disable cookie sending
 });
 
-// No need to modify paths - let the requests be relative so they go through the proxy
-// This removes the interceptor that was prepending the absolute baseURL
+// Add request interceptor to handle environment-specific URL construction
+apiClient.interceptors.request.use((config) => {
+  // In development, the URL will be relative and handled by Vite proxy
+  // In production, the URL will be absolute and point directly to backend
+  return config;
+});
 
 export const apiService = {
-  // Generic GET with absolute URL enforcement
+  // Generic GET with environment-aware URL handling
   get: async <T>(endpoint: string, params = {}): Promise<T> => {
     const url = apiConfig.getUrl(endpoint);
 
@@ -52,7 +56,7 @@ export const apiService = {
       chem2: string,
       temperature = 25.0,
       mixingSpeed = 50.0,
-      actions?: string,
+      actions?: string
     ) =>
       apiService.get(apiConfig.endpoints.react, {
         chem1,
@@ -73,7 +77,7 @@ export const apiService = {
   getModelUrl: (filename: string) => apiConfig.getUrl(`/${filename}`),
 
   getSvgUrl: (filename: string) =>
-    apiConfig.getUrl(`http://34.87.148.171:8088/api/${filename}`),
+    apiConfig.getUrl(`${apiConfig.apiServerUrl}/api/${filename}`),
 
   // Health check
   checkHealth: () => apiService.get(apiConfig.endpoints.health),

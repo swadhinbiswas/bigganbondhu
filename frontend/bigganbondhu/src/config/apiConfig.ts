@@ -1,5 +1,8 @@
 const apiConfig = {
-  baseURL: "",
+  // In production, use the full backend URL directly instead of proxy
+  baseURL: import.meta.env.PROD
+    ? import.meta.env.VITE_API_URL || "http://34.87.148.171:8088"
+    : "",
 
   apiServerUrl: import.meta.env.VITE_API_URL || "http://34.87.148.171:8088",
 
@@ -24,12 +27,19 @@ const apiConfig = {
       return endpoint;
     }
 
-    // For relative URLs (to be proxied by Vite), just return the path with parameters
+    // For relative URLs, decide whether to use proxy or direct URL
     const path = endpoint.startsWith("/") ? endpoint : `/${endpoint}`;
+
+    // In production, use the full backend URL
+    const baseUrl = import.meta.env.PROD
+      ? import.meta.env.VITE_API_URL || "http://34.87.148.171:8088"
+      : "";
+
+    const fullPath = baseUrl + path;
 
     // If there are no params, return the path directly
     if (Object.keys(params).length === 0) {
-      return path;
+      return fullPath;
     }
 
     // Otherwise, add the query parameters
@@ -41,9 +51,7 @@ const apiConfig = {
       }
     });
 
-    return `${path}?${queryParams.toString()}`;
-
-    // This section is replaced by the new implementation above
+    return `${fullPath}?${queryParams.toString()}`;
   },
 };
 
