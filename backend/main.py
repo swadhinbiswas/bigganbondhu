@@ -10,6 +10,8 @@ from pathlib import Path
 from typing import List, Dict, Any, Optional
 import time
 import platform
+import requests
+from pydantic import BaseModel
 
 # Create necessary directories
 os.makedirs("data", exist_ok=True)
@@ -39,6 +41,31 @@ async def health_check():
         "system": platform.system(),
         "python_version": platform.python_version()
     }
+
+# Model for image analysis request
+class ImageAnalysisRequest(BaseModel):
+    image_url: str
+
+@app.post("/api/analyze-image")
+async def analyze_image(request: ImageAnalysisRequest):
+    """Analyze an image and provide educational insights"""
+    try:
+        # In a real implementation, this would call a vision AI model
+        # For now we'll return sample data
+
+        # You could implement OpenAI Vision API, Google Cloud Vision, or similar here
+        # Example: response = openai.ChatCompletion.create(model="gpt-4-vision-preview", ...)
+
+        # For now, return a sample response
+        return {
+            "visible_objects": ["গাছপালা", "পাখি", "আকাশ", "মেঘ"],
+            "observation_type": "প্রকৃতি ও পরিবেশ",
+            "is_useful": True,
+            "usefulness_reason": "এই ছবিটি বাস্তুতন্ত্র ও প্রকৃতির সম্পর্ক বোঝাতে উপযোগী।",
+            "fun_fact": "আপনি যে গাছগুলো দেখছেন, সেগুলো প্রতিদিন প্রায় ৪০০ লিটার পানি শোষণ করে এবং অক্সিজেন উৎপাদন করে যা ৪ জন মানুষের দৈনিক অক্সিজেনের চাহিদা মেটাতে পারে!"
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Image analysis failed: {str(e)}")
 
 # Load experiment data
 def load_experiment_data(category: str):

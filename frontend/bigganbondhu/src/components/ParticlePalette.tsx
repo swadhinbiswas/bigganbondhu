@@ -15,9 +15,9 @@ const ParticlePalette: React.FC = () => {
     removeElectron,
   } = useAtomStore();
 
-  const protonRef = useRef<HTMLDivElement>(null);
-  const neutronRef = useRef<HTMLDivElement>(null);
-  const electronRef = useRef<HTMLDivElement>(null);
+  const protonRef = useRef<HTMLDivElement | null>(null);
+  const neutronRef = useRef<HTMLDivElement | null>(null);
+  const electronRef = useRef<HTMLDivElement | null>(null);
 
   // Create draggable proton
   const [{ isDraggingProton }, dragProton] = useDrag(() => ({
@@ -26,7 +26,7 @@ const ParticlePalette: React.FC = () => {
     collect: (monitor) => ({
       isDraggingProton: monitor.isDragging(),
     }),
-    end: (item, monitor) => {
+    end: (_, monitor) => {
       const didDrop = monitor.didDrop();
       if (didDrop) {
         // Successfully dropped on target
@@ -43,7 +43,7 @@ const ParticlePalette: React.FC = () => {
     collect: (monitor) => ({
       isDraggingNeutron: monitor.isDragging(),
     }),
-    end: (item, monitor) => {
+    end: (_, monitor) => {
       const didDrop = monitor.didDrop();
       if (didDrop) {
         // Successfully dropped on target
@@ -60,7 +60,7 @@ const ParticlePalette: React.FC = () => {
     collect: (monitor) => ({
       isDraggingElectron: monitor.isDragging(),
     }),
-    end: (item, monitor) => {
+    end: (_, monitor) => {
       const didDrop = monitor.didDrop();
       if (didDrop) {
         // Successfully dropped on target
@@ -110,7 +110,7 @@ const ParticlePalette: React.FC = () => {
           <div
             ref={(node) => {
               dragProton(node);
-              if (node) protonRef.current = node;
+              protonRef.current = node;
             }}
             className={`w-10 h-10 rounded-full bg-red-400 flex items-center justify-center text-white font-bold cursor-move ${isDraggingProton ? "opacity-50" : ""}`}
             onClick={handleProtonClick}

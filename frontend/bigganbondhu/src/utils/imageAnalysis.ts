@@ -8,7 +8,6 @@ import { externalApiConfig } from "@/config/externalApiConfig";
 const {
   apiKey: OPENROUTER_API_KEY,
   siteUrl: SITE_URL,
-  siteName: SITE_NAME,
 } = externalApiConfig.openRouter;
 
 // Use ASCII version of site name for headers
