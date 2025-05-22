@@ -42,29 +42,35 @@ export default function ShapesAnimation() {
     if (!container) return;
 
     // Set up animation
-    const cubeAnimation = animate(cubeRef.current, {
-      rotateY: [0, 360],
-      rotateX: [0, 360],
-      duration: 8000,
-      loop: true,
-      easing: "linear",
-    });
+    const cubeAnimation = cubeRef.current
+      ? animate(cubeRef.current, {
+          rotateY: [0, 360],
+          rotateX: [0, 360],
+          duration: 8000,
+          loop: true,
+          easing: "linear",
+        })
+      : null;
 
-    const pyramidAnimation = animate(pyramidRef.current, {
-      rotateY: [0, -360],
-      rotateX: [45, 405],
-      duration: 10000,
-      loop: true,
-      easing: "linear",
-    });
+    const pyramidAnimation = pyramidRef.current
+      ? animate(pyramidRef.current, {
+          rotateY: [0, -360],
+          rotateX: [45, 405],
+          duration: 10000,
+          loop: true,
+          easing: "linear",
+        })
+      : null;
 
-    const hexagonAnimation = animate(hexagonRef.current, {
-      rotateZ: [0, 360],
-      rotateX: [30, 390],
-      duration: 12000,
-      loop: true,
-      easing: "linear",
-    });
+    const hexagonAnimation = hexagonRef.current
+      ? animate(hexagonRef.current, {
+          rotateZ: [0, 360],
+          rotateX: [30, 390],
+          duration: 12000,
+          loop: true,
+          easing: "linear",
+        })
+      : null;
 
     // Custom shape animation
     let customShapeAnimation: any;
@@ -93,9 +99,9 @@ export default function ShapesAnimation() {
       mouseY = e.clientY;
 
       // Pause automatic animations when user interacts
-      cubeAnimation.pause();
-      pyramidAnimation.pause();
-      hexagonAnimation.pause();
+      if (cubeAnimation) cubeAnimation.pause();
+      if (pyramidAnimation) pyramidAnimation.pause();
+      if (hexagonAnimation) hexagonAnimation.pause();
       if (customShapeAnimation) customShapeAnimation.pause();
 
       const cube = cubeRef.current;
@@ -104,63 +110,49 @@ export default function ShapesAnimation() {
       const customShape = customShapeRef.current;
 
       if (cube) {
-        const currentRotateY = parseFloat(
-          cube.style.transform.match(/rotateY\(([^)]+)\)/)
-            ? cube.style.transform.match(/rotateY\(([^)]+)\)/)[1]
-            : "0deg"
-        );
-        const currentRotateX = parseFloat(
-          cube.style.transform.match(/rotateX\(([^)]+)\)/)
-            ? cube.style.transform.match(/rotateX\(([^)]+)\)/)[1]
-            : "0deg"
-        );
+        const rotateYMatch = cube.style.transform.match(/rotateY\(([^)]+)\)/);
+        const currentRotateY = parseFloat(rotateYMatch ? rotateYMatch[1] : "0");
+        const rotateXMatch = cube.style.transform.match(/rotateX\(([^)]+)\)/);
+        const currentRotateX = parseFloat(rotateXMatch ? rotateXMatch[1] : "0");
 
-        cube.style.transform = `rotateY(${parseFloat(currentRotateY) + deltaX * 0.5}deg) rotateX(${parseFloat(currentRotateX) - deltaY * 0.5}deg)`;
+        cube.style.transform = `rotateY(${currentRotateY + deltaX * 0.5}deg) rotateX(${currentRotateX - deltaY * 0.5}deg)`;
       }
 
       if (pyramid) {
-        const currentRotateY = parseFloat(
-          pyramid.style.transform.match(/rotateY\(([^)]+)\)/)
-            ? pyramid.style.transform.match(/rotateY\(([^)]+)\)/)[1]
-            : "0deg"
-        );
+        const rotateYMatch =
+          pyramid.style.transform.match(/rotateY\(([^)]+)\)/);
+        const currentRotateY = parseFloat(rotateYMatch ? rotateYMatch[1] : "0");
+        const rotateXMatch =
+          pyramid.style.transform.match(/rotateX\(([^)]+)\)/);
         const currentRotateX = parseFloat(
-          pyramid.style.transform.match(/rotateX\(([^)]+)\)/)
-            ? pyramid.style.transform.match(/rotateX\(([^)]+)\)/)[1]
-            : "45deg"
+          rotateXMatch ? rotateXMatch[1] : "45"
         );
 
-        pyramid.style.transform = `rotateY(${parseFloat(currentRotateY) + deltaX * 0.5}deg) rotateX(${parseFloat(currentRotateX) - deltaY * 0.5}deg)`;
+        pyramid.style.transform = `rotateY(${currentRotateY + deltaX * 0.5}deg) rotateX(${currentRotateX - deltaY * 0.5}deg)`;
       }
 
       if (hexagon) {
-        const currentRotateZ = parseFloat(
-          hexagon.style.transform.match(/rotateZ\(([^)]+)\)/)
-            ? hexagon.style.transform.match(/rotateZ\(([^)]+)\)/)[1]
-            : "0deg"
-        );
+        const rotateZMatch =
+          hexagon.style.transform.match(/rotateZ\(([^)]+)\)/);
+        const currentRotateZ = parseFloat(rotateZMatch ? rotateZMatch[1] : "0");
+        const rotateXMatch =
+          hexagon.style.transform.match(/rotateX\(([^)]+)\)/);
         const currentRotateX = parseFloat(
-          hexagon.style.transform.match(/rotateX\(([^)]+)\)/)
-            ? hexagon.style.transform.match(/rotateX\(([^)]+)\)/)[1]
-            : "30deg"
+          rotateXMatch ? rotateXMatch[1] : "30"
         );
 
-        hexagon.style.transform = `rotateZ(${parseFloat(currentRotateZ) + deltaX * 0.5}deg) rotateX(${parseFloat(currentRotateX) - deltaY * 0.5}deg)`;
+        hexagon.style.transform = `rotateZ(${currentRotateZ + deltaX * 0.5}deg) rotateX(${currentRotateX - deltaY * 0.5}deg)`;
       }
 
       if (customShape && showCustomShape) {
-        const currentRotateZ = parseFloat(
-          customShape.style.transform.match(/rotateZ\(([^)]+)\)/)
-            ? customShape.style.transform.match(/rotateZ\(([^)]+)\)/)[1]
-            : "0deg"
-        );
-        const currentRotateY = parseFloat(
-          customShape.style.transform.match(/rotateY\(([^)]+)\)/)
-            ? customShape.style.transform.match(/rotateY\(([^)]+)\)/)[1]
-            : "0deg"
-        );
+        const rotateZMatch =
+          customShape.style.transform.match(/rotateZ\(([^)]+)\)/);
+        const currentRotateZ = parseFloat(rotateZMatch ? rotateZMatch[1] : "0");
+        const rotateYMatch =
+          customShape.style.transform.match(/rotateY\(([^)]+)\)/);
+        const currentRotateY = parseFloat(rotateYMatch ? rotateYMatch[1] : "0");
 
-        customShape.style.transform = `rotateZ(${parseFloat(currentRotateZ) + deltaX * 0.5}deg) rotateY(${parseFloat(currentRotateY) - deltaY * 0.5}deg)`;
+        customShape.style.transform = `rotateZ(${currentRotateZ + deltaX * 0.5}deg) rotateY(${currentRotateY - deltaY * 0.5}deg)`;
       }
     };
 
@@ -174,9 +166,9 @@ export default function ShapesAnimation() {
       isMouseDown = false;
 
       // Resume animations when user stops interacting
-      cubeAnimation.play();
-      pyramidAnimation.play();
-      hexagonAnimation.play();
+      if (cubeAnimation) cubeAnimation.play();
+      if (pyramidAnimation) pyramidAnimation.play();
+      if (hexagonAnimation) hexagonAnimation.play();
       if (customShapeAnimation) customShapeAnimation.play();
     };
 
@@ -185,9 +177,9 @@ export default function ShapesAnimation() {
     window.addEventListener("mouseup", handleMouseUp);
 
     return () => {
-      cubeAnimation.pause();
-      pyramidAnimation.pause();
-      hexagonAnimation.pause();
+      if (cubeAnimation) cubeAnimation.pause();
+      if (pyramidAnimation) pyramidAnimation.pause();
+      if (hexagonAnimation) hexagonAnimation.pause();
       if (customShapeAnimation) customShapeAnimation.pause();
 
       container.removeEventListener("mousemove", handleMouseMove);

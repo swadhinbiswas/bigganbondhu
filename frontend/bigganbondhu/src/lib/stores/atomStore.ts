@@ -265,18 +265,19 @@ export const useAtomStore = create<AtomState>((set) => ({
 // Helper function to determine stability
 function calculateStability(
   protons: number,
-  neutrons: number,
+  _neutrons: number,
   electrons: number
 ): "stable" | "unstable" | "neutral" {
   if (protons === electrons) return "neutral";
-  return protons > electrons ? "positive" : ("negative" as any);
+  // Fix type mismatch by returning correct return type value
+  return protons > electrons ? "unstable" : "stable";
 }
 
 // Simplified stability calculation
 function isAtomStable(
   protons: number,
   neutrons: number,
-  electrons: number
+  _electrons: number // Renamed to _electrons to indicate it's unused
 ): boolean {
   // Very simple stability check - could be more sophisticated
   // For small atoms, we want near equal protons and neutrons

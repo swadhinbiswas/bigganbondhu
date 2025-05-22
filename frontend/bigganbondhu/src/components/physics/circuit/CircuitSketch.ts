@@ -367,10 +367,10 @@ export class CircuitSketch {
 
     // Calculate corner positions based on component size and scale
     const handleSize = 8;
-    const compSize =
-      this.getComponentSize(component) * (component.properties.scale || 1.0);
-    const halfWidth = compSize.width / 2;
-    const halfHeight = compSize.height / 2;
+    const baseSize = this.getComponentSize(component);
+    const scale = component.properties.scale || 1.0;
+    const halfWidth = (baseSize.width * scale) / 2;
+    const halfHeight = (baseSize.height * scale) / 2;
 
     // Draw the corner resize handles
     this.p5.rect(
@@ -407,7 +407,6 @@ export class CircuitSketch {
     height: number;
   } {
     const baseSize = this.gridSize * 2;
-    const scale = component.properties.scale || 1.0;
 
     switch (component.type) {
       case "battery":
@@ -660,7 +659,7 @@ export class CircuitSketch {
     this.p5.text(isOn ? "ON" : "OFF", 0, 9);
   }
 
-  drawBulb(comp: CircuitComponent) {
+  drawBulb(_comp: CircuitComponent) {
     // Check if bulb should be lit
     const isLit =
       this.circuitState.totalCurrent > 0 &&
@@ -703,7 +702,7 @@ export class CircuitSketch {
     this.p5.endShape();
   }
 
-  drawWire(comp: CircuitComponent) {
+  drawWire(_comp: CircuitComponent) {
     // Simple wire connector point
     this.p5.fill(this.isDarkMode ? 150 : 50);
     this.p5.stroke(0);

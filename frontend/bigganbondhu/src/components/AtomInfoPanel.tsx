@@ -10,7 +10,7 @@ const AtomInfoPanel: React.FC = () => {
     element,
     massNumber,
     netCharge,
-    stability,
+    // stability, // Removed unused variable
     isStable,
   } = useAtomStore();
 
@@ -19,7 +19,7 @@ const AtomInfoPanel: React.FC = () => {
   const electronCountRef = useRef<HTMLSpanElement>(null);
   const massNumberRef = useRef<HTMLSpanElement>(null);
   const netChargeRef = useRef<HTMLSpanElement>(null);
-  const elementNameRef = useRef<HTMLSpanElement>(null);
+  const elementNameRef = useRef<HTMLDivElement>(null); // Changed to HTMLDivElement
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Initial panel animation

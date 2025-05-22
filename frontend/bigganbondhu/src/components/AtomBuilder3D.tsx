@@ -12,7 +12,6 @@ import {
   Text,
 } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { animate } from "animejs";
 import { Howl } from "howler";
 import React, { useEffect, useMemo, useRef } from "react";
 import { useDrop } from "react-dnd";
@@ -278,7 +277,7 @@ const AtomDropTarget: React.FC<{
 }> = ({ children, onDrop }) => {
   const { scene } = useThree();
 
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [{ isOver }] = useDrop(() => ({
     accept: DragTypes.PARTICLE,
     drop: (item: { type: ParticleType; id: string }) => {
       onDrop(item.type);
@@ -316,39 +315,11 @@ const AtomDropTarget: React.FC<{
 };
 
 // Main 3D scene component
-const AtomScene: React.FC = () => {
+const AtomScene: React.FC<{
+  onParticleDrop: (type: ParticleType) => void;
+}> = ({}) => {
   const { protons, neutrons, electrons, element, viewMode } = useAtomStore();
-
-  const { addProton, addNeutron, addElectron } = useAtomStore();
   const sceneRef = useRef<THREE.Group>(null);
-
-  // Handle particle drop
-  const handleParticleDrop = (type: ParticleType) => {
-    // Handle particle drop based on type
-    switch (type) {
-      case "proton":
-        addProton();
-        addProtonSound.play();
-        break;
-      case "neutron":
-        addNeutron();
-        addNeutronSound.play();
-        break;
-      case "electron":
-        addElectron();
-        addElectronSound.play();
-        break;
-    }
-
-    // Add effect on drop
-    if (sceneRef.current) {
-      animate(sceneRef.current, {
-        scale: [1, 1.1, 1],
-        duration: 300,
-        easing: "easeOutBack",
-      });
-    }
-  };
 
   // Calculate electron configuration
   const electronShells = useMemo(() => {
@@ -436,7 +407,7 @@ const AtomBuilder3D: React.FC = () => {
         />
 
         <AtomDropTarget onDrop={handleParticleDrop}>
-          <AtomScene />
+          <AtomScene onParticleDrop={handleParticleDrop} />
         </AtomDropTarget>
 
         <OrbitControls enablePan={false} minDistance={5} maxDistance={15} />

@@ -1,5 +1,4 @@
 import { elements, useAtomStore } from "@/lib/stores/atomStore";
-import { animate } from "animejs";
 import React, { useEffect, useRef, useState } from "react";
 
 // Element categories for coloring the legend
@@ -205,11 +204,11 @@ const MiniPeriodicTable: React.FC = () => {
   const {
     protons,
     addProton,
-    removeProton,
+    // removeProton,  // Removed unused
     addNeutron,
-    removeNeutron,
-    addElectron,
-    removeElectron,
+    // removeNeutron, // Removed unused
+    // addElectron,   // Removed unused
+    // removeElectron,// Removed unused
     resetAtom,
   } = useAtomStore();
 
@@ -222,23 +221,30 @@ const MiniPeriodicTable: React.FC = () => {
   // Animation when the active element changes
   useEffect(() => {
     if (activeElementRef.current) {
-      animate(activeElementRef.current, {
-        scale: [1, 1.2, 1],
-        duration: 500,
-        easing: "easeInOutQuad",
-      });
+      // Simple CSS animation instead of anime.js
+      activeElementRef.current.style.transform = "scale(1.2)";
+      setTimeout(() => {
+        if (activeElementRef.current) {
+          activeElementRef.current.style.transform = "scale(1)";
+        }
+      }, 200);
     }
   }, [protons]);
 
   // Initial animation for the periodic table
   useEffect(() => {
     if (tableRef.current) {
-      animate(tableRef.current, {
-        opacity: [0, 1],
-        translateY: [20, 0],
-        duration: 800,
-        easing: "easeOutQuad",
-      });
+      // Simple CSS animation instead of anime.js
+      tableRef.current.style.opacity = "0";
+      tableRef.current.style.transform = "translateY(20px)";
+      setTimeout(() => {
+        if (tableRef.current) {
+          tableRef.current.style.transition =
+            "opacity 0.8s ease-out, transform 0.8s ease-out";
+          tableRef.current.style.opacity = "1";
+          tableRef.current.style.transform = "translateY(0)";
+        }
+      }, 100);
     }
   }, []);
 

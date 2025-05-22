@@ -10,6 +10,11 @@
     "preview": "NODE_OPTIONS=--no-deprecation vite preview"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.7.2",
+    "@fortawesome/free-brands-svg-icons": "^6.7.2",
+    "@fortawesome/free-regular-svg-icons": "^6.7.2",
+    "@fortawesome/free-solid-svg-icons": "^6.7.2",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@heroui/button": "2.2.19",
     "@heroui/code": "2.2.14",
     "@heroui/dropdown": "2.3.19",
@@ -28,9 +33,9 @@
     "@radix-ui/react-switch": "^1.2.5",
     "@radix-ui/react-tabs": "^1.1.11",
     "@react-aria/visually-hidden": "3.8.22",
-    "@react-three/fiber": "8.13.6",
     "@react-spring/three": "9.7.3",
     "@react-three/drei": "9.80.1",
+    "@react-three/fiber": "8.13.6",
     "@react-types/shared": "3.29.0",
     "@shadcn/ui": "^0.0.4",
     "@types/animejs": "^3.1.13",

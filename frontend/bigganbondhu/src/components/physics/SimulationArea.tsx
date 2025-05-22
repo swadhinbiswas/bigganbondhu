@@ -1,5 +1,6 @@
 import React, { RefObject, useState } from "react";
 import { PhysicsExperiment } from "../../types/physics";
+import CircuitSimulator from "./CircuitSimulator";
 import CircularMotionControls from "./CircularMotionControls";
 import CircularMotionInfo from "./CircularMotionInfo";
 import FreeFall3D from "./FreeFall3D";
@@ -126,7 +127,6 @@ const SimulationArea: React.FC<SimulationAreaProps> = ({
         <CircuitSimulator
           voltage={params.voltage || 9}
           resistance={params.resistance || 100}
-          showLabels={params.showLabels === 1}
         />
       ) : (
         <div

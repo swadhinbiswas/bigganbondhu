@@ -22,7 +22,6 @@ const initialCircuitState: CircuitState = {
 const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
   voltage = 6,
   resistance = 10,
-  showLabels = true,
   mode: modeProp = "free",
   showCurrent: showCurrentProp = true,
   challenge,
@@ -36,7 +35,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
   const [selectedComponent, setSelectedComponent] = useState<string | null>(
     null
   );
-  const [hoveredComponent, setHoveredComponent] = useState<string | null>(null);
+  const [, setHoveredComponent] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isResizing, setIsResizing] = useState<boolean>(false);
   const [resizeStartPos, setResizeStartPos] = useState<{
@@ -160,7 +159,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
     // Create a new p5 instance
     const p5Instance = new p5((p: p5) => {
       // Setup function
-      p.setup = () => {
+      (p as any).setup = () => {
         const canvas = p.createCanvas(canvasSize.width, canvasSize.height);
         canvas.parent(p5ContainerRef.current!);
 
@@ -172,7 +171,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
       };
 
       // Draw function
-      p.draw = () => {
+      (p as any).draw = () => {
         if (sketchRef.current) {
           sketchRef.current.draw();
         }

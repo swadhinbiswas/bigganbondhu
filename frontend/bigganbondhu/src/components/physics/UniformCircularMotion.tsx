@@ -51,8 +51,6 @@ function Ball({
 
   const [time, setTime] = useState(0);
   const [position, setPosition] = useState({ x: radius, y: 0, z: 0 });
-  const [velocity, setVelocity] = useState({ x: 0, y: speed, z: 0 });
-  const [force, setForce] = useState({ x: 0, y: 0, z: 0 });
   const [tracePoints, setTracePoints] = useState<THREE.Vector3[]>([]);
 
   // Calculate angular velocity (ω) from linear speed
@@ -65,7 +63,7 @@ function Ball({
   const traceInterval = 10;
   const [frameCount, setFrameCount] = useState(0);
 
-  useFrame((state, delta) => {
+  useFrame((_, delta) => {
     const scaledDelta = delta * timeScale;
     setTime(time + scaledDelta);
     setFrameCount(frameCount + 1);
@@ -81,12 +79,11 @@ function Ball({
 
     // Calculate centripetal force (F = mv²/r)
     const forceMagnitude = (mass * speed * speed) / radius;
+    // Calculate force components for vectors
     const fx = -forceMagnitude * Math.cos(angle);
     const fy = -forceMagnitude * Math.sin(angle);
 
     setPosition({ x: newX, y: newY, z: 0 });
-    setVelocity({ x: vx, y: vy, z: 0 });
-    setForce({ x: fx, y: fy, z: 0 });
 
     // Update ball position
     if (ballRef.current) {
@@ -143,7 +140,7 @@ function Ball({
       <group>
         <line ref={stringRef}>
           <bufferGeometry attach="geometry" />
-          <lineBasicMaterial attach="material" color="#ffffff" lineWidth={2} />
+          <lineBasicMaterial attach="material" color="#ffffff" linewidth={2} />
         </line>
       </group>
 
@@ -209,7 +206,15 @@ function CirclePath({ radius }: { radius: number }) {
     );
   }
 
-  return <Line points={points} color="#666666" lineWidth={1} dashed={true} />;
+  return (
+    <Line
+      points={points}
+      color="#666666"
+      linewidth={1}
+      dashed={true}
+      derivatives={false}
+    />
+  );
 }
 
 // Formula display component
@@ -313,7 +318,8 @@ function Legend({
           <Line
             points={[new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0)]}
             color="#00ff00"
-            lineWidth={3}
+            linewidth={3}
+            derivatives={false}
           />
           <Text
             position={[2, 0, 0]}
@@ -334,7 +340,8 @@ function Legend({
           <Line
             points={[new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0)]}
             color="#ff0000"
-            lineWidth={3}
+            linewidth={3}
+            derivatives={false}
           />
           <Text
             position={[2, 0, 0]}

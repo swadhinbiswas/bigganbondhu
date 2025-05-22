@@ -11,10 +11,10 @@ interface VelocityData {
 
 // First Law - Object at rest or in uniform motion
 function FirstLawSimulation({
-  mass,
+  // mass, // Removed unused parameter
   friction,
 }: {
-  mass: number;
+  mass: number; // Keeping type definition for consistency
   friction: number;
 }) {
   const restObjectRef = useRef<THREE.Mesh>(null);

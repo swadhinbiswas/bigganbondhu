@@ -130,7 +130,6 @@ function Arrow3D({
   from,
   to,
   color,
-  label,
   labelText,
   tooltip,
   fontSize = 0.22,
@@ -141,7 +140,6 @@ function Arrow3D({
   from: [number, number, number];
   to: [number, number, number];
   color: string;
-  label: string;
   labelText: string;
   tooltip: string;
   fontSize?: number;
@@ -536,7 +534,6 @@ export default function InclinedPlane({
                     blockWorld.z + weightVec[2],
                   ]}
                   color="#ef4444"
-                  label={l.weight}
                   labelText={lang === "en" ? "mg" : "ওজন"}
                   tooltip={l.tooltip.weight}
                   highlight={hovered === "weight"}
@@ -553,7 +550,6 @@ export default function InclinedPlane({
                     blockWorld.z + normalVec[2],
                   ]}
                   color="#3b82f6"
-                  label={l.normal}
                   labelText={lang === "en" ? "N" : "N"}
                   tooltip={l.tooltip.normal}
                   highlight={hovered === "normal"}
@@ -570,7 +566,6 @@ export default function InclinedPlane({
                     blockWorld.z + frictionVec[2],
                   ]}
                   color="#f59e42"
-                  label={l.frictionForce}
                   labelText={lang === "en" ? "Ff" : "ঘর্ষণ"}
                   tooltip={l.tooltip.frictionForce}
                   highlight={hovered === "friction"}
@@ -587,7 +582,6 @@ export default function InclinedPlane({
                     blockWorld.z + netVec[2],
                   ]}
                   color="#10b981"
-                  label={l.netForce}
                   labelText={lang === "en" ? "F" : "নেট বল"}
                   tooltip={l.tooltip.netForce}
                   highlight={hovered === "net"}
@@ -718,18 +712,9 @@ function InclinedPlane2D({
   theta,
   netF,
   playing,
-  a,
   planeLength,
   blockLength,
   blockHeight,
-  mu,
-  g,
-  m,
-  N,
-  Ff,
-  mg,
-  mgSin,
-  mgCos,
 }: any) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   useEffect(() => {

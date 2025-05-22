@@ -3,13 +3,13 @@ import { Canvas } from "@react-three/fiber";
 import React, { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 
-// DNA base pairs colors
-const BASE_COLORS = {
-  A: new THREE.Color("#1e88e5"), // Adenine - Blue
-  T: new THREE.Color("#e53935"), // Thymine - Red
-  G: new THREE.Color("#43a047"), // Guanine - Green
-  C: new THREE.Color("#fdd835"), // Cytosine - Yellow
-};
+// DNA base pairs colors (used via ENZYME_COLORS below)
+// Removed variable declaration as it's unused directly
+// Color values:
+// A: Blue (#1e88e5) - Adenine
+// T: Red (#e53935) - Thymine
+// G: Green (#43a047) - Guanine
+// C: Yellow (#fdd835) - Cytosine
 
 // Enzyme colors
 const ENZYME_COLORS = {
@@ -62,7 +62,8 @@ const DNAStrand: React.FC<{
   showLabels: boolean;
   language: "en" | "bn";
   replicationActive: boolean;
-}> = ({ basePairs, showLabels, language, replicationActive }) => {
+}> = ({ basePairs, showLabels, language }) => {
+  // Removed unused replicationActive parameter
   // Simplify base names to just the letter codes in both languages
   const baseNames = {
     en: { A: "A", T: "T", G: "G", C: "C" },

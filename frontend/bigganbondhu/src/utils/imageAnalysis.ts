@@ -5,10 +5,8 @@
 import { externalApiConfig } from "@/config/externalApiConfig";
 
 // OpenRouter API configuration
-const {
-  apiKey: OPENROUTER_API_KEY,
-  siteUrl: SITE_URL,
-} = externalApiConfig.openRouter;
+const { apiKey: OPENROUTER_API_KEY, siteUrl: SITE_URL } =
+  externalApiConfig.openRouter;
 
 // Use ASCII version of site name for headers
 const ASCII_SITE_NAME = "BiggonBondhu";

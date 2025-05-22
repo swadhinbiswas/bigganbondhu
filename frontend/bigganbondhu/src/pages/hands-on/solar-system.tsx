@@ -288,7 +288,7 @@ function Planet({
   radius,
   orbitRadius,
   rotationSpeed,
-  color,
+  color: _color,
   textureUrl,
   facts,
   hasRings,
@@ -467,8 +467,8 @@ interface ComparisonProps {
 function EarthMarsComparison({ isVisible, onClose }: ComparisonProps) {
   if (!isVisible) return null;
 
-  const earth = PLANET_DATA.find((p) => p.englishName === "Earth");
-  const mars = PLANET_DATA.find((p) => p.englishName === "Mars");
+  // const earth = PLANET_DATA.find((p) => p.englishName === "Earth");
+  // const mars = PLANET_DATA.find((p) => p.englishName === "Mars");
 
   return (
     <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50 bg-slate-100 dark:bg-slate-800 p-6 rounded-xl shadow-xl border border-blue-500 max-w-2xl">

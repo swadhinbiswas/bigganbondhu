@@ -58,8 +58,8 @@ function setupProjectileSimulation(
 }
 
 function setupCircuitSimulation(
-  engine: Engine,
-  currentParams: { [key: string]: number }
+  _engine: Engine,
+  _currentParams: { [key: string]: number }
 ) {
   // For the circuit simulator, we don't need to use the Matter.js engine
   // This is a placeholder since we'll be using a custom React component
@@ -139,7 +139,7 @@ function setupNewtonLawsSimulation(
     }),
   ]);
   // Calculate acceleration based on F = ma
-  const acceleration = currentParams.force / currentParams.mass;
+  // const acceleration = currentParams.force / currentParams.mass;
   // Left side - Cart Push
   const cartWidth = 80;
   const cartHeight = 40;
@@ -455,17 +455,21 @@ const PhysicsEngine = () => {
         const data = await apiService.physics.getExperiments();
 
         // Add null check for the experiments array
-        if (data && data.experiments && Array.isArray(data.experiments)) {
-          setExperiments(data.experiments);
+        if (
+          data &&
+          (data as any).experiments &&
+          Array.isArray((data as any).experiments)
+        ) {
+          setExperiments((data as any).experiments);
 
-          if (data.experiments.length > 0) {
-            setSelectedExperiment(data.experiments[0]);
+          if ((data as any).experiments.length > 0) {
+            setSelectedExperiment((data as any).experiments[0]);
 
             // Initialize params with default values
             const defaultParams: { [key: string]: number } = {};
             // Make sure params exist before attempting to iterate
-            if (data.experiments[0].params) {
-              Object.entries(data.experiments[0].params).forEach(
+            if ((data as any).experiments[0].params) {
+              Object.entries((data as any).experiments[0].params).forEach(
                 ([key, value]: [string, any]) => {
                   defaultParams[key] = value.default;
                 }

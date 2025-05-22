@@ -44,7 +44,7 @@ type LabSettings = {
 const render3DView = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
   reaction: Reaction | null,
-  labSettings: LabSettings,
+  _labSettings: LabSettings,
   animationActive: boolean
 ) => {
   if (!canvasRef.current) return null;
@@ -151,6 +151,8 @@ const render3DView = (
 };
 
 // Helper function for 3D view mode (simplified)
+// Unused function - commented out for now
+/*
 const renderLabView3D = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
   reaction: Reaction | null,
@@ -258,6 +260,7 @@ const renderLabView3D = (
 
   ctx.restore();
 };
+*/
 
 const ChemistryEngine = () => {
   const [chemicals, setChemicals] = useState<Chemical[]>([]);
@@ -281,13 +284,13 @@ const ChemistryEngine = () => {
       try {
         setLoading(true);
         const data = await apiService.chemistry.getAll();
-        setChemicals(data.chemicals || []);
+        setChemicals((data as any).chemicals || []);
         setLoading(false);
       } catch (err) {
         console.error("Failed to load from API, trying local data", err);
         try {
           const data = await apiService.chemistry.getChemicals();
-          setChemicals(data.chemicals || []);
+          setChemicals((data as any).chemicals || []);
           setLoading(false);
         } catch (fetchErr) {
           setError("Failed to load chemistry data");
@@ -318,20 +321,20 @@ const ChemistryEngine = () => {
         mixingSpeed
       );
 
-      setReaction(data);
+      setReaction(data as Reaction);
       setAnimationActive(true);
 
-      applyLabSettingsToReaction(data);
+      applyLabSettingsToReaction(data as Reaction);
 
       const descriptionText =
         labSettings.language === "bn"
-          ? data.bengaliDescription || data.description
-          : data.description;
+          ? (data as any).bengaliDescription || (data as any).description
+          : (data as any).description;
 
       playAudioNarration(descriptionText);
 
       if (canvasRef.current) {
-        drawReactionAnimation(data.animation, data.color);
+        drawReactionAnimation((data as any).animation, (data as any).color);
       }
     } catch (err) {
       console.error("Failed to perform reaction", err);

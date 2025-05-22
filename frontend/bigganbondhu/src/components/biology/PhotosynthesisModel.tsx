@@ -672,8 +672,9 @@ const PhotosynthesisModel = ({
   difficulty = "intermediate",
 }: PhotosynthesisModelProps) => {
   const groupRef = useRef<THREE.Group>(null);
-  // We use selectedPartId for highlighting instead of tracking the full part object
-  const [selectedPartId, setSelectedPartId] = useState<string | null>(null);
+  // Store the selected part ID, though we currently only use the setter
+  // and don't read the value directly in the component
+  const [, setSelectedPartId] = useState<string | null>(null);
   const [animationState, setAnimationState] = useState({
     running: false,
     stage: 0,

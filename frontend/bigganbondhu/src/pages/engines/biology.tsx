@@ -22,7 +22,7 @@ class ErrorBoundary extends Component<
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(error: any) {
+  static getDerivedStateFromError(_error: any) {
     return { hasError: true };
   }
 
@@ -165,7 +165,7 @@ const BiologyEngine = () => {
     const fetchExperiments = async () => {
       try {
         setLoading(true);
-        const data = await apiService.biology.getExperiments();
+        const data = (await apiService.biology.getExperiments()) as any;
         setExperiments(data.experiments);
         if (data.experiments.length > 0) {
           setSelectedExperiment(data.experiments[0]);

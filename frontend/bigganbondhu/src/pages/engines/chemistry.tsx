@@ -575,13 +575,13 @@ const ChemistryEngine = () => {
       try {
         setLoading(true);
         const data = await apiService.chemistry.getAll();
-        setChemicals(data.chemicals || []);
+        setChemicals((data as any).chemicals || []);
         setLoading(false);
       } catch (err) {
         console.error("Failed to load from API, trying local data", err);
         try {
           const data = await apiService.chemistry.getChemicals();
-          setChemicals(data.chemicals || []);
+          setChemicals((data as any).chemicals || []);
           setLoading(false);
         } catch (fetchErr) {
           setError("Failed to load chemistry data");
@@ -656,20 +656,20 @@ const ChemistryEngine = () => {
         mixingSpeed
       );
 
-      setReaction(data);
+      setReaction(data as Reaction);
       setAnimationActive(true);
 
-      applyLabSettingsToReaction(data);
+      applyLabSettingsToReaction(data as Reaction);
 
       const descriptionText =
         labSettings.language === "bn"
-          ? data.bengaliDescription || data.description
-          : data.description;
+          ? (data as any).bengaliDescription || (data as any).description
+          : (data as any).description;
 
       playAudioNarration(descriptionText);
 
       if (canvasRef.current) {
-        drawReactionAnimation(response.data.animation, response.data.color);
+        drawReactionAnimation((data as any).animation, (data as any).color);
       }
     } catch (err) {
       console.error("Failed to perform reaction", err);
@@ -1641,7 +1641,14 @@ const ChemistryEngine = () => {
               opacity: 0.4 + Math.random() * 0.6,
               settled: false,
               wobble: Math.random() * 6.28,
-            });
+              color: color || "#555",
+              shape:
+                Math.random() > 0.66
+                  ? "crystal"
+                  : Math.random() > 0.33
+                    ? "flake"
+                    : "circle",
+            } as PrecipitateParticle);
           }
 
           // Remove fully settled particles to maintain performance
@@ -2017,12 +2024,12 @@ const ChemistryEngine = () => {
     }
   };
 
-  const toggleLanguage = () => {
-    setLabSettings({
-      ...labSettings,
-      language: labSettings.language === "en" ? "bn" : "en",
-    });
-  };
+  // const toggleLanguage = () => {
+  //   setLabSettings({
+  //     ...labSettings,
+  //     language: labSettings.language === "en" ? "bn" : "en",
+  //   });
+  // };
 
   if (loading) {
     return (

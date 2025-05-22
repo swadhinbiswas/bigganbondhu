@@ -179,8 +179,8 @@ export const calculateCircuit = (
   const totalCurrent = calculateCurrent(totalVoltage, totalResistance);
 
   // Additional calculations for capacitors and inductors
-  const totalCapacitance = calculateTotalCapacitance(components, mode);
-  const totalInductance = calculateTotalInductance(components, mode);
+  // const totalCapacitance = calculateTotalCapacitance(components, mode);
+  // const totalInductance = calculateTotalInductance(components, mode);
 
   // Update connections with current values
   const updatedConnections: Connection[] = connections.map((conn) => {

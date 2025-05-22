@@ -214,7 +214,7 @@ const BiologyExperiments = () => {
         setLoading(true);
 
         // Use apiService to get biology experiments with optional category parameter
-        const data = await apiService.biology.getExperiments(category);
+        const data = (await apiService.biology.getExperiments(category)) as any;
 
         console.log("Loaded experiments:", data?.experiments);
 

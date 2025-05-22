@@ -137,10 +137,7 @@ export default function CircuitSimulatorP5() {
   const [mode, setMode] = useState<"normal" | "connect">("normal");
   const [editIdx, setEditIdx] = useState<number | null>(null);
   const [wireHoverIdx, setWireHoverIdx] = useState<number | null>(null);
-  const [selectedWireIdx, setSelectedWireIdx] = useState<number | null>(null);
-  const [wireEditPointIdx, setWireEditPointIdx] = useState<number | null>(null);
-  const [wireColorPaletteOpen, setWireColorPaletteOpen] =
-    useState<boolean>(false);
+  const [selectedWireIdx] = useState<number | null>(null);
 
   // Audio Context
   const [audioCtx] = useState(() =>
@@ -160,11 +157,11 @@ export default function CircuitSimulatorP5() {
   const [historyIdx, setHistoryIdx] = useState<number>(-1);
 
   // Wire drawing state
-  const [drawingWire, setDrawingWire] = useState<{
-    from: number;
-    points: { x: number; y: number }[];
-    color: string;
-  } | null>(null);
+  // const [drawingWire, setDrawingWire] = useState<{
+  //   from: number;
+  //   points: { x: number; y: number }[];
+  //   color: string;
+  // } | null>(null);
 
   // SVG image preloading
   useEffect(() => {
@@ -186,7 +183,7 @@ export default function CircuitSimulatorP5() {
       }
 
       // Use the loadImage method from p5
-      p5Instance.loadImage(
+      (p5Instance as any).loadImage(
         url,
         (img: P5Image) => {
           svgImages[type] = img;
@@ -209,7 +206,7 @@ export default function CircuitSimulatorP5() {
     });
 
     return () => {
-      p5Instance.remove();
+      (p5Instance as any).remove();
     };
   }, []);
 
@@ -220,21 +217,20 @@ export default function CircuitSimulatorP5() {
     let p5Instance: p5;
     let dragIdx: number | null = null;
     let dragOffset = { x: 0, y: 0 };
-    let connectHover: number | null = null;
 
     const sketch = (p: p5) => {
-      p.setup = () => {
-        p.createCanvas(CANVAS_W, CANVAS_H);
+      (p as any).setup = () => {
+        (p as any).createCanvas(CANVAS_W, CANVAS_H);
       };
 
-      p.draw = () => {
+      (p as any).draw = () => {
         // Background gradient
         p.noStroke();
         for (let i = 0; i < CANVAS_H; i++) {
           const c1 = p.color("#f0f4ff");
           const c2 = p.color("#e0e7ef");
           const inter = i / CANVAS_H;
-          const c = p.lerpColor(c1, c2, inter);
+          const c = (p as any).lerpColor(c1, c2, inter);
           p.fill(c);
           p.rect(0, i, CANVAS_W, 1);
         }
@@ -277,7 +273,7 @@ export default function CircuitSimulatorP5() {
           // Render SVG for component
           const svgImg = svgImagesRef.current[c.type];
           if (svgImg) {
-            p.image(
+            (p as any).image(
               svgImg,
               -GRID_SIZE / 2,
               -GRID_SIZE / 2,
@@ -347,7 +343,7 @@ export default function CircuitSimulatorP5() {
 
           // Draw draggable points if selected
           if (selectedWireIdx === i) {
-            w.points.forEach((pt, j) => {
+            w.points.forEach((pt) => {
               p.fill("#fff");
               p.stroke("#38bdf8");
               p.strokeWeight(2);
@@ -375,7 +371,7 @@ export default function CircuitSimulatorP5() {
       };
 
       // Mouse event handlers
-      p.mousePressed = () => {
+      (p as any).mousePressed = () => {
         // Only process events inside the canvas
         if (
           p.mouseX < 0 ||
@@ -449,7 +445,7 @@ export default function CircuitSimulatorP5() {
         }
       };
 
-      p.mouseDragged = () => {
+      (p as any).mouseDragged = () => {
         if (dragIdx !== null) {
           const newComps = [...components];
           // Snap to grid
@@ -494,7 +490,7 @@ export default function CircuitSimulatorP5() {
         }
       };
 
-      p.mouseReleased = () => {
+      (p as any).mouseReleased = () => {
         if (dragType && dragPos) {
           // Snap to grid
           const gx = Math.round(dragPos.x / GRID_SIZE) * GRID_SIZE;
@@ -535,7 +531,7 @@ export default function CircuitSimulatorP5() {
         dragIdx = null;
       };
 
-      p.mouseMoved = () => {
+      (p as any).mouseMoved = () => {
         // Hover detection for components
         let found = null;
         for (let i = 0; i < components.length; i++) {
@@ -591,7 +587,7 @@ export default function CircuitSimulatorP5() {
 
     // Cleanup
     return () => {
-      p5Instance.remove();
+      (p5Instance as any).remove();
     };
   }, [
     components,

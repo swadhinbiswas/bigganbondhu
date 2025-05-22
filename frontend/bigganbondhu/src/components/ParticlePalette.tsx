@@ -1,6 +1,5 @@
 import { DragTypes } from "@/lib/dragTypes";
 import { useAtomStore } from "@/lib/stores/atomStore";
-import { animate } from "animejs";
 import React, { useRef } from "react";
 import { useDrag } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
@@ -74,12 +73,18 @@ const ParticlePalette: React.FC = () => {
   const pulseAnimation = (element: HTMLElement | null, color: string) => {
     if (!element) return;
 
-    animate(element, {
-      scale: [1, 1.25, 1],
-      backgroundColor: [color, "#FFFFFF", color],
-      duration: 300,
-      easing: "easeInOutQuad",
-    });
+    // Simple CSS animation instead of anime.js
+    element.style.transform = "scale(1.25)";
+    element.style.backgroundColor = color;
+    element.style.transition =
+      "transform 0.3s ease-in-out, background-color 0.3s ease-in-out";
+
+    setTimeout(() => {
+      if (element) {
+        element.style.transform = "scale(1)";
+        element.style.backgroundColor = color;
+      }
+    }, 300);
   };
 
   // Click handlers for adding particles
@@ -110,7 +115,11 @@ const ParticlePalette: React.FC = () => {
           <div
             ref={(node) => {
               dragProton(node);
-              protonRef.current = node;
+              // Store reference for animations
+              if (node) {
+                // Using proper ref assignment
+                protonRef.current = node;
+              }
             }}
             className={`w-10 h-10 rounded-full bg-red-400 flex items-center justify-center text-white font-bold cursor-move ${isDraggingProton ? "opacity-50" : ""}`}
             onClick={handleProtonClick}
@@ -138,7 +147,11 @@ const ParticlePalette: React.FC = () => {
           <div
             ref={(node) => {
               dragNeutron(node);
-              if (node) neutronRef.current = node;
+              // Store reference for animations
+              if (node) {
+                // Using proper ref assignment
+                neutronRef.current = node;
+              }
             }}
             className={`w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold cursor-move ${isDraggingNeutron ? "opacity-50" : ""}`}
             onClick={handleNeutronClick}
@@ -166,7 +179,11 @@ const ParticlePalette: React.FC = () => {
           <div
             ref={(node) => {
               dragElectron(node);
-              if (node) electronRef.current = node;
+              // Store reference for animations
+              if (node) {
+                // Using proper ref assignment
+                electronRef.current = node;
+              }
             }}
             className={`w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold cursor-move ${isDraggingElectron ? "opacity-50" : ""}`}
             onClick={handleElectronClick}

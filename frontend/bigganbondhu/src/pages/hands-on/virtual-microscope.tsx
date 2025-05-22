@@ -1,0 +1,319 @@
+import DefaultLayout from "@/layouts/default";
+import {
+  faBiohazard,
+  faEye,
+  faHouse,
+  faInfo,
+  faLeaf,
+  faMicroscope,
+  faPlay,
+  faWater,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  OrbitControls,
+  PresentationControls,
+  useGLTF,
+} from "@react-three/drei";
+import { Canvas } from "@react-three/fiber";
+import { useState } from "react";
+
+// Model component
+function MicroscopeModel() {
+  const { scene } = useGLTF("/models/microscope.glb");
+
+  return <primitive object={scene} scale={1.5} position={[0, -1.5, 0]} />;
+}
+
+// Sample interface
+interface Sample {
+  id: string;
+  name: string;
+  banglaName: string;
+  icon: any;
+  image: string;
+  description: string;
+}
+
+export default function VirtualMicroscopePage() {
+  const [selectedSample, setSelectedSample] = useState<string | null>(null);
+  const [position] = useState({ x: 23.7529, y: 90.4267 });
+  const [zoomLevel, setZoomLevel] = useState(1);
+
+  // Sample data
+  const samplesList: Sample[] = [
+    {
+      id: "microorganism",
+      name: "Microorganisms",
+      banglaName: "অণুজীব",
+      icon: faBiohazard,
+      image: "/samples/microorganism.jpg",
+      description:
+        "অণুজীবের জগতে প্রবেশ করুন। এখানে আপনি বিভিন্ন ধরণের ব্যাকটেরিয়া, প্রোটোজোয়া এবং অন্যান্য অণুজীব দেখতে পাবেন।",
+    },
+    {
+      id: "plant",
+      name: "Plant Cells",
+      banglaName: "উদ্ভিদকোষ",
+      icon: faLeaf,
+      image: "/samples/plant-cell.jpg",
+      description:
+        "উদ্ভিদ কোষের বিভিন্ন অংশ যেমন কোষপ্রাচীর, ক্লোরোপ্লাস্ট, নিউক্লিয়াস ইত্যাদি পর্যবেক্ষণ করুন।",
+    },
+    {
+      id: "water",
+      name: "Water Samples",
+      banglaName: "পানি",
+      icon: faWater,
+      image: "/samples/water.jpg",
+      description:
+        "বিভিন্ন উৎস থেকে পানির নমুনা দেখুন এবং তাতে থাকা জীবাণু ও অন্যান্য উপাদান চিহ্নিত করুন।",
+    },
+    {
+      id: "blood",
+      name: "Blood Cells",
+      banglaName: "রক্তকণিকা",
+      icon: faEye,
+      image: "/samples/blood-cell.jpg",
+      description:
+        "রক্তের বিভিন্ন উপাদান যেমন লোহিত রক্তকণিকা, শ্বেত রক্তকণিকা এবং অণুচক্রিকা পর্যবেক্ষণ করুন।",
+    },
+    {
+      id: "bacteria",
+      name: "Bacteria",
+      banglaName: "ব্যাকটেরিয়া",
+      icon: faBiohazard,
+      image: "/samples/bacteria.jpg",
+      description:
+        "বিভিন্ন ধরনের ব্যাকটেরিয়া এবং তাদের আকৃতি ও বৈশিষ্ট্য পর্যবেক্ষণ করুন।",
+    },
+    {
+      id: "tissue",
+      name: "Animal Tissue",
+      banglaName: "প্রাণীর টিস্যু",
+      icon: faHouse,
+      image: "/samples/animal-tissue.jpg",
+      description:
+        "প্রাণীদেহের বিভিন্ন টিস্যু যেমন এপিথেলিয়াল, কানেক্টিভ, মাংসপেশি ও স্নায়ু টিস্যু পর্যবেক্ষণ করুন।",
+    },
+  ];
+
+  // Mobile navigation handler
+  const handleSampleSelect = (sampleId: string) => {
+    setSelectedSample(sampleId === selectedSample ? null : sampleId);
+  };
+
+  return (
+    <DefaultLayout>
+      <div className="relative">
+        {/* Warning banner */}
+        <div className="bg-blue-900 text-white p-4 relative">
+          <div className="max-w-7xl mx-auto flex items-center justify-center">
+            <FontAwesomeIcon
+              icon={faInfo}
+              className="text-yellow-300 mr-2 text-xl"
+            />
+            <p className="text-center text-sm sm:text-base">
+              <span className="font-bold">শিক্ষার্থীদের জন্য বিশেষ পাতা</span>
+              <span className="hidden sm:inline">
+                {" "}
+                - এই নোটটি শিক্ষকদের সাহায্যে ব্যবহার করা উচিত
+              </span>
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-b from-blue-900 to-blue-700 text-white py-8">
+          <div className="max-w-7xl mx-auto px-4">
+            <div className="flex items-center justify-center mb-6">
+              <FontAwesomeIcon icon={faMicroscope} className="text-5xl mr-4" />
+              <h1 className="text-3xl font-bold">ভার্চুয়াল মাইক্রোস্কোপ</h1>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
+              <button className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-sm flex items-center">
+                <FontAwesomeIcon icon={faEye} className="mr-1" />
+                খালি চোখে দেখা
+              </button>
+              <button className="bg-white/20 hover:bg-white/30 px-3 py-1 rounded-full text-sm flex items-center">
+                <FontAwesomeIcon icon={faPlay} className="mr-1" />
+                শুরু করো
+              </button>
+              <button className="bg-emerald-600 hover:bg-emerald-700 px-3 py-1 rounded-full text-sm">
+                পরীক্ষা করো
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="max-w-7xl mx-auto p-4">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* 3D Microscope */}
+            <div className="lg:col-span-2">
+              <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg mb-6">
+                <h2 className="bg-gray-100 dark:bg-gray-700 p-3 font-semibold flex items-center">
+                  <FontAwesomeIcon
+                    icon={faMicroscope}
+                    className="text-blue-600 dark:text-blue-400 mr-2"
+                  />
+                  ৩ডি মাইক্রোস্কোপ
+                </h2>
+
+                <div className="h-[400px] w-full">
+                  <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+                    <ambientLight intensity={0.5} />
+                    <spotLight
+                      position={[10, 10, 10]}
+                      angle={0.15}
+                      penumbra={1}
+                    />
+                    <PresentationControls
+                      global
+                      zoom={0.8}
+                      rotation={[0, -Math.PI / 4, 0]}
+                      polar={[-Math.PI / 4, Math.PI / 4]}
+                      azimuth={[-Math.PI / 4, Math.PI / 4]}
+                    >
+                      <MicroscopeModel />
+                    </PresentationControls>
+                    <OrbitControls enableZoom={true} />
+                  </Canvas>
+                </div>
+              </div>
+
+              {/* Interactive Viewer */}
+              <div className="bg-white dark:bg-gray-800 rounded-lg overflow-hidden shadow-lg">
+                <h2 className="bg-gray-100 dark:bg-gray-700 p-3 font-semibold flex items-center">
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="text-green-600 dark:text-green-400 mr-2"
+                  />
+                  {selectedSample
+                    ? samplesList.find((s) => s.id === selectedSample)
+                        ?.banglaName || "সাধারণ দৃশ্য"
+                    : "সাধারণ দৃশ্য"}
+                </h2>
+
+                <div className="h-[350px] bg-gray-900 relative">
+                  {selectedSample ? (
+                    <div className="h-full w-full flex items-center justify-center">
+                      <img
+                        src={
+                          samplesList.find((s) => s.id === selectedSample)
+                            ?.image || "/samples/default.jpg"
+                        }
+                        alt="Microscope view"
+                        className="max-h-full object-contain"
+                        style={{ transform: `scale(${zoomLevel})` }}
+                      />
+                    </div>
+                  ) : (
+                    <div className="h-full w-full flex items-center justify-center">
+                      <p className="text-white">নমুনা নির্বাচন করুন</p>
+                    </div>
+                  )}
+
+                  {/* Overlay controls */}
+                  <div className="absolute bottom-4 right-4 bg-black/50 rounded-lg p-2 text-white text-sm">
+                    <div className="mb-2">
+                      অবস্থান: {position.x.toFixed(4)}, {position.y.toFixed(4)}
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() =>
+                          setZoomLevel(Math.max(0.5, zoomLevel - 0.5))
+                        }
+                        className="bg-gray-700 hover:bg-gray-600 w-8 h-8 flex items-center justify-center rounded"
+                      >
+                        -
+                      </button>
+                      <div className="flex-1 text-center">
+                        {(zoomLevel * 100).toFixed(0)}%
+                      </div>
+                      <button
+                        onClick={() =>
+                          setZoomLevel(Math.min(5, zoomLevel + 0.5))
+                        }
+                        className="bg-gray-700 hover:bg-gray-600 w-8 h-8 flex items-center justify-center rounded"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Sample Selection */}
+            <div>
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden h-full">
+                <h2 className="bg-gray-100 dark:bg-gray-700 p-3 font-semibold">
+                  তুমি কি দেখেছো?{" "}
+                  <FontAwesomeIcon
+                    icon={faEye}
+                    className="text-blue-600 ml-1"
+                  />
+                </h2>
+
+                <div className="grid grid-cols-2 gap-2 p-4">
+                  {samplesList.map((sample) => (
+                    <div
+                      key={sample.id}
+                      onClick={() => handleSampleSelect(sample.id)}
+                      className={`flex flex-col items-center justify-center p-4 rounded-lg cursor-pointer transition-all ${
+                        selectedSample === sample.id
+                          ? "bg-blue-100 dark:bg-blue-900 border-2 border-blue-500"
+                          : "bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600"
+                      }`}
+                    >
+                      <div className="w-12 h-12 rounded-full bg-blue-600 dark:bg-blue-700 flex items-center justify-center text-white mb-2">
+                        <FontAwesomeIcon icon={sample.icon} size="lg" />
+                      </div>
+                      <span className="text-center text-sm font-medium">
+                        {sample.banglaName}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Sample Description */}
+                {selectedSample && (
+                  <div className="p-4 bg-gray-50 dark:bg-gray-700 m-4 rounded-lg">
+                    <h3 className="font-medium text-lg mb-2">
+                      {
+                        samplesList.find((s) => s.id === selectedSample)
+                          ?.banglaName
+                      }
+                    </h3>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      {
+                        samplesList.find((s) => s.id === selectedSample)
+                          ?.description
+                      }
+                    </p>
+                  </div>
+                )}
+
+                <div className="p-4">
+                  <h3 className="font-medium mb-2">তোমার অবস্থান</h3>
+                  <div className="bg-gray-100 dark:bg-gray-700 p-2 rounded-lg flex items-center justify-between">
+                    <div className="text-sm">
+                      <FontAwesomeIcon
+                        icon={faInfo}
+                        className="mr-1 text-blue-600"
+                      />
+                      {position.x.toFixed(4)}, {position.y.toFixed(4)}
+                    </div>
+                    <button className="bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1 text-sm rounded">
+                      সংরক্ষণ করো
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </DefaultLayout>
+  );
+}

@@ -19,7 +19,7 @@ interface WaveInterference3DProps {
 function generateWavePoints(
   amplitude: number,
   frequency: number,
-  color: string,
+  _color: string, // Renamed to indicate unused parameter
   z: number,
   pointsCount = 200,
   time = 0
@@ -72,7 +72,7 @@ const WaveInterference3D: React.FC<WaveInterference3DProps> = ({
   wave1,
   wave2,
   resultantVisible,
-  mode,
+  // mode, // Removed unused parameter
 }) => {
   // For now, time is static. For animation, add a useFrame loop.
   const time = 0;

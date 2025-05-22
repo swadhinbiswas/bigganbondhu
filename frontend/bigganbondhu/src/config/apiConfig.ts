@@ -1,12 +1,9 @@
 const apiConfig = {
-  // In development, use relative URLs that will be handled by Vite's proxy
-  // In production, this can be configured via env variables if needed
-  baseURL: "", // Empty string for relative URLs
 
-  // Original baseURL kept for reference but not used directly in API calls
-  apiServerUrl: import.meta.env.VITE_API_URL || "http://34.87.148.171:8088",
+  baseURL: "",
 
-  // API endpoints (must start with /)
+  apiServerUrl: import.meta.env.VITE_API_URL,
+
   endpoints: {
     health: "/api/health",
     physics: "/api/experiments/physics",
