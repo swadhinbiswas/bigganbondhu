@@ -42,7 +42,7 @@ const toVector3 = (arr: [number, number, number]) => new THREE.Vector3(...arr);
 
 // Complementary base pairs
 const getComplementaryBase = (
-  base: "A" | "T" | "G" | "C"
+  base: "A" | "T" | "G" | "C",
 ): "A" | "T" | "G" | "C" => {
   switch (base) {
     case "A":
@@ -120,8 +120,8 @@ const DNAStrand: React.FC<{
           {showLabels && (
             <>
               <Html
-                position={[0.3, 0.1, 0]}
                 center
+                position={[0.3, 0.1, 0]}
                 style={{ pointerEvents: "none" }}
               >
                 <div className="px-1 py-0 rounded bg-white bg-opacity-70 dark:bg-gray-900 dark:bg-opacity-70 text-xs font-medium text-gray-900 dark:text-gray-100">
@@ -129,8 +129,8 @@ const DNAStrand: React.FC<{
                 </div>
               </Html>
               <Html
-                position={[-0.3, 0.1, 0]}
                 center
+                position={[-0.3, 0.1, 0]}
                 style={{ pointerEvents: "none" }}
               >
                 <div className="px-1 py-0 rounded bg-white bg-opacity-70 dark:bg-gray-900 dark:bg-opacity-70 text-xs font-medium text-gray-900 dark:text-gray-100">
@@ -187,6 +187,7 @@ const EnzymeComponent: React.FC<{
 
   // Different shapes for different enzymes
   let geometry;
+
   switch (enzyme.type) {
     case "helicase":
       geometry = <icosahedronGeometry args={[0.2, 1]} />;
@@ -214,7 +215,7 @@ const EnzymeComponent: React.FC<{
       </mesh>
 
       {showLabels && (
-        <Html position={[0, 0.3, 0]} center style={{ pointerEvents: "none" }}>
+        <Html center position={[0, 0.3, 0]} style={{ pointerEvents: "none" }}>
           <div className="px-1 py-0 rounded bg-white bg-opacity-70 dark:bg-gray-900 dark:bg-opacity-70 text-xs font-medium text-gray-900 dark:text-gray-100">
             {enzymeNames[language][enzyme.type]}
           </div>
@@ -231,6 +232,7 @@ const QuizMode: React.FC<{
 }> = ({ onAnswerSubmit, language }) => {
   const [quizBase, setQuizBase] = useState<"A" | "T" | "G" | "C">(() => {
     const bases = ["A", "T", "G", "C"] as const;
+
     return bases[Math.floor(Math.random() * 4)];
   });
   const [selectedBase, setSelectedBase] = useState<
@@ -253,9 +255,11 @@ const QuizMode: React.FC<{
   const handleSubmit = () => {
     if (selectedBase) {
       const correct = selectedBase === getComplementaryBase(quizBase);
+
       onAnswerSubmit(correct);
       // Generate new question
       const bases = ["A", "T", "G", "C"] as const;
+
       setQuizBase(bases[Math.floor(Math.random() * 4)]);
       setSelectedBase(null);
     }
@@ -285,8 +289,8 @@ const QuizMode: React.FC<{
 
       <button
         className="w-full bg-green-500 text-white py-2 rounded-md hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700 disabled:bg-gray-300 dark:disabled:bg-gray-700 transition"
-        onClick={handleSubmit}
         disabled={!selectedBase}
+        onClick={handleSubmit}
       >
         {texts[language].submit}
       </button>
@@ -383,33 +387,33 @@ const SimulationControls: React.FC<{
           {texts[language].speed}
         </label>
         <input
-          type="range"
-          min="0.1"
+          className="w-full bg-gray-200 dark:bg-gray-700"
           max="2"
+          min="0.1"
           step="0.1"
+          type="range"
           value={speed}
           onChange={(e) => setSpeed(parseFloat(e.target.value))}
-          className="w-full bg-gray-200 dark:bg-gray-700"
         />
       </div>
 
       <div className="flex items-center justify-between mb-4">
         <label className="flex items-center cursor-pointer mr-4">
           <input
-            type="checkbox"
             checked={showLabels}
-            onChange={() => setShowLabels(!showLabels)}
             className="form-checkbox accent-blue-500 dark:accent-blue-400"
+            type="checkbox"
+            onChange={() => setShowLabels(!showLabels)}
           />
           <span className="ml-2">Labels</span>
         </label>
 
         <label className="flex items-center cursor-pointer">
           <input
-            type="checkbox"
             checked={showQuiz}
-            onChange={() => setShowQuiz(!showQuiz)}
             className="form-checkbox accent-green-500 dark:accent-green-400"
+            type="checkbox"
+            onChange={() => setShowQuiz(!showQuiz)}
           />
           <span className="ml-2">Quiz Mode</span>
         </label>
@@ -513,7 +517,7 @@ const DNASimulation: React.FC<{
           ...enzyme,
           position: [newX, newY, newZ] as [number, number, number],
         };
-      })
+      }),
     );
 
     // Coordinate enzyme targets based on replication phase
@@ -524,8 +528,9 @@ const DNASimulation: React.FC<{
         if (replicationProgress < 0.3) {
           // Initiation phase - helicase active
           const targetPairIndex = Math.floor(
-            replicationProgress * 3 * basePairs.length
+            replicationProgress * 3 * basePairs.length,
           );
+
           if (
             enzyme.type === "helicase" &&
             targetPairIndex < basePairs.length
@@ -534,6 +539,7 @@ const DNASimulation: React.FC<{
             const targetPosition = basePairs[
               targetPairIndex
             ].position.toArray() as [number, number, number];
+
             // Add slight offset for better visual positioning
             newTarget = [
               targetPosition[0],
@@ -584,6 +590,7 @@ const DNASimulation: React.FC<{
             const basePosition = basePairs[
               targetPairIndex
             ].position.toArray() as [number, number, number];
+
             // Position ligase to connect Okazaki fragments
             newTarget = [
               basePosition[0],
@@ -612,6 +619,7 @@ const DNASimulation: React.FC<{
               };
 
               const offset = offsetMap[enzyme.type];
+
               newTarget = [
                 lastPos[0] + offset[0],
                 lastPos[1] + offset[1],
@@ -666,16 +674,18 @@ const DNASimulation: React.FC<{
     const onFullscreenChange = () => {
       setIsFullscreen(
         !!document.fullscreenElement &&
-          containerRef.current === document.fullscreenElement
+          containerRef.current === document.fullscreenElement,
       );
     };
+
     document.addEventListener("fullscreenchange", onFullscreenChange);
     document.addEventListener("webkitfullscreenchange", onFullscreenChange);
+
     return () => {
       document.removeEventListener("fullscreenchange", onFullscreenChange);
       document.removeEventListener(
         "webkitfullscreenchange",
-        onFullscreenChange
+        onFullscreenChange,
       );
     };
   }, []);
@@ -753,23 +763,23 @@ const DNASimulation: React.FC<{
     >
       {/* Fullscreen toggle button */}
       <button
-        onClick={handleFullscreenToggle}
-        className="absolute top-4 right-4 z-20 bg-white dark:bg-gray-900 bg-opacity-80 dark:bg-opacity-80 rounded-full p-2 shadow hover:bg-opacity-100 dark:hover:bg-opacity-100 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-100 flex items-center justify-center"
-        title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
         aria-label={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+        className="absolute top-4 right-4 z-20 bg-white dark:bg-gray-900 bg-opacity-80 dark:bg-opacity-80 rounded-full p-2 shadow hover:bg-opacity-100 dark:hover:bg-opacity-100 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-gray-100 flex items-center justify-center"
         style={{ fontSize: 22 }}
+        title={isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+        onClick={handleFullscreenToggle}
       >
         {isFullscreen ? (
           // Exit fullscreen SVG icon
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
+            className="w-6 h-6"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="w-6 h-6"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <polyline points="9 9 3 9 3 3" />
             <polyline points="15 9 21 9 21 3" />
@@ -779,14 +789,14 @@ const DNASimulation: React.FC<{
         ) : (
           // Enter fullscreen SVG icon
           <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
+            className="w-6 h-6"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="w-6 h-6"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <polyline points="4 4 10 4 10 10" />
             <polyline points="20 4 14 4 14 10" />
@@ -797,15 +807,15 @@ const DNASimulation: React.FC<{
       </button>
       <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
+        <pointLight intensity={1} position={[10, 10, 10]} />
+        <pointLight intensity={0.5} position={[-10, -10, -10]} />
 
         {/* DNA Strand */}
         <DNAStrand
           basePairs={basePairs}
-          showLabels={showLabels}
           language={language}
           replicationActive={playing && replicationProgress > 0.3}
+          showLabels={showLabels}
         />
 
         {/* Enzymes */}
@@ -813,13 +823,13 @@ const DNASimulation: React.FC<{
           <EnzymeComponent
             key={enzyme.id}
             enzyme={enzyme}
-            showLabels={showLabels}
             language={language}
+            showLabels={showLabels}
           />
         ))}
 
         {/* Controls */}
-        <OrbitControls enablePan={true} enableZoom={true} enableRotate={true} />
+        <OrbitControls enablePan={true} enableRotate={true} enableZoom={true} />
 
         {/* Part clicking handler for integration with main app */}
         {onPartClick &&
@@ -846,24 +856,24 @@ const DNASimulation: React.FC<{
       {/* UI Controls overlay */}
       <div className="absolute top-4 right-4 z-10">
         <SimulationControls
+          currentPhase={currentPhase}
+          language={language}
           playing={playing}
+          setLanguage={setLanguage}
           setPlaying={setPlaying}
-          speed={speed}
+          setShowLabels={setShowLabels}
+          setShowQuiz={setShowQuiz}
           setSpeed={setSpeed}
           showLabels={showLabels}
-          setShowLabels={setShowLabels}
-          language={language}
-          setLanguage={setLanguage}
           showQuiz={showQuiz}
-          setShowQuiz={setShowQuiz}
-          currentPhase={currentPhase}
+          speed={speed}
         />
       </div>
 
       {/* Quiz overlay */}
       {showQuiz && (
         <div className="absolute bottom-4 left-4 z-10">
-          <QuizMode onAnswerSubmit={handleQuizAnswer} language={language} />
+          <QuizMode language={language} onAnswerSubmit={handleQuizAnswer} />
         </div>
       )}
 

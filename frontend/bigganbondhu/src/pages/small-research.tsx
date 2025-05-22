@@ -55,10 +55,12 @@ export default function SmallResearchPage() {
   const handleImageSelect = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
+
       setSelectedImage(file);
 
       // Create a preview URL
       const fileReader = new FileReader();
+
       fileReader.onload = (e) => {
         if (e.target?.result) {
           setPreviewUrl(e.target.result as string);
@@ -147,8 +149,8 @@ export default function SmallResearchPage() {
                 isLoading: false,
                 error: error instanceof Error ? error.message : "Unknown error",
               }
-            : msg
-        )
+            : msg,
+        ),
       );
     } finally {
       setIsLoading(false);
@@ -158,7 +160,7 @@ export default function SmallResearchPage() {
   // Handle image submission
   const handleImageSubmission = async (
     messageId: string,
-    loadingId: string
+    loadingId: string,
   ) => {
     if (!selectedImage) return;
 
@@ -174,7 +176,7 @@ export default function SmallResearchPage() {
 
       // Update user message with uploaded image URL
       setMessages((prev) =>
-        prev.map((msg) => (msg.id === messageId ? { ...msg, imageUrl } : msg))
+        prev.map((msg) => (msg.id === messageId ? { ...msg, imageUrl } : msg)),
       );
 
       // Call API for analysis
@@ -191,7 +193,7 @@ export default function SmallResearchPage() {
             timestamp: new Date(),
             analysis: result,
             imageUrl,
-          })
+          }),
       );
     } catch (error) {
       console.error("Image analysis error:", error);
@@ -206,8 +208,8 @@ export default function SmallResearchPage() {
                 isLoading: false,
                 error: error instanceof Error ? error.message : "Unknown error",
               }
-            : msg
-        )
+            : msg,
+        ),
       );
     }
   };
@@ -227,7 +229,7 @@ export default function SmallResearchPage() {
             role: "assistant",
             content: result.answer,
             timestamp: new Date(),
-          })
+          }),
       );
     } catch (error) {
       console.error("Text query error:", error);
@@ -242,8 +244,8 @@ export default function SmallResearchPage() {
                 isLoading: false,
                 error: error instanceof Error ? error.message : "Unknown error",
               }
-            : msg
-        )
+            : msg,
+        ),
       );
     }
   };
@@ -287,9 +289,9 @@ export default function SmallResearchPage() {
                         {message.imageUrl && (
                           <div className="mt-3 rounded-md overflow-hidden max-h-64 border border-blue-100 dark:border-blue-900 shadow-sm">
                             <img
-                              src={message.imageUrl}
                               alt="User uploaded"
                               className="max-w-full h-auto"
+                              src={message.imageUrl}
                             />
                           </div>
                         )}
@@ -313,9 +315,9 @@ export default function SmallResearchPage() {
                         {message.imageUrl && (
                           <div className="w-full bg-gray-100 dark:bg-gray-900 border-b border-gray-200 dark:border-gray-700">
                             <img
-                              src={message.imageUrl}
                               alt="Analysis"
                               className="max-h-48 mx-auto object-contain py-2"
+                              src={message.imageUrl}
                             />
                           </div>
                         )}
@@ -339,7 +341,7 @@ export default function SmallResearchPage() {
                                   >
                                     {item}
                                   </span>
-                                )
+                                ),
                               )}
                               {message.analysis.visible_objects.length ===
                                 0 && (
@@ -383,10 +385,10 @@ export default function SmallResearchPage() {
                                     viewBox="0 0 20 20"
                                   >
                                     <path
-                                      fillRule="evenodd"
-                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
                                       clipRule="evenodd"
-                                    ></path>
+                                      d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                                      fillRule="evenodd"
+                                    />
                                   </svg>
                                   উপযোগী
                                 </span>
@@ -398,10 +400,10 @@ export default function SmallResearchPage() {
                                     viewBox="0 0 20 20"
                                   >
                                     <path
-                                      fillRule="evenodd"
-                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
                                       clipRule="evenodd"
-                                    ></path>
+                                      d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                      fillRule="evenodd"
+                                    />
                                   </svg>
                                   তেমন উপযোগী নয়
                                 </span>
@@ -416,15 +418,15 @@ export default function SmallResearchPage() {
                           <div className="mt-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800/30">
                             <h4 className="font-medium text-md text-gray-800 dark:text-gray-200 mb-2 flex items-center">
                               <svg
-                                xmlns="http://www.w3.org/2000/svg"
                                 className="h-5 w-5 text-amber-500 mr-2"
-                                viewBox="0 0 20 20"
                                 fill="currentColor"
+                                viewBox="0 0 20 20"
+                                xmlns="http://www.w3.org/2000/svg"
                               >
                                 <path
-                                  fillRule="evenodd"
-                                  d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
                                   clipRule="evenodd"
+                                  d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z"
+                                  fillRule="evenodd"
                                 />
                               </svg>
                               আকর্ষণীয় তথ্য:
@@ -477,15 +479,15 @@ export default function SmallResearchPage() {
               <div className="absolute bottom-full mb-3 left-0 right-0 rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-700 p-2 flex items-center gap-3 border border-blue-200 dark:border-blue-800 shadow-sm">
                 <div className="h-20 w-20 relative">
                   <img
-                    src={previewUrl}
                     alt="Preview"
                     className="h-full w-full object-cover rounded-md"
+                    src={previewUrl}
                   />
                   <button
-                    onClick={clearSelectedImage}
+                    aria-label="Remove image"
                     className="absolute -top-1.5 -right-1.5 bg-red-500 hover:bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center text-sm shadow-md"
                     type="button"
-                    aria-label="Remove image"
+                    onClick={clearSelectedImage}
                   >
                     ×
                   </button>
@@ -505,63 +507,63 @@ export default function SmallResearchPage() {
             <div className="flex items-end gap-2">
               <Input
                 ref={textInputRef}
-                placeholder="আপনার প্রশ্ন লিখুন অথবা একটি ছবি সংযুক্ত করুন..."
-                value={inputText}
-                onChange={handleInputChange}
-                onKeyPress={handleKeyPress}
                 className="flex-grow bg-gray-100 dark:bg-gray-900"
                 disabled={isLoading}
-                size="lg"
                 endContent={
                   <button
-                    onClick={() => fileInputRef.current?.click()}
+                    aria-label="Upload image"
                     className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
                     disabled={isLoading}
                     type="button"
-                    aria-label="Upload image"
+                    onClick={() => fileInputRef.current?.click()}
                   >
                     <svg
-                      xmlns="http://www.w3.org/2000/svg"
                       className="h-5 w-5"
-                      viewBox="0 0 20 20"
                       fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
                     >
                       <path
-                        fillRule="evenodd"
-                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
                         clipRule="evenodd"
+                        d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                        fillRule="evenodd"
                       />
                     </svg>
                   </button>
                 }
+                placeholder="আপনার প্রশ্ন লিখুন অথবা একটি ছবি সংযুক্ত করুন..."
+                size="lg"
+                value={inputText}
+                onChange={handleInputChange}
+                onKeyPress={handleKeyPress}
               />
               <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageSelect}
                 ref={fileInputRef}
+                accept="image/*"
                 className="hidden"
+                type="file"
+                onChange={handleImageSelect}
               />
               <Button
+                aria-label="Send message"
+                className="px-4"
                 color="primary"
-                onClick={handleSubmit}
                 disabled={isLoading || (!inputText.trim() && !selectedImage)}
                 isLoading={isLoading}
                 size="lg"
-                className="px-4"
-                aria-label="Send message"
+                onClick={handleSubmit}
               >
                 {!isLoading && (
                   <svg
-                    xmlns="http://www.w3.org/2000/svg"
                     className="h-5 w-5"
-                    viewBox="0 0 20 20"
                     fill="currentColor"
+                    viewBox="0 0 20 20"
+                    xmlns="http://www.w3.org/2000/svg"
                   >
                     <path
-                      fillRule="evenodd"
-                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
                       clipRule="evenodd"
+                      d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                      fillRule="evenodd"
                     />
                   </svg>
                 )}

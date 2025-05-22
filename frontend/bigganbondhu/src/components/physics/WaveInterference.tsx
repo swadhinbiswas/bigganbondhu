@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from "react";
+
 import { Label } from "../ui/label";
 import { Slider } from "../ui/slider";
 import { Switch } from "../ui/switch";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
+
 import WaveInterference3D from "./WaveInterference3D";
 
 // Types for wave parameters
@@ -84,6 +86,7 @@ const LABELS = {
 
 const getLabel = (key: keyof typeof LABELS, lang: "en" | "bn") => {
   const label = LABELS[key];
+
   if (
     typeof label === "object" &&
     label !== null &&
@@ -92,6 +95,7 @@ const getLabel = (key: keyof typeof LABELS, lang: "en" | "bn") => {
   ) {
     return label[lang as "en" | "bn"] ?? label["en"];
   }
+
   return "";
 };
 
@@ -100,7 +104,7 @@ const calculateWave = (
   amplitude: number,
   frequency: number,
   time: number,
-  x: number
+  x: number,
 ) => {
   return amplitude * Math.sin(2 * Math.PI * frequency * (time + x));
 };
@@ -131,9 +135,11 @@ const WaveInterference = () => {
   // Effect for wave animation
   useEffect(() => {
     const canvas = canvasRef.current;
+
     if (!canvas) return;
 
     const ctx = canvas.getContext("2d");
+
     if (!ctx) return;
 
     const animate = () => {
@@ -191,7 +197,7 @@ const WaveInterference = () => {
   const drawGrid = (
     ctx: CanvasRenderingContext2D,
     width: number,
-    height: number
+    height: number,
   ) => {
     ctx.strokeStyle = "#94a3b8";
     ctx.lineWidth = 0.5;
@@ -230,7 +236,7 @@ const WaveInterference = () => {
     color: string,
     dx: number,
     points: number,
-    time: number
+    time: number,
   ) => {
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
@@ -242,7 +248,7 @@ const WaveInterference = () => {
         wave.amplitude * 100,
         wave.frequency,
         time,
-        i / points
+        i / points,
       );
 
       if (i === 0) {
@@ -263,7 +269,7 @@ const WaveInterference = () => {
     color: string,
     dx: number,
     points: number,
-    time: number
+    time: number,
   ) => {
     ctx.strokeStyle = color;
     ctx.lineWidth = 2;
@@ -275,13 +281,13 @@ const WaveInterference = () => {
         wave1.amplitude * 100,
         wave1.frequency,
         time,
-        i / points
+        i / points,
       );
       const y2 = calculateWave(
         wave2.amplitude * 100,
         wave2.frequency,
         time,
-        i / points
+        i / points,
       );
       const y = y1 + y2; // Superposition
 
@@ -303,9 +309,10 @@ const WaveInterference = () => {
     color: string,
     dx: number,
     points: number,
-    time: number
+    time: number,
   ) => {
     const beatFrequency = Math.abs(wave1.frequency - wave2.frequency);
+
     ctx.strokeStyle = color;
     ctx.lineWidth = 1;
     ctx.setLineDash([5, 5]);
@@ -382,9 +389,9 @@ const WaveInterference = () => {
             <div className="flex-1 min-h-[400px] bg-white dark:bg-gray-800 rounded-lg p-4 shadow-inner">
               <canvas
                 ref={canvasRef}
-                width={800}
-                height={400}
                 className="w-full h-full"
+                height={400}
+                width={800}
               />
             </div>
 
@@ -432,8 +439,8 @@ const WaveInterference = () => {
                       {getLabel("amplitude", language)}
                     </Label>
                     <Slider
-                      min={0}
                       max={2}
+                      min={0}
                       step={0.1}
                       value={[wave1.amplitude]}
                       onValueChange={(value) =>
@@ -446,8 +453,8 @@ const WaveInterference = () => {
                       {getLabel("frequency", language)}
                     </Label>
                     <Slider
-                      min={0.5}
                       max={2}
+                      min={0.5}
                       step={0.1}
                       value={[wave1.frequency]}
                       onValueChange={(value) =>
@@ -485,8 +492,8 @@ const WaveInterference = () => {
                       {getLabel("amplitude", language)}
                     </Label>
                     <Slider
-                      min={0}
                       max={2}
+                      min={0}
                       step={0.1}
                       value={[wave2.amplitude]}
                       onValueChange={(value) =>
@@ -499,8 +506,8 @@ const WaveInterference = () => {
                       {getLabel("frequency", language)}
                     </Label>
                     <Slider
-                      min={0.5}
                       max={2}
+                      min={0.5}
                       step={0.1}
                       value={[wave2.frequency]}
                       onValueChange={(value) =>
@@ -559,10 +566,10 @@ const WaveInterference = () => {
         </>
       ) : (
         <WaveInterference3D
+          mode={mode}
+          resultantVisible={resultantVisible}
           wave1={wave1}
           wave2={wave2}
-          resultantVisible={resultantVisible}
-          mode={mode}
         />
       )}
     </div>

@@ -22,14 +22,17 @@ function generateWavePoints(
   _color: string, // Renamed to indicate unused parameter
   z: number,
   pointsCount = 200,
-  time = 0
+  time = 0,
 ) {
   const points: THREE.Vector3[] = [];
+
   for (let i = 0; i <= pointsCount; i++) {
     const x = (i / pointsCount) * 8 - 4; // X from -4 to 4
     const y = amplitude * Math.sin(2 * Math.PI * frequency * (x + time));
+
     points.push(new THREE.Vector3(x, y, z));
   }
+
   return points;
 }
 
@@ -38,17 +41,20 @@ function generateResultantPoints(
   wave2: WaveParams,
   z: number,
   pointsCount = 200,
-  time = 0
+  time = 0,
 ) {
   const points: THREE.Vector3[] = [];
+
   for (let i = 0; i <= pointsCount; i++) {
     const x = (i / pointsCount) * 8 - 4;
     const y1 =
       wave1.amplitude * Math.sin(2 * Math.PI * wave1.frequency * (x + time));
     const y2 =
       wave2.amplitude * Math.sin(2 * Math.PI * wave2.frequency * (x + time));
+
     points.push(new THREE.Vector3(x, y1 + y2, z));
   }
+
   return points;
 }
 
@@ -58,8 +64,10 @@ const WaveLine: React.FC<{
 }> = ({ points, color }) => {
   const lineGeometry = useMemo(() => {
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
+
     return geometry;
   }, [points]);
+
   return (
     <line>
       <bufferGeometry attach="geometry" {...lineGeometry} />
@@ -84,9 +92,9 @@ const WaveInterference3D: React.FC<WaveInterference3DProps> = ({
         "#ef4444",
         -0.5,
         200,
-        time
+        time,
       ),
-    [wave1, time]
+    [wave1, time],
   );
   const points2 = useMemo(
     () =>
@@ -96,24 +104,24 @@ const WaveInterference3D: React.FC<WaveInterference3DProps> = ({
         "#3b82f6",
         0.5,
         200,
-        time
+        time,
       ),
-    [wave2, time]
+    [wave2, time],
   );
   const pointsResultant = useMemo(
     () => generateResultantPoints(wave1, wave2, 0, 200, time),
-    [wave1, wave2, time]
+    [wave1, wave2, time],
   );
 
   return (
     <div style={{ width: "100%", height: 400 }}>
       <Canvas camera={{ position: [0, 0, 10], fov: 60 }}>
         <ambientLight intensity={0.7} />
-        <directionalLight position={[5, 5, 5]} intensity={0.5} />
-        {wave1.visible && <WaveLine points={points1} color="#ef4444" />}
-        {wave2.visible && <WaveLine points={points2} color="#3b82f6" />}
+        <directionalLight intensity={0.5} position={[5, 5, 5]} />
+        {wave1.visible && <WaveLine color="#ef4444" points={points1} />}
+        {wave2.visible && <WaveLine color="#3b82f6" points={points2} />}
         {resultantVisible && (
-          <WaveLine points={pointsResultant} color="#10b981" />
+          <WaveLine color="#10b981" points={pointsResultant} />
         )}
         <gridHelper args={[10, 20, "#888", "#ccc"]} position={[0, 0, 0]} />
         <axesHelper args={[5]} />

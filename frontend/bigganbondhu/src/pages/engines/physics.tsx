@@ -1,11 +1,3 @@
-import ErrorMessage from "@/components/physics/ErrorMessage";
-import ExperimentSelector from "@/components/physics/ExperimentSelector";
-import LoadingSpinner from "@/components/physics/LoadingSpinner";
-import ParameterControls from "@/components/physics/ParameterControls";
-import SimulationArea from "@/components/physics/SimulationArea";
-import DefaultLayout from "@/layouts/default";
-import apiService from "@/services/apiService";
-import { PhysicsExperiment } from "@/types/physics";
 import {
   Bodies,
   Body,
@@ -19,12 +11,22 @@ import {
 } from "matter-js";
 import { useEffect, useRef, useState } from "react";
 
+import ErrorMessage from "@/components/physics/ErrorMessage";
+import ExperimentSelector from "@/components/physics/ExperimentSelector";
+import LoadingSpinner from "@/components/physics/LoadingSpinner";
+import ParameterControls from "@/components/physics/ParameterControls";
+import SimulationArea from "@/components/physics/SimulationArea";
+import DefaultLayout from "@/layouts/default";
+import apiService from "@/services/apiService";
+import { PhysicsExperiment } from "@/types/physics";
+
 // --- Simulation setup functions ---
 function setupProjectileSimulation(
   engine: Engine,
-  currentParams: { [key: string]: number }
+  currentParams: { [key: string]: number },
 ) {
   const { world } = engine;
+
   // Add ground
   World.add(world, [
     Bodies.rectangle(400, 500, 800, 50, {
@@ -49,6 +51,7 @@ function setupProjectileSimulation(
         : "#10b981",
     },
   });
+
   World.add(world, projectile);
   // Apply initial velocity
   Body.setVelocity(projectile, {
@@ -59,7 +62,7 @@ function setupProjectileSimulation(
 
 function setupCircuitSimulation(
   _engine: Engine,
-  _currentParams: { [key: string]: number }
+  _currentParams: { [key: string]: number },
 ) {
   // For the circuit simulator, we don't need to use the Matter.js engine
   // This is a placeholder since we'll be using a custom React component
@@ -69,7 +72,7 @@ function setupCircuitSimulation(
 
 function setupPendulumSimulation(
   engine: Engine,
-  currentParams: { [key: string]: number }
+  currentParams: { [key: string]: number },
 ) {
   const { world } = engine;
   // Add anchor point
@@ -92,7 +95,7 @@ function setupPendulumSimulation(
           ? "#f87171"
           : "#ef4444",
       },
-    }
+    },
   );
   // Add constraint (string)
   const constraint = Constraint.create({
@@ -108,17 +111,19 @@ function setupPendulumSimulation(
       lineWidth: 2,
     },
   });
+
   World.add(world, [anchor, bob, constraint]);
 }
 
 function setupNewtonLawsSimulation(
   engine: Engine,
-  currentParams: { [key: string]: number }
+  currentParams: { [key: string]: number },
 ) {
   const { world } = engine;
   const canvasWidth = 800;
   const canvasHeight = 500;
   const isDarkMode = document.documentElement.classList.contains("dark");
+
   // Ground
   World.add(world, [
     Bodies.rectangle(canvasWidth / 2, canvasHeight, canvasWidth, 50, {
@@ -164,7 +169,7 @@ function setupNewtonLawsSimulation(
         fillStyle: isDarkMode ? "#1e293b" : "#334155",
       },
       friction: currentParams.friction / 2,
-    }
+    },
   );
   const wheel2 = Bodies.circle(
     cartX + cartWidth / 3,
@@ -175,7 +180,7 @@ function setupNewtonLawsSimulation(
         fillStyle: isDarkMode ? "#1e293b" : "#334155",
       },
       friction: currentParams.friction / 2,
-    }
+    },
   );
   const cartComposite = Body.create({
     parts: [cart, wheel1, wheel2],
@@ -199,7 +204,7 @@ function setupNewtonLawsSimulation(
       friction: currentParams.friction,
       mass: currentParams.mass / 2,
       label: "rickshaw",
-    }
+    },
   );
   // Add wheels to rickshaw
   const rickshawWheel1 = Bodies.circle(
@@ -211,7 +216,7 @@ function setupNewtonLawsSimulation(
         fillStyle: isDarkMode ? "#1e293b" : "#334155",
       },
       friction: currentParams.friction / 2,
-    }
+    },
   );
   const rickshawWheel2 = Bodies.circle(
     rickshawX + rickshawWidth / 3,
@@ -222,27 +227,29 @@ function setupNewtonLawsSimulation(
         fillStyle: isDarkMode ? "#1e293b" : "#334155",
       },
       friction: currentParams.friction / 2,
-    }
+    },
   );
   const rickshawComposite = Body.create({
     parts: [rickshaw, rickshawWheel1, rickshawWheel2],
     friction: currentParams.friction,
   });
+
   // Add all objects to the world
   World.add(world, [cartComposite, rickshawComposite]);
   // Apply forces based on parameters
   const forceValue = currentParams.force;
+
   // Apply force to cart (pushing)
   Body.applyForce(
     cartComposite,
     { x: cartX - cartWidth / 2, y: cartY },
-    { x: forceValue / 5000, y: 0 }
+    { x: forceValue / 5000, y: 0 },
   );
   // Apply force to rickshaw (pulling)
   Body.applyForce(
     rickshawComposite,
     { x: rickshawX + rickshawWidth / 2, y: rickshawY },
-    { x: -forceValue / 5000, y: 0 }
+    { x: -forceValue / 5000, y: 0 },
   );
 }
 
@@ -250,7 +257,7 @@ function setupNewtonsLawsInteractiveSimulation(
   engine: Engine,
   currentParams: { [key: string]: number },
   sceneRef: React.RefObject<HTMLDivElement>,
-  rendererRef: React.RefObject<Render>
+  rendererRef: React.RefObject<Render>,
 ) {
   const { world } = engine;
   const canvasWidth = 800;
@@ -304,6 +311,7 @@ function setupNewtonsLawsInteractiveSimulation(
     // Add text labels using DOM elements outside of canvas
     if (sceneRef.current) {
       const labelDiv = document.createElement("div");
+
       labelDiv.className =
         "absolute top-4 left-4 bg-white dark:bg-gray-800 p-2 rounded shadow-lg";
       labelDiv.innerHTML = `<p class="text-gray-800 dark:text-gray-200 font-bold">Newton's 1st Law: Objects in motion stay in motion, objects at rest stay at rest</p>`;
@@ -327,15 +335,16 @@ function setupNewtonsLawsInteractiveSimulation(
         friction: currentParams.friction || 0.3,
         mass: objectMass,
         label: "massObject",
-      }
+      },
     );
 
     // Apply force based on parameter
     const forceValue = currentParams.force || 0.05;
+
     Body.applyForce(
       object,
       { x: object.position.x, y: object.position.y },
-      { x: forceValue, y: 0 }
+      { x: forceValue, y: 0 },
     );
 
     World.add(world, [object]);
@@ -343,6 +352,7 @@ function setupNewtonsLawsInteractiveSimulation(
     // Add force arrow and formula display
     if (sceneRef.current) {
       const infoDiv = document.createElement("div");
+
       infoDiv.className =
         "absolute top-4 left-4 bg-white dark:bg-gray-800 p-2 rounded shadow-lg";
       infoDiv.innerHTML = `
@@ -394,10 +404,11 @@ function setupNewtonsLawsInteractiveSimulation(
 
     // Apply initial forces
     const forceValue = currentParams.force || 0.05;
+
     Body.applyForce(
       leftObject,
       { x: leftObject.position.x, y: leftObject.position.y },
-      { x: forceValue, y: 0 }
+      { x: forceValue, y: 0 },
     );
 
     // The reaction force happens automatically due to physics engine
@@ -405,6 +416,7 @@ function setupNewtonsLawsInteractiveSimulation(
     // Add explanation text
     if (sceneRef.current) {
       const infoDiv = document.createElement("div");
+
       infoDiv.className =
         "absolute top-4 left-4 bg-white dark:bg-gray-800 p-2 rounded shadow-lg";
       infoDiv.innerHTML = `
@@ -467,12 +479,13 @@ const PhysicsEngine = () => {
 
             // Initialize params with default values
             const defaultParams: { [key: string]: number } = {};
+
             // Make sure params exist before attempting to iterate
             if ((data as any).experiments[0].params) {
               Object.entries((data as any).experiments[0].params).forEach(
                 ([key, value]: [string, any]) => {
                   defaultParams[key] = value.default;
-                }
+                },
               );
             }
             setParams(defaultParams);
@@ -485,6 +498,7 @@ const PhysicsEngine = () => {
         setLoading(false);
       } catch (err: any) {
         let errorMessage = "Failed to load physics experiments";
+
         if (err?.response) {
           // The request was made and the server responded with a status code
           // that falls out of the range of 2xx
@@ -585,6 +599,7 @@ const PhysicsEngine = () => {
 
     // Setup new simulation
     const engine = Engine.create();
+
     engineRef.current = engine;
 
     // Check if dark mode is enabled
@@ -600,6 +615,7 @@ const PhysicsEngine = () => {
         background: isDarkMode ? "#1e293b" : "#f8fafc",
       },
     });
+
     rendererRef.current = render;
 
     // Create bodies based on experiment type
@@ -618,12 +634,13 @@ const PhysicsEngine = () => {
         engine,
         params,
         sceneRef,
-        rendererRef
+        rendererRef,
       );
     }
 
     Render.run(render);
     const runner = Runner.create();
+
     Runner.run(runner, engine);
     runnerRef.current = runner;
 
@@ -667,6 +684,7 @@ const PhysicsEngine = () => {
           // Fetch SVG from the server
           if (!selectedExperiment || !selectedExperiment.svgPath) {
             console.warn("No SVG path available for the selected experiment");
+
             return;
           }
 
@@ -677,19 +695,22 @@ const PhysicsEngine = () => {
           if (data) {
             // Create a container and set the SVG content
             const svgContainer = document.createElement("div");
+
             svgContainer.innerHTML = data;
             svgContainer.className =
               "w-full h-full flex items-center justify-center";
 
             // Apply dark mode class if needed
             const isDarkMode = document.documentElement.classList.contains(
-              "dark"
+              "dark",
             )
               ? true
               : false;
+
             document.documentElement.classList.contains("dark");
 
             const svgElement = svgContainer.querySelector("svg");
+
             if (svgElement) {
               // Make SVG responsive
               svgElement.setAttribute("width", "100%");
@@ -715,39 +736,43 @@ const PhysicsEngine = () => {
                 const barefootPressure = (weight * 9.8) / (footArea / 10000); // Convert cm² to m²
                 const shoePressure = (weight * 9.8) / (shoeArea / 10000); // Convert cm² to m²
                 const pressureRatio = (barefootPressure / shoePressure).toFixed(
-                  1
+                  1,
                 );
 
                 // Update the barefoot pressure visualization
                 const barefootPressureIndicator = svgElement.querySelector(
-                  "#barefootPressureIndicator"
+                  "#barefootPressureIndicator",
                 );
+
                 if (barefootPressureIndicator) {
                   barefootPressureIndicator.setAttribute(
                     "r",
-                    (40 + mudSoftness * 2).toString()
+                    (40 + mudSoftness * 2).toString(),
                   );
                 }
                 // Update the shoe pressure visualization
                 const shoePressureIndicator = svgElement.querySelector(
-                  "#shoePressureIndicator"
+                  "#shoePressureIndicator",
                 );
+
                 if (shoePressureIndicator) {
                   shoePressureIndicator.setAttribute(
                     "height",
-                    (80 - mudSoftness * 2).toString()
+                    (80 - mudSoftness * 2).toString(),
                   );
                 }
                 // Update the pressure value text
                 const barefootPressureValue = svgElement.querySelector(
-                  "#barefootPressureValue"
+                  "#barefootPressureValue",
                 );
+
                 if (barefootPressureValue) {
                   barefootPressureValue.textContent =
                     barefootPressure > shoePressure ? "উচ্চ চাপ" : "কম চাপ";
                 }
                 const shoePressureValue =
                   svgElement.querySelector("#shoePressureValue");
+
                 if (shoePressureValue) {
                   shoePressureValue.textContent =
                     shoePressure < barefootPressure ? "কম চাপ" : "উচ্চ চাপ";
@@ -755,6 +780,7 @@ const PhysicsEngine = () => {
                 // Update the comparison value
                 const comparisonValue =
                   svgElement.querySelector("#comparisonValue");
+
                 if (comparisonValue) {
                   comparisonValue.textContent = `চাপের অনুপাত: ${pressureRatio}x`;
                 }
@@ -768,6 +794,7 @@ const PhysicsEngine = () => {
           setError("Failed to load SVG animation.");
         }
       };
+
       fetchAndRenderSVG();
     }
   }, [selectedExperiment, params]);
@@ -780,9 +807,10 @@ const PhysicsEngine = () => {
     if (!selectedExperiment || !selectedExperiment.description) return;
     try {
       const audioUrl = apiService.audio.getAudio(
-        selectedExperiment.description
+        selectedExperiment.description,
       );
       const audio = new Audio(audioUrl);
+
       audio.play();
     } catch (err) {
       console.error("Error playing audio narration:", err);
@@ -828,25 +856,26 @@ const PhysicsEngine = () => {
             setSelectedExperiment(exp);
             // Reset params to default
             const defaultParams: { [key: string]: number } = {};
+
             Object.entries(exp.params).forEach(
               ([key, value]: [string, any]) => {
                 defaultParams[key] = value.default;
-              }
+              },
             );
             setParams(defaultParams);
           }}
         />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <ParameterControls
-            selectedExperiment={selectedExperiment}
             params={params}
+            selectedExperiment={selectedExperiment}
             onParamChange={handleParameterChange}
             onPlayAudio={playAudioNarration}
           />
           <SimulationArea
-            selectedExperiment={selectedExperiment}
-            sceneRef={sceneRef!}
             params={params}
+            sceneRef={sceneRef!}
+            selectedExperiment={selectedExperiment}
           />
         </div>
       </div>

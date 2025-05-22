@@ -17,7 +17,7 @@ declare module "p5" {
       tl?: number,
       tr?: number,
       br?: number,
-      bl?: number
+      bl?: number,
     ): void;
     ellipse(x: number, y: number, w: number, h?: number): void;
     triangle(
@@ -26,7 +26,7 @@ declare module "p5" {
       x2: number,
       y2: number,
       x3: number,
-      y3: number
+      y3: number,
     ): void;
     arc(
       x: number,
@@ -34,7 +34,7 @@ declare module "p5" {
       w: number,
       h: number,
       start: number,
-      stop: number
+      stop: number,
     ): void;
 
     // Style methods

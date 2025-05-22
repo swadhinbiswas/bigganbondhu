@@ -1,9 +1,3 @@
-import AnimalCellModel from "@/components/biology/AnimalCellModel";
-import CellComparison from "@/components/biology/CellComparison";
-import DNASimulation from "@/components/biology/DNASimulation";
-import PhotosynthesisModel from "@/components/biology/PhotosynthesisModel";
-import DefaultLayout from "@/layouts/default";
-import apiService from "@/services/apiService";
 import { Html, OrbitControls, useGLTF, useProgress } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import {
@@ -16,6 +10,13 @@ import {
 } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import * as THREE from "three";
+
+import AnimalCellModel from "@/components/biology/AnimalCellModel";
+import CellComparison from "@/components/biology/CellComparison";
+import DNASimulation from "@/components/biology/DNASimulation";
+import PhotosynthesisModel from "@/components/biology/PhotosynthesisModel";
+import DefaultLayout from "@/layouts/default";
+import apiService from "@/services/apiService";
 
 // Error Boundary Component
 class ErrorBoundary extends Component<
@@ -39,6 +40,7 @@ class ErrorBoundary extends Component<
     if (this.state.hasError) {
       return this.props.fallback;
     }
+
     return this.props.children;
   }
 }
@@ -68,10 +70,11 @@ type BiologyExperiment = {
 // Loading component for 3D models
 function ModelLoader() {
   const { progress } = useProgress();
+
   return (
     <Html center>
       <div className="bg-blue-100 p-6 rounded-lg shadow-lg border border-blue-200">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto" />
         <p className="mt-4 font-medium text-lg">
           মডেল লোড হচ্ছে... {progress.toFixed(0)}%
         </p>
@@ -79,7 +82,7 @@ function ModelLoader() {
           <div
             className="bg-blue-600 h-2.5 rounded-full"
             style={{ width: `${progress.toFixed(0)}%` }}
-          ></div>
+          />
         </div>
       </div>
     </Html>
@@ -126,7 +129,7 @@ const Model = ({
       <mesh position={[0, 0, 0]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color="red" />
-        <Html position={[0, 1.5, 0]} center>
+        <Html center position={[0, 1.5, 0]}>
           <div
             className="bg-red-100 p-2 rounded text-red-800 text-center"
             style={{ width: "200px" }}
@@ -158,7 +161,7 @@ const Model = ({
           }}
         >
           <sphereGeometry args={[0.25, 16, 16]} />
-          <meshBasicMaterial color="red" transparent opacity={0.6} />
+          <meshBasicMaterial transparent color="red" opacity={0.6} />
         </mesh>
       ))}
     </group>
@@ -233,7 +236,7 @@ const BiologyExperiments = () => {
         } else {
           // Handle case when data.experiments is undefined or not an array
           console.warn(
-            "No experiments data returned from API or invalid format"
+            "No experiments data returned from API or invalid format",
           );
           setExperiments([]);
         }
@@ -270,6 +273,7 @@ const BiologyExperiments = () => {
       ...part,
       position: part.position || [0, 0, 0], // Set default position if it doesn't exist
     };
+
     setSelectedPart(safePartData);
     playAudioNarration(part.description);
   };
@@ -326,14 +330,14 @@ const BiologyExperiments = () => {
               <h1 className="text-4xl font-bold mb-2 text-blue-600 dark:text-blue-400">
                 {categoryTitle.bn}
               </h1>
-              <div className="w-24 h-1 bg-blue-500 mx-auto mb-3 rounded-full"></div>
+              <div className="w-24 h-1 bg-blue-500 mx-auto mb-3 rounded-full" />
               <p className="text-gray-600 dark:text-gray-300 mb-6">
                 {categoryTitle.en}
               </p>
 
               <button
-                onClick={() => navigate("/engines/biology")}
                 className="inline-flex items-center px-5 py-2.5 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-full text-sm font-medium shadow-sm hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors duration-200"
+                onClick={() => navigate("/engines/biology")}
               >
                 <svg
                   className="w-4 h-4 mr-2"
@@ -343,10 +347,10 @@ const BiologyExperiments = () => {
                   xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
+                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth={2}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
                   />
                 </svg>
                 বিভাগে ফিরে যান / Back to categories
@@ -356,7 +360,7 @@ const BiologyExperiments = () => {
 
           {loading ? (
             <div className="flex justify-center items-center h-64">
-              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+              <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" />
             </div>
           ) : error ? (
             <div className="bg-red-100 text-red-800 p-4 rounded-md text-center">
@@ -368,7 +372,7 @@ const BiologyExperiments = () => {
               <div className="md:w-1/4">
                 <div className="bg-white dark:bg-gray-800 p-5 rounded-xl shadow-md border border-gray-100 dark:border-gray-700">
                   <div className="flex items-center mb-4">
-                    <div className="w-1.5 h-6 bg-blue-500 rounded-full mr-3"></div>
+                    <div className="w-1.5 h-6 bg-blue-500 rounded-full mr-3" />
                     <h3 className="text-lg font-bold text-blue-600 dark:text-blue-400">
                       এক্সপেরিমেন্টস
                     </h3>
@@ -410,10 +414,10 @@ const BiologyExperiments = () => {
                         >
                           <defs>
                             <pattern
-                              id="grid"
-                              width="10"
                               height="10"
+                              id="grid"
                               patternUnits="userSpaceOnUse"
+                              width="10"
                             >
                               <path
                                 d="M 10 0 L 0 0 0 10"
@@ -423,7 +427,7 @@ const BiologyExperiments = () => {
                               />
                             </pattern>
                           </defs>
-                          <rect width="100" height="100" fill="url(#grid)" />
+                          <rect fill="url(#grid)" height="100" width="100" />
                         </svg>
                       </div>
                       <div className="relative z-10">
@@ -455,22 +459,22 @@ const BiologyExperiments = () => {
                             <CellComparison />
                           ) : selectedExperiment?.id === "photosynthesis" ? (
                             <Canvas
+                              shadows
                               camera={{ position: [0, 0, 7], fov: 45 }}
                               style={{ height: "100%" }}
-                              shadows
                             >
                               {/* Rendering photosynthesis model */}
                               <ambientLight intensity={0.8} />
                               <spotLight
-                                position={[10, 10, 10]}
-                                angle={0.15}
-                                penumbra={1}
                                 castShadow
+                                angle={0.15}
                                 intensity={1}
+                                penumbra={1}
+                                position={[10, 10, 10]}
                               />
                               <pointLight
-                                position={[-10, -10, -10]}
                                 intensity={0.5}
+                                position={[-10, -10, -10]}
                               />
                               <Suspense fallback={<ModelLoader />}>
                                 <PhotosynthesisModel
@@ -486,24 +490,24 @@ const BiologyExperiments = () => {
                             </Canvas>
                           ) : selectedModel?.id === "animal-cell" &&
                             selectedModel.modelUrl.includes(
-                              "animalcell.glb"
+                              "animalcell.glb",
                             ) ? (
                             <Canvas
+                              shadows
                               camera={{ position: [0, 0, 7], fov: 45 }}
                               style={{ height: "100%" }}
-                              shadows
                             >
                               <ambientLight intensity={0.8} />
                               <spotLight
-                                position={[10, 10, 10]}
-                                angle={0.15}
-                                penumbra={1}
                                 castShadow
+                                angle={0.15}
                                 intensity={1}
+                                penumbra={1}
+                                position={[10, 10, 10]}
                               />
                               <pointLight
-                                position={[-10, -10, -10]}
                                 intensity={0.5}
+                                position={[-10, -10, -10]}
                               />
                               <Suspense fallback={<ModelLoader />}>
                                 <AnimalCellModel
@@ -519,7 +523,7 @@ const BiologyExperiments = () => {
                               />
                             </Canvas>
                           ) : selectedModel?.modelUrl.includes(
-                              "sketchfab.com"
+                              "sketchfab.com",
                             ) ? (
                             <div className="h-full w-full flex flex-col">
                               {/* Enhanced model container with professional styling */}
@@ -534,10 +538,10 @@ const BiologyExperiments = () => {
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
+                                        d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={2}
-                                        d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5"
                                       />
                                     </svg>
                                     <span className="text-white font-semibold text-sm">
@@ -553,27 +557,27 @@ const BiologyExperiments = () => {
                                       xmlns="http://www.w3.org/2000/svg"
                                     >
                                       <path
+                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={2}
-                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
                                       />
                                       <path
+                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                                         strokeLinecap="round"
                                         strokeLinejoin="round"
                                         strokeWidth={2}
-                                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
                                       />
                                     </svg>
                                     ইন্টারেক্টিভ মডেল
                                   </div>
                                 </div>
-                                <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-black/40 to-transparent z-10"></div>
+                                <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-black/40 to-transparent z-10" />
                                 <div className="w-full h-full relative">
                                   {/* Modern loading animation */}
                                   <div className="absolute inset-0 flex items-center justify-center z-0">
                                     <div className="flex flex-col items-center">
-                                      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-4"></div>
+                                      <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-blue-500 mb-4" />
                                       <p className="text-blue-600 dark:text-blue-400 font-medium">
                                         ত্রিমাত্রিক মডেল লোড হচ্ছে...
                                       </p>
@@ -583,16 +587,16 @@ const BiologyExperiments = () => {
                                     </div>
                                   </div>
                                   <iframe
+                                    allow="autoplay; fullscreen; xr-spatial-tracking"
+                                    allowFullScreen={true}
+                                    className="w-full h-full border-none relative z-10"
+                                    frameBorder="0"
+                                    height="100%"
+                                    src={selectedModel.modelUrl}
+                                    style={{ background: "transparent" }}
                                     title={selectedModel.title}
                                     width="100%"
-                                    height="100%"
-                                    frameBorder="0"
-                                    allowFullScreen={true}
-                                    allow="autoplay; fullscreen; xr-spatial-tracking"
-                                    src={selectedModel.modelUrl}
-                                    className="w-full h-full border-none relative z-10"
-                                    style={{ background: "transparent" }}
-                                  ></iframe>
+                                  />
                                 </div>
                               </div>
 
@@ -602,7 +606,7 @@ const BiologyExperiments = () => {
                                   <div className="bg-blue-50 dark:bg-gray-800 p-4 mt-4 rounded-xl shadow-md">
                                     <div className="flex items-center justify-between mb-3">
                                       <div className="flex items-center">
-                                        <div className="w-2 h-10 bg-blue-500 rounded-full mr-3"></div>
+                                        <div className="w-2 h-10 bg-blue-500 rounded-full mr-3" />
                                         <h3 className="text-base font-semibold text-blue-600 dark:text-blue-400">
                                           অংশগুলি অন্বেষণ করুন | Explore Parts
                                         </h3>
@@ -616,10 +620,10 @@ const BiologyExperiments = () => {
                                           xmlns="http://www.w3.org/2000/svg"
                                         >
                                           <path
+                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                             strokeLinecap="round"
                                             strokeLinejoin="round"
                                             strokeWidth={2}
-                                            d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                           />
                                         </svg>
                                         অংশটি বিস্তারিত দেখতে ক্লিক করুন
@@ -655,10 +659,10 @@ const BiologyExperiments = () => {
                                                   xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                   <path
+                                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
                                                     strokeWidth={2}
-                                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
                                                   />
                                                 </svg>
                                               )}
@@ -671,10 +675,10 @@ const BiologyExperiments = () => {
                                                   xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                   <path
+                                                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
                                                     strokeWidth={2}
-                                                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
                                                   />
                                                 </svg>
                                               )}
@@ -687,10 +691,10 @@ const BiologyExperiments = () => {
                                                   xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                   <path
+                                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
                                                     strokeWidth={2}
-                                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                                                   />
                                                 </svg>
                                               )}
@@ -704,10 +708,10 @@ const BiologyExperiments = () => {
                                                   xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                   <path
+                                                    d="M13 10V3L4 14h7v7l9-11h-7z"
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
                                                     strokeWidth={2}
-                                                    d="M13 10V3L4 14h7v7l9-11h-7z"
                                                   />
                                                 </svg>
                                               )}
@@ -721,10 +725,10 @@ const BiologyExperiments = () => {
                                                   xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                   <path
+                                                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
                                                     strokeWidth={2}
-                                                    d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"
                                                   />
                                                 </svg>
                                               )}
@@ -737,10 +741,10 @@ const BiologyExperiments = () => {
                                                   xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                   <path
+                                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
                                                     strokeWidth={2}
-                                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
                                                   />
                                                 </svg>
                                               )}
@@ -753,10 +757,10 @@ const BiologyExperiments = () => {
                                                   xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                   <path
+                                                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
                                                     strokeWidth={2}
-                                                    d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
                                                   />
                                                 </svg>
                                               )}
@@ -777,10 +781,10 @@ const BiologyExperiments = () => {
                                                   xmlns="http://www.w3.org/2000/svg"
                                                 >
                                                   <path
+                                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                                                     strokeLinecap="round"
                                                     strokeLinejoin="round"
                                                     strokeWidth={2}
-                                                    d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
                                                   />
                                                 </svg>
                                               )}
@@ -797,10 +801,10 @@ const BiologyExperiments = () => {
                                             xmlns="http://www.w3.org/2000/svg"
                                           >
                                             <path
+                                              d="M9 5l7 7-7 7"
                                               strokeLinecap="round"
                                               strokeLinejoin="round"
                                               strokeWidth={2}
-                                              d="M9 5l7 7-7 7"
                                             />
                                           </svg>
                                         </button>
@@ -821,9 +825,9 @@ const BiologyExperiments = () => {
                             >
                               <ambientLight intensity={0.7} />
                               <spotLight
-                                position={[10, 10, 10]}
                                 angle={0.15}
                                 penumbra={1}
+                                position={[10, 10, 10]}
                               />
                               <pointLight position={[-10, -10, -10]} />
                               <Suspense fallback={<ModelLoader />}>
@@ -888,10 +892,10 @@ const BiologyExperiments = () => {
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
+                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"
                                   />
                                 </svg>
                               )}
@@ -904,10 +908,10 @@ const BiologyExperiments = () => {
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
+                                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M19 14l-7 7m0 0l-7-7m7 7V3"
                                   />
                                 </svg>
                               )}
@@ -920,15 +924,15 @@ const BiologyExperiments = () => {
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                                   />
                                 </svg>
                               )}
                               {!["mouth", "esophagus", "stomach"].includes(
-                                selectedPart.id
+                                selectedPart.id,
                               ) && (
                                 <svg
                                   className="w-4 h-4"
@@ -938,10 +942,10 @@ const BiologyExperiments = () => {
                                   xmlns="http://www.w3.org/2000/svg"
                                 >
                                   <path
+                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
                                     strokeWidth={2}
-                                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                                   />
                                 </svg>
                               )}
@@ -970,10 +974,10 @@ const BiologyExperiments = () => {
                             ত্রিমাত্রিক মডেল থেকে নির্বাচিত অংশ
                           </div>
                           <button
+                            className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs transition-colors duration-200"
                             onClick={() =>
                               playAudioNarration(selectedPart.description)
                             }
-                            className="flex items-center gap-2 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs transition-colors duration-200"
                           >
                             <svg
                               className="w-4 h-4"
@@ -983,10 +987,10 @@ const BiologyExperiments = () => {
                               xmlns="http://www.w3.org/2000/svg"
                             >
                               <path
+                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.414l-2.829-2.828a2 2 0 010-2.828l2.829-2.828m7.072 7.072l3.536 3.536M5.586 8.586l4.243 4.242m0 0l-4.243 4.243"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
                                 strokeWidth={2}
-                                d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15.414l-2.829-2.828a2 2 0 010-2.828l2.829-2.828m7.072 7.072l3.536 3.536M5.586 8.586l4.243 4.242m0 0l-4.243 4.243"
                               />
                             </svg>
                             শুনুন / Listen

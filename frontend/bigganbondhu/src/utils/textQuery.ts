@@ -36,7 +36,7 @@ export async function queryAI(query: string): Promise<TextQueryResponse> {
     ) {
       console.error("OpenRouter API key is missing or invalid");
       throw new Error(
-        "API configuration error. Please contact the administrator."
+        "API configuration error. Please contact the administrator.",
       );
     }
 
@@ -64,23 +64,24 @@ export async function queryAI(query: string): Promise<TextQueryResponse> {
             },
           ],
         }),
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
+
       console.error(`OpenRouter API error: ${response.status}`, errorText);
 
       // More specific error messages based on status code
       if (response.status === 401 || response.status === 403) {
         throw new Error(
-          "API authentication error. Please check your API key configuration."
+          "API authentication error. Please check your API key configuration.",
         );
       } else if (response.status === 429) {
         throw new Error("API rate limit exceeded. Please try again later.");
       } else {
         throw new Error(
-          `প্রশ্নের উত্তর দিতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন। (${response.status})`
+          `প্রশ্নের উত্তর দিতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন। (${response.status})`,
         );
       }
     }

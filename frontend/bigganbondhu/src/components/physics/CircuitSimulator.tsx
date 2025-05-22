@@ -81,7 +81,7 @@ const CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
 
   useEffect(() => {
     const setChallengeResult = (
-      result: "success" | "error" | "warning" | null
+      result: "success" | "error" | "warning" | null,
     ) => {
       if (onChallengeResult && result) {
         onChallengeResult(result);
@@ -90,6 +90,7 @@ const CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
 
     if (modeProp === "challenge" && challenge) {
       let result: "success" | "error" | "warning" = "error";
+
       if (circuitState.totalResistance < 0.01) {
         result = "warning";
       } else if (
@@ -149,8 +150,9 @@ const CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
       conn.current = totalCurrent;
 
       const connectedComp = circuitState.components.find(
-        (c) => c.id === conn.to
+        (c) => c.id === conn.to,
       );
+
       if (connectedComp && connectedComp.type === "resistor") {
         conn.voltage =
           totalCurrent * (connectedComp.properties.resistance || resistance);
@@ -171,13 +173,14 @@ const CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
   };
 
   const grid = [];
+
   for (let i = 0; i < 800; i += gridSize) {
     grid.push(
       <div
         key={`h-${i}`}
         className="absolute h-px w-full bg-gray-100 dark:bg-gray-800"
         style={{ left: "0px", top: `${i}px` }}
-      />
+      />,
     );
   }
 

@@ -26,7 +26,7 @@ ChartJS.register(
   Tooltip,
   Legend,
   Filler,
-  CategoryScale
+  CategoryScale,
 );
 
 const FLOOR_Y = -2;
@@ -52,7 +52,7 @@ function FreeFall3D({
   const [velocityData, setVelocityData] = useState<number[]>([]);
   const [timeData, setTimeData] = useState<number[]>([]);
   const traceGeometry = useRef<THREE.BufferGeometry>(
-    new THREE.BufferGeometry()
+    new THREE.BufferGeometry(),
   );
 
   const timeRef = useRef(0);
@@ -82,6 +82,7 @@ function FreeFall3D({
     if (timeRef.current > MAX_SIMULATION_TIME) {
       cancelAnimationFrame(animationRef.current!);
       setIsRunning(false);
+
       return;
     }
 
@@ -94,6 +95,7 @@ function FreeFall3D({
     if (posYRef.current <= FLOOR_Y) {
       cancelAnimationFrame(animationRef.current!);
       setIsRunning(false);
+
       return;
     }
 
@@ -105,18 +107,21 @@ function FreeFall3D({
     if (shouldRecordData) {
       setDisplacementData((prev) => {
         const newData = [...prev, initialHeight - posYRef.current];
+
         return newData.length > MAX_DATA_POINTS
           ? newData.slice(-MAX_DATA_POINTS)
           : newData;
       });
       setVelocityData((prev) => {
         const newData = [...prev, velocityRef.current];
+
         return newData.length > MAX_DATA_POINTS
           ? newData.slice(-MAX_DATA_POINTS)
           : newData;
       });
       setTimeData((prev) => {
         const newData = [...prev, Number(timeRef.current.toFixed(1))];
+
         return newData.length > MAX_DATA_POINTS
           ? newData.slice(-MAX_DATA_POINTS)
           : newData;
@@ -130,7 +135,7 @@ function FreeFall3D({
       tracePositions.push(0, posYRef.current, 0);
       traceGeometry.current.setAttribute(
         "position",
-        new THREE.Float32BufferAttribute(tracePositions, 3)
+        new THREE.Float32BufferAttribute(tracePositions, 3),
       );
     }
 
@@ -173,6 +178,7 @@ function FreeFall3D({
 
     // Build export container
     const container = document.createElement("div");
+
     container.style.padding = "32px";
     container.style.background = "#fff";
     container.style.width = "1200px";
@@ -198,6 +204,7 @@ function FreeFall3D({
 
     // Graphs row
     const graphsRow = document.createElement("div");
+
     graphsRow.style.display = "flex";
     graphsRow.style.gap = "32px";
     graphsRow.style.justifyContent = "center";
@@ -205,6 +212,7 @@ function FreeFall3D({
 
     // Displacement graph
     const dispDiv = document.createElement("div");
+
     dispDiv.style.flex = "1";
     dispDiv.style.textAlign = "center";
     dispDiv.innerHTML = `<div style='font-weight:600;font-size:1.1rem;margin-bottom:8px;color:#1e293b;'>Displacement vs Time</div><img src='${dispImg}' style='width:500px;max-width:100%;border:1px solid #ddd;border-radius:8px;background:#fff;'/>`;
@@ -212,6 +220,7 @@ function FreeFall3D({
 
     // Velocity graph
     const velDiv = document.createElement("div");
+
     velDiv.style.flex = "1";
     velDiv.style.textAlign = "center";
     velDiv.innerHTML = `<div style='font-weight:600;font-size:1.1rem;margin-bottom:8px;color:#1e293b;'>Velocity vs Time</div><img src='${velImg}' style='width:500px;max-width:100%;border:1px solid #ddd;border-radius:8px;background:#fff;'/>`;
@@ -221,6 +230,7 @@ function FreeFall3D({
 
     // Data table
     const dataTable = document.createElement("div");
+
     dataTable.style.marginTop = "12px";
     dataTable.innerHTML = `
       <h3 style="font-size:1.2rem;font-weight:bold;margin-bottom:10px;color:#1e293b;">Numerical Data</h3>
@@ -241,7 +251,7 @@ function FreeFall3D({
               <td style="padding:8px;border:1px solid #e5e7eb;">${(initialHeight - displacementData[i]).toFixed(2)}</td>
               <td style="padding:8px;border:1px solid #e5e7eb;">${velocityData[i].toFixed(2)}</td>
             </tr>
-          `
+          `,
             )
             .join("")}
         </tbody>
@@ -257,8 +267,10 @@ function FreeFall3D({
       width: 1200,
       height: container.offsetHeight,
     });
+
     document.body.removeChild(container);
     const link = document.createElement("a");
+
     link.download = "free-fall-simulation.png";
     link.href = canvas.toDataURL("image/png");
     link.click();
@@ -269,6 +281,7 @@ function FreeFall3D({
     const dispImg = displacementChartRef.current?.toBase64Image?.() || "";
     const velImg = velocityChartRef.current?.toBase64Image?.() || "";
     const container = document.createElement("div");
+
     container.style.padding = "32px";
     container.style.background = "#fff";
     container.style.width = "1200px";
@@ -290,22 +303,26 @@ function FreeFall3D({
       </div>
     `;
     const graphsRow = document.createElement("div");
+
     graphsRow.style.display = "flex";
     graphsRow.style.gap = "32px";
     graphsRow.style.justifyContent = "center";
     graphsRow.style.marginBottom = "32px";
     const dispDiv = document.createElement("div");
+
     dispDiv.style.flex = "1";
     dispDiv.style.textAlign = "center";
     dispDiv.innerHTML = `<div style='font-weight:600;font-size:1.1rem;margin-bottom:8px;color:#1e293b;'>Displacement vs Time</div><img src='${dispImg}' style='width:500px;max-width:100%;border:1px solid #ddd;border-radius:8px;background:#fff;'/>`;
     graphsRow.appendChild(dispDiv);
     const velDiv = document.createElement("div");
+
     velDiv.style.flex = "1";
     velDiv.style.textAlign = "center";
     velDiv.innerHTML = `<div style='font-weight:600;font-size:1.1rem;margin-bottom:8px;color:#1e293b;'>Velocity vs Time</div><img src='${velImg}' style='width:500px;max-width:100%;border:1px solid #ddd;border-radius:8px;background:#fff;'/>`;
     graphsRow.appendChild(velDiv);
     container.appendChild(graphsRow);
     const dataTable = document.createElement("div");
+
     dataTable.style.marginTop = "12px";
     dataTable.innerHTML = `      <h3 style="font-size:1.2rem;font-weight:bold;margin-bottom:10px;color:#1e293b;">Numerical Data</h3>
       <table style="width:100%;border-collapse:collapse;font-size:1.05rem;">
@@ -325,7 +342,7 @@ function FreeFall3D({
               <td style="padding:8px;border:1px solid #e5e7eb;">${(initialHeight - displacementData[i]).toFixed(2)}</td>
               <td style="padding:8px;border:1px solid #e5e7eb;">${velocityData[i].toFixed(2)}</td>
             </tr>
-          `
+          `,
             )
             .join("")}
         </tbody>
@@ -340,6 +357,7 @@ function FreeFall3D({
       width: 1200,
       height: container.offsetHeight,
     });
+
     document.body.removeChild(container);
     const imgData = canvas.toDataURL("image/png");
     const pdf = new jsPDF({
@@ -354,13 +372,14 @@ function FreeFall3D({
     const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
     const imgX = (pdfWidth - imgWidth * ratio) / 2;
     const imgY = 0;
+
     pdf.addImage(
       imgData,
       "PNG",
       imgX,
       imgY,
       imgWidth * ratio,
-      imgHeight * ratio
+      imgHeight * ratio,
     );
     pdf.save("free-fall-simulation.pdf");
   };
@@ -384,6 +403,7 @@ function FreeFall3D({
             label: (context: any) => {
               const value = context.parsed.y;
               const label = context.dataset.label;
+
               return `${label}: ${value.toFixed(2)}`;
             },
           },
@@ -416,7 +436,7 @@ function FreeFall3D({
         },
       },
     }),
-    []
+    [],
   );
 
   return (
@@ -425,10 +445,10 @@ function FreeFall3D({
         3D Free Fall Simulation
       </h2>
       <div className="flex justify-center gap-4 mb-4">
-        <Button onClick={startSimulation} color="primary">
+        <Button color="primary" onClick={startSimulation}>
           Start
         </Button>
-        <Button onClick={resetSimulation} color="secondary">
+        <Button color="secondary" onClick={resetSimulation}>
           Reset
         </Button>
       </div>
@@ -436,25 +456,25 @@ function FreeFall3D({
         <div className="w-full h-[400px] lg:h-[500px] flex-1">
           <Canvas shadows camera={{ position: [0, 6, 10], fov: 50 }}>
             <ambientLight intensity={0.5} />
-            <directionalLight position={[5, 5, 5]} intensity={1} castShadow />
+            <directionalLight castShadow intensity={1} position={[5, 5, 5]} />
             <OrbitControls target={[0, 2, 0]} />
             <gridHelper args={[10, 10]} position={[0, FLOOR_Y + 0.05, 0]} />
-            <mesh position={[0, FLOOR_Y, 0]} receiveShadow>
+            <mesh receiveShadow position={[0, FLOOR_Y, 0]}>
               <boxGeometry args={[10, 0.1, 10]} />
               <meshStandardMaterial color="#e5e7eb" />
             </mesh>
             <line>
               <bufferGeometry>
                 <bufferAttribute
-                  attach="attributes-position"
                   array={new Float32Array([0, FLOOR_Y, 0, 0, initialHeight, 0])}
+                  attach="attributes-position"
                   count={2}
                   itemSize={3}
                 />
               </bufferGeometry>
               <lineBasicMaterial color="#f87171" />
             </line>
-            <mesh position={position as [number, number, number]} castShadow>
+            <mesh castShadow position={position as [number, number, number]}>
               <sphereGeometry args={[0.5, 32, 32]} />
               <meshStandardMaterial color="#3b82f6" />
             </mesh>
@@ -523,10 +543,10 @@ function FreeFall3D({
         </div>
       </div>
       <div className="flex justify-center gap-4 mt-4">
-        <Button onClick={exportAsImage} color="primary">
+        <Button color="primary" onClick={exportAsImage}>
           Export as PNG
         </Button>
-        <Button onClick={exportAsPDF} color="secondary">
+        <Button color="secondary" onClick={exportAsPDF}>
           Export as PDF
         </Button>
       </div>

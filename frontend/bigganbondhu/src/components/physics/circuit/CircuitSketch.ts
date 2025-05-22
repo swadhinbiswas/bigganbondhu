@@ -40,7 +40,7 @@ export class CircuitSketch {
     mode: CircuitMode,
     showCurrent: boolean,
     canvasWidth = 700,
-    canvasHeight = 500
+    canvasHeight = 500,
   ) {
     this.p5 = p5Instance;
     this.circuitState = initialState;
@@ -88,7 +88,7 @@ export class CircuitSketch {
         this.connectionPreview.fromX,
         this.connectionPreview.fromY,
         this.connectionPreview.toX,
-        this.connectionPreview.toY
+        this.connectionPreview.toY,
       );
     }
 
@@ -134,7 +134,7 @@ export class CircuitSketch {
       if (this.showCurrent && conn.current && conn.current > 0) {
         // Animated pulsing effect for current
         const pulseIntensity = Math.abs(
-          Math.sin((this.pulse + idx * 10) * 0.06)
+          Math.sin((this.pulse + idx * 10) * 0.06),
         );
         const a = 0.5 + 0.5 * pulseIntensity;
 
@@ -164,8 +164,9 @@ export class CircuitSketch {
       fromPoints.forEach((fp) => {
         toPoints.forEach((tp) => {
           const dist = Math.sqrt(
-            Math.pow(fp.x - tp.x, 2) + Math.pow(fp.y - tp.y, 2)
+            Math.pow(fp.x - tp.x, 2) + Math.pow(fp.y - tp.y, 2),
           );
+
           if (dist < minDist) {
             minDist = dist;
             bestFromPoint = fp;
@@ -191,7 +192,7 @@ export class CircuitSketch {
           bestFromPoint.x,
           bestFromPoint.y,
           bestToPoint.x,
-          bestToPoint.y
+          bestToPoint.y,
         );
       } else {
         // For longer distances, use a Bezier curve
@@ -209,7 +210,7 @@ export class CircuitSketch {
           ctrl2X,
           ctrl2Y,
           bestToPoint.x,
-          bestToPoint.y
+          bestToPoint.y,
         );
       }
 
@@ -219,7 +220,7 @@ export class CircuitSketch {
         const midY = (bestFromPoint.y + bestToPoint.y) / 2;
         const angle = Math.atan2(
           bestToPoint.y - bestFromPoint.y,
-          bestToPoint.x - bestFromPoint.x
+          bestToPoint.x - bestFromPoint.x,
         );
         const arrowSize = 8;
 
@@ -234,7 +235,7 @@ export class CircuitSketch {
           -arrowSize / 2,
           -arrowSize / 2,
           -arrowSize / 2,
-          arrowSize / 2
+          arrowSize / 2,
         );
         this.p5.pop();
 
@@ -245,6 +246,7 @@ export class CircuitSketch {
           this.p5.noStroke();
           this.p5.textSize(10);
           let label = "";
+
           if (conn.voltage !== undefined) {
             label += `${conn.voltage.toFixed(1)}V`;
           }
@@ -265,6 +267,7 @@ export class CircuitSketch {
   drawConnectionPoints() {
     Object.keys(this.connectPoints).forEach((id) => {
       const component = this.circuitState.components.find((c) => c.id === id);
+
       if (!component) return;
 
       const isSelected = this.selectedComponent === id;
@@ -300,7 +303,7 @@ export class CircuitSketch {
     fromX: number,
     fromY: number,
     toX: number,
-    toY: number
+    toY: number,
   ) {
     this.p5.push();
     this.p5.stroke(this.p5.color(56, 189, 248)); // Cyan
@@ -321,6 +324,7 @@ export class CircuitSketch {
       const startY = fromY + i * yStep;
       const endX = startX + (xStep * dashLength) / (dashLength + gapLength);
       const endY = startY + (yStep * dashLength) / (dashLength + gapLength);
+
       this.p5.line(startX, startY, endX, endY);
     }
 
@@ -339,7 +343,7 @@ export class CircuitSketch {
       -arrowSize,
       -arrowSize / 2,
       -arrowSize,
-      arrowSize / 2
+      arrowSize / 2,
     );
     this.p5.pop();
 
@@ -348,7 +352,7 @@ export class CircuitSketch {
 
   // Set connection preview
   setConnectionPreview(
-    preview: { fromX: number; fromY: number; toX: number; toY: number } | null
+    preview: { fromX: number; fromY: number; toX: number; toY: number } | null,
   ) {
     this.connectionPreview = preview;
   }
@@ -356,8 +360,9 @@ export class CircuitSketch {
   // Draw resize handles for a selected component
   drawResizeHandles(componentId: string) {
     const component = this.circuitState.components.find(
-      (c) => c.id === componentId
+      (c) => c.id === componentId,
     );
+
     if (!component) return;
 
     this.p5.push();
@@ -377,25 +382,25 @@ export class CircuitSketch {
       component.x + halfWidth,
       component.y + halfHeight,
       handleSize,
-      handleSize
+      handleSize,
     );
     this.p5.rect(
       component.x - halfWidth,
       component.y + halfHeight,
       handleSize,
-      handleSize
+      handleSize,
     );
     this.p5.rect(
       component.x + halfWidth,
       component.y - halfHeight,
       handleSize,
-      handleSize
+      handleSize,
     );
     this.p5.rect(
       component.x - halfWidth,
       component.y - halfHeight,
       handleSize,
-      handleSize
+      handleSize,
     );
 
     this.p5.pop();
@@ -449,6 +454,7 @@ export class CircuitSketch {
       const rotatePoint = (x: number, y: number) => {
         const rx = x * cos - y * sin;
         const ry = x * sin + y * cos;
+
         return { x: comp.x + rx, y: comp.y + ry };
       };
 
@@ -533,7 +539,7 @@ export class CircuitSketch {
         this.p5.noFill();
         this.p5.strokeWeight(2);
         this.p5.stroke(
-          isSelected ? this.p5.color(59, 130, 246) : this.p5.color(34, 197, 94)
+          isSelected ? this.p5.color(59, 130, 246) : this.p5.color(34, 197, 94),
         );
         this.p5.rect(0, 0, 42, 42, 5);
       }
@@ -607,6 +613,7 @@ export class CircuitSketch {
 
     // Draw zigzag pattern
     const zigzagWidth = 3;
+
     this.p5.beginShape();
     this.p5.vertex(-10, 0);
     this.p5.vertex(-8, -zigzagWidth);
@@ -640,7 +647,7 @@ export class CircuitSketch {
 
     // Switch lever
     this.p5.stroke(
-      isOn ? this.p5.color(34, 197, 94) : this.p5.color(239, 68, 68)
+      isOn ? this.p5.color(34, 197, 94) : this.p5.color(239, 68, 68),
     );
     this.p5.strokeWeight(2);
 
@@ -652,7 +659,7 @@ export class CircuitSketch {
 
     // State label
     this.p5.fill(
-      isOn ? this.p5.color(34, 197, 94) : this.p5.color(239, 68, 68)
+      isOn ? this.p5.color(34, 197, 94) : this.p5.color(239, 68, 68),
     );
     this.p5.noStroke();
     this.p5.textSize(7);
@@ -664,7 +671,7 @@ export class CircuitSketch {
     const isLit =
       this.circuitState.totalCurrent > 0 &&
       !this.circuitState.components.some(
-        (c) => c.type === "switch" && c.properties.state === "off"
+        (c) => c.type === "switch" && c.properties.state === "off",
       );
 
     // Bulb base
@@ -715,7 +722,7 @@ export class CircuitSketch {
     const isLit =
       this.circuitState.totalCurrent > 0 &&
       !this.circuitState.components.some(
-        (c) => c.type === "switch" && c.properties.state === "off"
+        (c) => c.type === "switch" && c.properties.state === "off",
       );
 
     // LED body
@@ -726,6 +733,7 @@ export class CircuitSketch {
 
     // LED color/light
     const ledColor = comp.properties.color || "#ff0000";
+
     if (isLit) {
       // Glowing effect
       this.p5.fill(this.p5.color(ledColor));
@@ -783,6 +791,7 @@ export class CircuitSketch {
     // Draw coil loops
     const loopHeight = 6;
     const loopWidth = 5;
+
     this.p5.arc(-8, 0, loopWidth, loopHeight, 180, 360);
     this.p5.arc(-3, 0, loopWidth, loopHeight, 180, 360);
     this.p5.arc(2, 0, loopWidth, loopHeight, 180, 360);
@@ -823,7 +832,7 @@ export class CircuitSketch {
   // Creates a connection between two components
   createConnection(fromId: string, toId: string): Connection | null {
     const fromComponent = this.circuitState.components.find(
-      (c) => c.id === fromId
+      (c) => c.id === fromId,
     );
     const toComponent = this.circuitState.components.find((c) => c.id === toId);
 
@@ -836,7 +845,7 @@ export class CircuitSketch {
     const connectionExists = this.circuitState.connections.some(
       (conn) =>
         (conn.from === fromId && conn.to === toId) ||
-        (conn.from === toId && conn.to === fromId)
+        (conn.from === toId && conn.to === fromId),
     );
 
     if (connectionExists) return null;
@@ -866,6 +875,7 @@ export class CircuitSketch {
           },
         };
       }
+
       return comp;
     });
 
@@ -881,8 +891,9 @@ export class CircuitSketch {
   // Check if a point is on a resize handle of a component
   isOnResizeHandle(componentId: string, x: number, y: number): boolean {
     const component = this.circuitState.components.find(
-      (c) => c.id === componentId
+      (c) => c.id === componentId,
     );
+
     if (!component) return false;
 
     const handleSize = 8;

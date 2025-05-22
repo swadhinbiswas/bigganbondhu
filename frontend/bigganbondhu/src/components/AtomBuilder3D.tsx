@@ -1,10 +1,3 @@
-import { DragTypes } from "@/lib/dragTypes";
-import { useAtomStore } from "@/lib/stores/atomStore";
-import {
-  calculateElectronConfiguration,
-  PARTICLE_CONFIG,
-  ParticleType,
-} from "@/types/atom";
 import {
   Environment,
   OrbitControls,
@@ -16,6 +9,14 @@ import { Howl } from "howler";
 import React, { useEffect, useMemo, useRef } from "react";
 import { useDrop } from "react-dnd";
 import * as THREE from "three";
+
+import {
+  calculateElectronConfiguration,
+  PARTICLE_CONFIG,
+  ParticleType,
+} from "@/types/atom";
+import { useAtomStore } from "@/lib/stores/atomStore";
+import { DragTypes } from "@/lib/dragTypes";
 
 // Sound effects
 const addProtonSound = new Howl({ src: ["/sounds/proton.mp3"], volume: 0.5 });
@@ -67,7 +68,7 @@ const Nucleus: React.FC<{ protons: number; neutrons: number }> = ({
       {/* Core glow */}
       <mesh>
         <sphereGeometry args={[0.8, 32, 32]} />
-        <meshBasicMaterial color="#FFCC88" transparent opacity={0.15} />
+        <meshBasicMaterial transparent color="#FFCC88" opacity={0.15} />
       </mesh>
 
       <group ref={particlesGroup}>
@@ -82,8 +83,8 @@ const Nucleus: React.FC<{ protons: number; neutrons: number }> = ({
               <sphereGeometry args={[PARTICLE_CONFIG.proton.size, 16, 16]} />
               <meshStandardMaterial
                 color={PARTICLE_CONFIG.proton.color}
-                roughness={0.4}
                 metalness={0.3}
+                roughness={0.4}
               />
             </mesh>
           ))}
@@ -99,8 +100,8 @@ const Nucleus: React.FC<{ protons: number; neutrons: number }> = ({
               <sphereGeometry args={[PARTICLE_CONFIG.neutron.size, 16, 16]} />
               <meshStandardMaterial
                 color={PARTICLE_CONFIG.neutron.color}
-                roughness={0.5}
                 metalness={0.2}
+                roughness={0.5}
               />
             </mesh>
           ))}
@@ -124,6 +125,7 @@ const Electron: React.FC<{
       const angle =
         clock.getElapsedTime() * electronSpeed +
         (2 * Math.PI * position) / Math.max(totalInShell, 1);
+
       electronRef.current.position.x = Math.cos(angle) * shellRadius;
       electronRef.current.position.z = Math.sin(angle) * shellRadius;
     }
@@ -136,8 +138,8 @@ const Electron: React.FC<{
         color={PARTICLE_CONFIG.electron.color}
         emissive={PARTICLE_CONFIG.electron.color}
         emissiveIntensity={0.5}
-        roughness={0.3}
         metalness={0.7}
+        roughness={0.3}
       />
     </mesh>
   );
@@ -154,11 +156,11 @@ const ElectronShell: React.FC<{ radius: number; electrons: number }> = ({
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <torusGeometry args={[radius, 0.02, 16, 100]} />
         <meshStandardMaterial
-          color="#4444FF"
           transparent
+          color="#4444FF"
+          metalness={0.8}
           opacity={0.3}
           roughness={0.5}
-          metalness={0.8}
         />
       </mesh>
 
@@ -168,8 +170,8 @@ const ElectronShell: React.FC<{ radius: number; electrons: number }> = ({
         .map((_, idx) => (
           <Electron
             key={`electron-${radius}-${idx}`}
-            shellRadius={radius}
             position={idx}
+            shellRadius={radius}
             totalInShell={electrons}
           />
         ))}
@@ -181,6 +183,7 @@ const ElectronShell: React.FC<{ radius: number; electrons: number }> = ({
 const ElectronCloud: React.FC<{ electrons: number }> = ({ electrons }) => {
   const cloudPoints = useMemo(() => {
     const points: THREE.Vector3[] = [];
+
     // Generate random positions for electron cloud based on electron count
     for (let i = 0; i < electrons * 10; i++) {
       const radius = 2 + Math.random() * 3;
@@ -193,6 +196,7 @@ const ElectronCloud: React.FC<{ electrons: number }> = ({ electrons }) => {
 
       points.push(new THREE.Vector3(x, y, z));
     }
+
     return points;
   }, [electrons]);
 
@@ -230,19 +234,19 @@ const ElectronCloud: React.FC<{ electrons: number }> = ({ electrons }) => {
     <points ref={cloudRef}>
       <bufferGeometry>
         <bufferAttribute
+          array={new Float32Array(cloudPoints.flatMap((p) => [p.x, p.y, p.z]))}
           attach="attributes-position"
           count={cloudPoints.length}
-          array={new Float32Array(cloudPoints.flatMap((p) => [p.x, p.y, p.z]))}
           itemSize={3}
         />
       </bufferGeometry>
       <pointsMaterial
-        color={PARTICLE_CONFIG.electron.color}
-        size={0.1}
-        transparent
-        opacity={0.6}
         sizeAttenuation
+        transparent
+        color={PARTICLE_CONFIG.electron.color}
         depthWrite={false}
+        opacity={0.6}
+        size={0.1}
       />
     </points>
   );
@@ -257,13 +261,13 @@ const ElementLabel: React.FC<{
 
   return (
     <Text
-      position={position}
-      color="white"
-      fontSize={0.5}
       anchorX="center"
       anchorY="middle"
-      outlineWidth={0.02}
+      color="white"
+      fontSize={0.5}
       outlineColor="#000000"
+      outlineWidth={0.02}
+      position={position}
     >
       {element}
     </Text>
@@ -281,6 +285,7 @@ const AtomDropTarget: React.FC<{
     accept: DragTypes.PARTICLE,
     drop: (item: { type: ParticleType; id: string }) => {
       onDrop(item.type);
+
       return { dropped: true };
     },
     collect: (monitor) => ({
@@ -294,6 +299,7 @@ const AtomDropTarget: React.FC<{
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh && object.material) {
           const material = object.material as THREE.MeshStandardMaterial;
+
           if (material.emissive) {
             material.emissive = new THREE.Color(0x333333);
           }
@@ -303,6 +309,7 @@ const AtomDropTarget: React.FC<{
       scene.traverse((object) => {
         if (object instanceof THREE.Mesh && object.material) {
           const material = object.material as THREE.MeshStandardMaterial;
+
           if (material.emissive) {
             material.emissive = new THREE.Color(0x000000);
           }
@@ -329,7 +336,7 @@ const AtomScene: React.FC<{
   return (
     <group ref={sceneRef}>
       {/* Atom nucleus with protons and neutrons */}
-      <Nucleus protons={protons} neutrons={neutrons} />
+      <Nucleus neutrons={neutrons} protons={protons} />
 
       {/* Element symbol if we have an element */}
       <ElementLabel element={element?.symbol || null} position={[0, -2, 0]} />
@@ -339,8 +346,8 @@ const AtomScene: React.FC<{
         electronShells.map((shell) => (
           <ElectronShell
             key={`shell-${shell.level}`}
-            radius={shell.radius}
             electrons={shell.electrons}
+            radius={shell.radius}
           />
         ))}
 
@@ -376,6 +383,7 @@ const AtomBuilder3D: React.FC = () => {
     accept: DragTypes.PARTICLE,
     drop: (item: { type: ParticleType; id: string }) => {
       handleParticleDrop(item.type);
+
       return undefined;
     },
     collect: (monitor) => ({
@@ -387,30 +395,30 @@ const AtomBuilder3D: React.FC = () => {
   return (
     <div
       ref={drop}
-      className={`w-full h-[60vh] bg-gray-900 rounded-lg shadow-lg overflow-hidden
+      className={`w-full h-[50vh] sm:h-[60vh] lg:h-[70vh] bg-gray-900 rounded-lg shadow-lg overflow-hidden
         ${isOver ? "ring-2 ring-indigo-400" : ""}
         ${canDrop ? "cursor-move" : "cursor-grab"}
       `}
     >
       <Canvas shadows dpr={[1, 2]}>
-        <PerspectiveCamera makeDefault position={[0, 0, 10]} fov={50} />
-        <color attach="background" args={["#050816"]} />
+        <PerspectiveCamera makeDefault fov={50} position={[0, 0, 10]} />
+        <color args={["#050816"]} attach="background" />
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} castShadow />
-        <pointLight position={[-10, -10, -10]} intensity={0.5} />
+        <pointLight castShadow intensity={1} position={[10, 10, 10]} />
+        <pointLight intensity={0.5} position={[-10, -10, -10]} />
         <spotLight
-          position={[0, 5, 10]}
-          angle={0.3}
-          penumbra={1}
-          intensity={1.5}
           castShadow
+          angle={0.3}
+          intensity={1.5}
+          penumbra={1}
+          position={[0, 5, 10]}
         />
 
         <AtomDropTarget onDrop={handleParticleDrop}>
           <AtomScene onParticleDrop={handleParticleDrop} />
         </AtomDropTarget>
 
-        <OrbitControls enablePan={false} minDistance={5} maxDistance={15} />
+        <OrbitControls enablePan={false} maxDistance={15} minDistance={5} />
         <Environment preset="city" />
       </Canvas>
     </div>

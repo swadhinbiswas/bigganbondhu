@@ -1,8 +1,7 @@
 const apiConfig = {
-
   baseURL: "",
 
-  apiServerUrl: import.meta.env.VITE_API_URL,
+  apiServerUrl: import.meta.env.VITE_API_URL || "http://34.87.148.171:8088",
 
   endpoints: {
     health: "/api/health",
@@ -35,6 +34,7 @@ const apiConfig = {
 
     // Otherwise, add the query parameters
     const queryParams = new URLSearchParams();
+
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined && value !== null) {
         queryParams.append(key, String(value));

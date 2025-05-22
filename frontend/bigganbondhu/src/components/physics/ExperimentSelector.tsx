@@ -1,4 +1,5 @@
 import React from "react";
+
 import { PhysicsExperiment } from "../../types/physics";
 
 interface ExperimentSelectorProps {
@@ -22,6 +23,7 @@ const ExperimentSelector: React.FC<ExperimentSelectorProps> = ({
         value={selectedExperiment?.id || ""}
         onChange={(e) => {
           const selected = experiments.find((exp) => exp.id === e.target.value);
+
           if (selected) onSelect(selected);
         }}
       >

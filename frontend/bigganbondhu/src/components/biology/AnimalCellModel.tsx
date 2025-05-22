@@ -49,6 +49,7 @@ const AnimalCellModel = ({
             if (object.material) {
               // Clone the material to prevent shared materials issues
               const material = object.material.clone();
+
               // Enhance the material
               if (material instanceof THREE.MeshStandardMaterial) {
                 material.roughness = 0.7;
@@ -75,6 +76,7 @@ const AnimalCellModel = ({
       console.error("Error preloading model:", err);
       setError(true);
     }
+
     return () => {
       // Clean up
       try {
@@ -131,6 +133,7 @@ const AnimalCellModel = ({
       position: [0, 1.8, 0],
     },
   ]; // If there's an error, show error message
+
   if (error) {
     return (
       <Html center>
@@ -140,8 +143,8 @@ const AnimalCellModel = ({
             ফাইল লোড করতে সমস্যা হচ্ছে। আবার চেষ্টা করুন।
           </p>
           <button
-            onClick={() => window.location.reload()}
             className="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+            onClick={() => window.location.reload()}
           >
             পুনরায় চেষ্টা করুন
           </button>
@@ -155,13 +158,13 @@ const AnimalCellModel = ({
       {/* The main cell model */}
       {scene && (
         <primitive
-          object={scene}
-          scale={3}
-          position={[0, 0, 0]}
-          onPointerOver={() => setHoveredPart("cell")}
-          onPointerOut={() => setHoveredPart(null)}
           castShadow
           receiveShadow
+          object={scene}
+          position={[0, 0, 0]}
+          scale={3}
+          onPointerOut={() => setHoveredPart(null)}
+          onPointerOver={() => setHoveredPart("cell")}
         />
       )}
 
@@ -170,27 +173,27 @@ const AnimalCellModel = ({
         cellParts.map((part) => (
           <group key={part.id} position={new THREE.Vector3(...part.position)}>
             <mesh
-              onPointerOver={(e) => {
-                e.stopPropagation();
-                setHoveredPart(part.id);
-              }}
-              onPointerOut={() => setHoveredPart(null)}
               onClick={(e) => {
                 e.stopPropagation();
                 onPartClick(part);
               }}
+              onPointerOut={() => setHoveredPart(null)}
+              onPointerOver={(e) => {
+                e.stopPropagation();
+                setHoveredPart(part.id);
+              }}
             >
               <sphereGeometry args={[0.25, 16, 16]} />
               <meshBasicMaterial
-                color={hoveredPart === part.id ? "#ff4d4d" : "#ff8080"}
                 transparent
+                color={hoveredPart === part.id ? "#ff4d4d" : "#ff8080"}
                 opacity={hoveredPart === part.id ? 0.9 : 0.7}
               />
             </mesh>
 
             {/* Label that appears on hover */}
             {hoveredPart === part.id && (
-              <Html position={[0, 0.4, 0]} center>
+              <Html center position={[0, 0.4, 0]}>
                 <div className="bg-white bg-opacity-80 dark:bg-gray-800 dark:bg-opacity-80 p-3 rounded-md shadow-md text-center pointer-events-none border border-blue-200">
                   <p className="font-bold text-base">{part.name}</p>
                 </div>
@@ -203,7 +206,7 @@ const AnimalCellModel = ({
       {!modelLoaded && !error && (
         <Html center>
           <div className="bg-blue-100 p-6 rounded-lg shadow-lg border border-blue-200">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto"></div>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500 mx-auto" />
             <p className="mt-4 font-medium text-lg">
               প্রাণী কোষের মডেল লোড হচ্ছে... {Math.round(progress)}%
             </p>
@@ -211,7 +214,7 @@ const AnimalCellModel = ({
               <div
                 className="bg-blue-600 h-2.5 rounded-full"
                 style={{ width: `${Math.round(progress)}%` }}
-              ></div>
+              />
             </div>
             <p className="mt-2 text-sm text-gray-600">
               ({modelUrl} থেকে লোড হচ্ছে)

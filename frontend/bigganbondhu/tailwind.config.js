@@ -11,6 +11,11 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        xs: "475px",
+        tablet: "768px",
+        "3xl": "1920px",
+      },
       animation: {
         microscope: "microscope-float 3s ease-in-out infinite",
       },

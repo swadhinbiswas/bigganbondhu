@@ -30,7 +30,7 @@ export interface ImageUploadResponse {
  */
 export async function uploadImage(
   file: File,
-  title?: string
+  title?: string,
 ): Promise<ImageUploadResponse> {
   try {
     // Validate file
@@ -49,6 +49,7 @@ export async function uploadImage(
       "image/gif",
       "image/webp",
     ];
+
     if (!validImageTypes.includes(file.type)) {
       return {
         success: false,
@@ -61,6 +62,7 @@ export async function uploadImage(
     // Validate API key
     if (!API_KEY || API_KEY === "YOUR_IMG_HIPPO_API_KEY") {
       console.error("ImgHippo API key is missing or invalid");
+
       return {
         success: false,
         status: 500,
@@ -69,6 +71,7 @@ export async function uploadImage(
     }
 
     const formData = new FormData();
+
     formData.append("api_key", API_KEY);
     formData.append("file", file);
 
@@ -84,14 +87,16 @@ export async function uploadImage(
     if (!response.ok) {
       console.error(`ImgHippo upload error: ${response.status}`);
       throw new Error(
-        `ছবি আপলোড করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন। (${response.status})`
+        `ছবি আপলোড করতে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন। (${response.status})`,
       );
     }
 
     const data = await response.json();
+
     return data as ImageUploadResponse;
   } catch (error) {
     console.error("Image upload failed:", error);
+
     return {
       success: false,
       status: 500,

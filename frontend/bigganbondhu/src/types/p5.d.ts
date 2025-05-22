@@ -36,7 +36,7 @@ declare module "p5" {
       x: number,
       y: number,
       width?: number,
-      height?: number
+      height?: number,
     ): void;
 
     // Colors
@@ -50,7 +50,7 @@ declare module "p5" {
       start1: number,
       stop1: number,
       start2: number,
-      stop2: number
+      stop2: number,
     ): number;
     constrain(n: number, low: number, high: number): number;
     abs(n: number): number;
@@ -74,7 +74,7 @@ declare module "p5" {
     loadImage(
       path: string,
       success?: (img: P5.Image) => void,
-      fail?: () => void
+      fail?: () => void,
     ): P5.Image;
 
     // Other constants

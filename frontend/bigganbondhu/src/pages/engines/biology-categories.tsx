@@ -62,8 +62,8 @@ export default function BiologyCategories() {
           {categories.map((category) => (
             <div
               key={category.id}
-              onClick={() => navigate(category.path)}
               className="bg-white dark:bg-gray-900 border border-blue-100 dark:border-blue-900 rounded-xl shadow-md p-6 cursor-pointer hover:shadow-lg transition-all flex flex-col items-center text-center"
+              onClick={() => navigate(category.path)}
             >
               <div className="bg-blue-100 dark:bg-blue-900 p-4 rounded-full mb-4">
                 <span className="text-4xl">{category.emoji}</span>

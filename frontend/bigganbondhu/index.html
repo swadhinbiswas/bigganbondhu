@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, viewport-fit=cover"
+      content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover"
     />
     <meta name="theme-color" content="#f0f4ff" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -17,19 +17,14 @@
       property="og:title"
     />
     <meta
-      content="Make beautiful websites regardless of your design experience."
+      content="Bigganbondhu is an interactive physics simulator that allows you to explore the world of physics in a fun and engaging way."
       property="og:description"
     />
     <meta
-      content="Make beautiful websites regardless of your design experience."
+      content="Bigganbondhu is an interactive physics simulator that allows you to explore the world of physics in a fun and engaging way."
       name="description"
     />
-    <meta
-      key="viewport"
-      content="viewport-fit=cover, width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
-      name="viewport"
-    />
-    <link href="/favicon.ico" rel="icon" />
+    <link href="/dna.svg" rel="icon" />
     <style>
       /* Custom animations for drag and drop interactions */
       @keyframes pulse {
@@ -75,10 +70,21 @@
       @media (max-width: 768px) {
         body {
           overscroll-behavior: none;
-          position: fixed;
-          width: 100%;
+          -webkit-overflow-scrolling: touch;
+        }
+
+        html,
+        body {
           height: 100%;
-          overflow: auto;
+          overflow-x: hidden;
+        }
+      }
+
+      /* Better scroll handling for tablets */
+      @media (min-width: 769px) and (max-width: 1024px) {
+        body {
+          overscroll-behavior: none;
+          -webkit-overflow-scrolling: touch;
         }
       }
     </style>
@@ -86,33 +92,5 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-
-    <script>
-      window.onerror = function (message, source, lineno, colno, error) {
-        console.error('🚨 Global Error Caught!');
-        console.log('Message:', message);
-        console.log('Source File:', source);
-        console.log('Line:', lineno);
-        console.log('Column:', colno);
-        console.log('Stack Trace:', error?.stack);
-
-        if (error && error.stack) {
-          highlightErrorOrigin(error.stack);
-        }
-      };
-
-      function highlightErrorOrigin(stack) {
-        const lines = stack.split('\n');
-        for (let line of lines) {
-          if (line.includes('chunk-A2XGFTEB.js')) {
-            console.log('👉 Problem likely here: ', line.trim());
-            break;
-          }
-        }
-      }
-
-    </script>
-
-
   </body>
 </html>

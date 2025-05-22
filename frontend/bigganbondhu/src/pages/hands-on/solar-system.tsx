@@ -1,8 +1,9 @@
-import DefaultLayout from "@/layouts/default";
 import { Html, OrbitControls, Text, useTexture } from "@react-three/drei";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
+
+import DefaultLayout from "@/layouts/default";
 
 // Define types for planet data
 interface PlanetDetails {
@@ -203,22 +204,22 @@ function Sun({ radius, color, textureUrl, facts }: SunProps) {
       {/* Sun sphere */}
       <mesh
         ref={mesh}
-        onPointerOver={() => setHover(true)}
         onPointerOut={() => setHover(false)}
+        onPointerOver={() => setHover(true)}
       >
         <sphereGeometry args={[radius, 64, 64]} />
         <meshStandardMaterial
-          map={texture}
           emissive={color}
           emissiveIntensity={0.6}
+          map={texture}
         />
 
         {/* Hover info */}
         {hovered && (
           <Html
+            className="pointer-events-none"
             distanceFactor={15}
             position={[0, radius + 2, 0]}
-            className="pointer-events-none"
           >
             <div className="bg-slate-900 dark:bg-slate-800 bg-opacity-90 p-3 rounded-lg text-white w-48 shadow-lg border border-slate-700">
               <h3 className="text-xl font-bold mb-2">সূর্য</h3>
@@ -239,10 +240,10 @@ function Sun({ radius, color, textureUrl, facts }: SunProps) {
         <sphereGeometry args={[radius + 0.2, 32, 32]} />
         <meshStandardMaterial
           color={color}
-          transparent={true}
-          opacity={0.3}
           emissive={color}
           emissiveIntensity={1}
+          opacity={0.3}
+          transparent={true}
         />
       </mesh>
     </group>
@@ -260,9 +261,9 @@ function SaturnRings({ radius }: SaturnRingsProps) {
       <ringGeometry args={[radius + 1, radius + 3, 64]} />
       <meshStandardMaterial
         color="#E4CD9E"
+        opacity={0.8}
         side={THREE.DoubleSide}
         transparent={true}
-        opacity={0.8}
       />
     </mesh>
   );
@@ -318,14 +319,16 @@ function Planet({
   // Render orbit path
   const orbitPoints = [];
   const orbitSegments = 64;
+
   for (let i = 0; i <= orbitSegments; i++) {
     const theta = (i / orbitSegments) * Math.PI * 2;
+
     orbitPoints.push(
       new THREE.Vector3(
         Math.cos(theta) * orbitRadius,
         0,
-        Math.sin(theta) * orbitRadius
-      )
+        Math.sin(theta) * orbitRadius,
+      ),
     );
   }
   const orbitGeometry = new THREE.BufferGeometry().setFromPoints(orbitPoints);
@@ -336,9 +339,9 @@ function Planet({
       <lineSegments ref={orbitRef}>
         <bufferGeometry attach="geometry" {...orbitGeometry} />
         <lineBasicMaterial
+          transparent
           attach="material"
           color="#666"
-          transparent
           opacity={0.3}
         />
       </lineSegments>
@@ -347,9 +350,9 @@ function Planet({
       <group>
         <mesh
           ref={mesh}
-          onPointerOver={() => setHover(true)}
-          onPointerOut={() => setHover(false)}
           onClick={() => details && setShowDetails(!showDetails)}
+          onPointerOut={() => setHover(false)}
+          onPointerOver={() => setHover(true)}
         >
           <sphereGeometry args={[radius, 32, 32]} />
           <meshStandardMaterial map={texture} />
@@ -359,11 +362,11 @@ function Planet({
 
           {/* Planet label */}
           <Text
-            position={[0, radius + 0.8, 0]}
-            fontSize={0.7}
-            color="white"
             anchorX="center"
             anchorY="middle"
+            color="white"
+            fontSize={0.7}
+            position={[0, radius + 0.8, 0]}
           >
             {name}
           </Text>
@@ -371,9 +374,9 @@ function Planet({
           {/* Hover info */}
           {hovered && (
             <Html
+              className="pointer-events-none"
               distanceFactor={15}
               position={[0, radius + 1.5, 0]}
-              className="pointer-events-none"
             >
               <div className="bg-slate-900 dark:bg-slate-800 bg-opacity-90 p-3 rounded-lg text-white w-48 shadow-lg border border-slate-700">
                 <h3 className="text-xl font-bold mb-2">{name}</h3>
@@ -400,11 +403,11 @@ function Planet({
                         {name} তথ্য
                       </h2>
                       <button
+                        className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white"
                         onClick={(e) => {
                           e.stopPropagation();
                           setShowDetails(false);
                         }}
-                        className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white"
                       >
                         ✕
                       </button>
@@ -477,15 +480,15 @@ function EarthMarsComparison({ isVisible, onClose }: ComparisonProps) {
           পৃথিবী ও মঙ্গল তুলনা
         </h2>
         <button
-          onClick={onClose}
           className="text-slate-500 hover:text-slate-700 dark:text-slate-400 dark:hover:text-white"
+          onClick={onClose}
         >
           ✕
         </button>
       </div>
 
       <div className="grid grid-cols-3 gap-4 text-slate-800 dark:text-slate-200">
-        <div className="col-span-1"></div>
+        <div className="col-span-1" />
         <div className="col-span-1 text-center font-bold text-blue-600 dark:text-blue-400">
           পৃথিবী
         </div>
@@ -553,30 +556,30 @@ function PlanetsScene() {
       <ambientLight intensity={0.2} />
 
       {/* Point light at sun position */}
-      <pointLight position={[0, 0, 0]} intensity={1.5} color="#FDB813" />
+      <pointLight color="#FDB813" intensity={1.5} position={[0, 0, 0]} />
 
       {/* Sun */}
       <Sun
-        radius={PLANET_DATA[0].radius}
         color={PLANET_DATA[0].color}
-        textureUrl={PLANET_DATA[0].textureUrl}
         facts={PLANET_DATA[0].facts}
+        radius={PLANET_DATA[0].radius}
+        textureUrl={PLANET_DATA[0].textureUrl}
       />
 
       {/* Planets */}
       {PLANET_DATA.slice(1).map((planet, index) => (
         <Planet
           key={index}
-          name={planet.name}
-          englishName={planet.englishName}
-          radius={planet.radius}
-          orbitRadius={planet.orbitRadius || 0}
-          rotationSpeed={planet.rotationSpeed || 0}
           color={planet.color}
-          textureUrl={planet.textureUrl}
+          details={planet.details}
+          englishName={planet.englishName}
           facts={planet.facts}
           hasRings={planet.hasRings}
-          details={planet.details}
+          name={planet.name}
+          orbitRadius={planet.orbitRadius || 0}
+          radius={planet.radius}
+          rotationSpeed={planet.rotationSpeed || 0}
+          textureUrl={planet.textureUrl}
         />
       ))}
 
@@ -612,14 +615,14 @@ function Stars() {
 
     geometry.setAttribute(
       "position",
-      new THREE.Float32BufferAttribute(vertices, 3)
+      new THREE.Float32BufferAttribute(vertices, 3),
     );
     starsRef.current.geometry = geometry;
   }, []);
 
   return (
     <points ref={starsRef}>
-      <pointsMaterial size={0.2} color="#FFFFFF" />
+      <pointsMaterial color="#FFFFFF" size={0.2} />
     </points>
   );
 }
@@ -636,26 +639,26 @@ export default function SolarSystem() {
         <Canvas shadows>
           <PlanetsScene />
           <OrbitControls
-            enablePan={true}
-            enableZoom={true}
-            enableRotate={true}
             autoRotate={autoRotate}
             autoRotateSpeed={0.5}
+            enablePan={true}
+            enableRotate={true}
+            enableZoom={true}
           />
         </Canvas>
 
         {/* UI Controls */}
         <div className="absolute bottom-5 left-1/2 transform -translate-x-1/2 flex space-x-4">
           <button
-            onClick={() => setAutoRotate(!autoRotate)}
             className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full flex items-center"
+            onClick={() => setAutoRotate(!autoRotate)}
           >
             {autoRotate ? "অটো রোটেশন বন্ধ করুন" : "অটো রোটেশন চালু করুন"}
           </button>
 
           <button
-            onClick={() => setShowComparison(true)}
             className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-full flex items-center"
+            onClick={() => setShowComparison(true)}
           >
             পৃথিবী-মঙ্গল তুলনা দেখুন
           </button>
@@ -681,8 +684,8 @@ export default function SolarSystem() {
         {/* Back button */}
         <div className="absolute top-5 left-5">
           <a
-            href="/hands-on"
             className="flex items-center space-x-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-full"
+            href="/hands-on"
           >
             <span>←</span>
             <span>হ্যান্ডস-অন এক্সপেরিয়েন্সে ফিরে যান</span>

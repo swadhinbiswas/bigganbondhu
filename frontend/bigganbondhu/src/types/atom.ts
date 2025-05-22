@@ -54,15 +54,17 @@ export const PARTICLE_CONFIG = {
 
 // Calculate electron configuration for a given electron count
 export function calculateElectronConfiguration(
-  totalElectrons: number
+  totalElectrons: number,
 ): ElectronShell[] {
   let remainingElectrons = totalElectrons;
 
   return ELECTRON_SHELLS.map((shell) => {
     const shellCopy = { ...shell };
     const electronsInThisShell = Math.min(remainingElectrons, shell.capacity);
+
     shellCopy.electrons = electronsInThisShell;
     remainingElectrons -= electronsInThisShell;
+
     return shellCopy;
   });
 }

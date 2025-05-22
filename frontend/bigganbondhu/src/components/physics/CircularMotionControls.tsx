@@ -22,47 +22,47 @@ const CircularMotionControls: React.FC<CircularMotionControlsProps> = ({
   onToggleSlowMotion,
 }) => {
   return (
-    <div className="flex flex-wrap gap-2 mb-4">
+    <div className="flex flex-wrap gap-2 sm:gap-3 mb-3 sm:mb-4">
       <button
-        onClick={onToggleVelocity}
-        className={`px-3 py-1 rounded text-sm font-medium ${
+        className={`px-2 sm:px-3 py-1 sm:py-2 rounded text-xs sm:text-sm font-medium touch-optimized-button ${
           showVelocityVector
             ? "bg-green-600 text-white"
             : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
         }`}
+        onClick={onToggleVelocity}
       >
         Velocity Vector
       </button>
 
       <button
-        onClick={onToggleForce}
-        className={`px-3 py-1 rounded text-sm font-medium ${
+        className={`px-2 sm:px-3 py-1 sm:py-2 rounded text-xs sm:text-sm font-medium touch-optimized-button ${
           showForceVector
             ? "bg-red-600 text-white"
             : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
         }`}
+        onClick={onToggleForce}
       >
         Force Vector
       </button>
 
       <button
-        onClick={onToggleTrace}
-        className={`px-3 py-1 rounded text-sm font-medium ${
+        className={`px-2 sm:px-3 py-1 sm:py-2 rounded text-xs sm:text-sm font-medium touch-optimized-button ${
           showTrace
             ? "bg-blue-600 text-white"
             : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
         }`}
+        onClick={onToggleTrace}
       >
         Show Trace
       </button>
 
       <button
-        onClick={onToggleSlowMotion}
-        className={`px-3 py-1 rounded text-sm font-medium ${
+        className={`px-2 sm:px-3 py-1 sm:py-2 rounded text-xs sm:text-sm font-medium touch-optimized-button ${
           showSlowMotion
             ? "bg-purple-600 text-white"
             : "bg-gray-200 text-gray-700 dark:bg-gray-700 dark:text-gray-300"
         }`}
+        onClick={onToggleSlowMotion}
       >
         Slow Motion
       </button>

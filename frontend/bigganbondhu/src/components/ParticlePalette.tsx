@@ -1,8 +1,9 @@
-import { DragTypes } from "@/lib/dragTypes";
-import { useAtomStore } from "@/lib/stores/atomStore";
 import React, { useRef } from "react";
 import { useDrag } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
+
+import { useAtomStore } from "@/lib/stores/atomStore";
+import { DragTypes } from "@/lib/dragTypes";
 
 const ParticlePalette: React.FC = () => {
   const {
@@ -27,6 +28,7 @@ const ParticlePalette: React.FC = () => {
     }),
     end: (_, monitor) => {
       const didDrop = monitor.didDrop();
+
       if (didDrop) {
         // Successfully dropped on target
         addProton();
@@ -44,6 +46,7 @@ const ParticlePalette: React.FC = () => {
     }),
     end: (_, monitor) => {
       const didDrop = monitor.didDrop();
+
       if (didDrop) {
         // Successfully dropped on target
         addNeutron();
@@ -61,6 +64,7 @@ const ParticlePalette: React.FC = () => {
     }),
     end: (_, monitor) => {
       const didDrop = monitor.didDrop();
+
       if (didDrop) {
         // Successfully dropped on target
         addElectron();
@@ -104,12 +108,12 @@ const ParticlePalette: React.FC = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-4 flex flex-col gap-3">
-      <h2 className="font-semibold text-indigo-600 dark:text-indigo-400 mb-2">
+    <div className="bg-white dark:bg-slate-800 rounded-lg shadow p-3 sm:p-4 flex flex-col gap-3">
+      <h2 className="font-semibold text-indigo-600 dark:text-indigo-400 mb-2 text-sm sm:text-base">
         Particles
       </h2>
 
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col sm:flex-col gap-3 sm:gap-4">
         {/* Proton */}
         <div className="flex items-center justify-between">
           <div
@@ -121,21 +125,21 @@ const ParticlePalette: React.FC = () => {
                 protonRef.current = node;
               }
             }}
-            className={`w-10 h-10 rounded-full bg-red-400 flex items-center justify-center text-white font-bold cursor-move ${isDraggingProton ? "opacity-50" : ""}`}
+            className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-red-400 flex items-center justify-center text-white font-bold cursor-move touch-optimized-button ${isDraggingProton ? "opacity-50" : ""}`}
             onClick={handleProtonClick}
           >
             p⁺
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => removeProton()}
               className="w-8 h-8 rounded-full bg-gray-200 dark:bg-slate-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-slate-600"
+              onClick={() => removeProton()}
             >
               -
             </button>
             <button
-              onClick={handleProtonClick}
               className="w-8 h-8 rounded-full bg-gray-200 dark:bg-slate-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-slate-600"
+              onClick={handleProtonClick}
             >
               +
             </button>
@@ -153,21 +157,21 @@ const ParticlePalette: React.FC = () => {
                 neutronRef.current = node;
               }
             }}
-            className={`w-10 h-10 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold cursor-move ${isDraggingNeutron ? "opacity-50" : ""}`}
+            className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-gray-400 flex items-center justify-center text-white font-bold cursor-move touch-optimized-button ${isDraggingNeutron ? "opacity-50" : ""}`}
             onClick={handleNeutronClick}
           >
             n⁰
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => removeNeutron()}
               className="w-8 h-8 rounded-full bg-gray-200 dark:bg-slate-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-slate-600"
+              onClick={() => removeNeutron()}
             >
               -
             </button>
             <button
-              onClick={handleNeutronClick}
               className="w-8 h-8 rounded-full bg-gray-200 dark:bg-slate-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-slate-600"
+              onClick={handleNeutronClick}
             >
               +
             </button>
@@ -185,21 +189,21 @@ const ParticlePalette: React.FC = () => {
                 electronRef.current = node;
               }
             }}
-            className={`w-10 h-10 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold cursor-move ${isDraggingElectron ? "opacity-50" : ""}`}
+            className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-blue-400 flex items-center justify-center text-white font-bold cursor-move touch-optimized-button ${isDraggingElectron ? "opacity-50" : ""}`}
             onClick={handleElectronClick}
           >
             e⁻
           </div>
           <div className="flex items-center gap-2">
             <button
-              onClick={() => removeElectron()}
               className="w-8 h-8 rounded-full bg-gray-200 dark:bg-slate-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-slate-600"
+              onClick={() => removeElectron()}
             >
               -
             </button>
             <button
-              onClick={handleElectronClick}
               className="w-8 h-8 rounded-full bg-gray-200 dark:bg-slate-700 flex items-center justify-center text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-slate-600"
+              onClick={handleElectronClick}
             >
               +
             </button>

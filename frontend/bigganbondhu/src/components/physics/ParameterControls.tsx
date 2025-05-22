@@ -1,4 +1,5 @@
 import React from "react";
+
 import { PhysicsExperiment } from "../../types/physics";
 
 interface ParameterControlsProps {
@@ -15,6 +16,7 @@ const ParameterControls: React.FC<ParameterControlsProps> = ({
   onPlayAudio,
 }) => {
   if (!selectedExperiment) return null;
+
   return (
     <div className="bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800">
       <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
@@ -28,13 +30,13 @@ const ParameterControls: React.FC<ParameterControlsProps> = ({
                 {param.name} ({param.unit})
               </label>
               <input
-                type="range"
-                min={param.min}
+                className="w-full accent-emerald-500"
                 max={param.max}
+                min={param.min}
                 step={param.step}
+                type="range"
                 value={params[key] || param.default}
                 onChange={(e) => onParamChange(key, parseFloat(e.target.value))}
-                className="w-full accent-emerald-500"
               />
               <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400">
                 <span>{param.min}</span>
@@ -44,11 +46,11 @@ const ParameterControls: React.FC<ParameterControlsProps> = ({
                 <span>{param.max}</span>
               </div>
             </div>
-          )
+          ),
         )}
         <button
-          onClick={onPlayAudio}
           className="mt-4 w-full py-2 bg-emerald-600 dark:bg-emerald-500 text-white rounded hover:bg-emerald-700 dark:hover:bg-emerald-600 transition duration-200 shadow-lg"
+          onClick={onPlayAudio}
         >
           Play Audio Explanation
         </button>

@@ -21,18 +21,18 @@ export const Navbar = () => {
 
   return (
     <HeroUINavbar
+      className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800"
       maxWidth="xl"
       position="sticky"
-      className="bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800"
     >
       <NavbarContent className="basis-1/5 sm:basis-full" justify="start">
         <NavbarBrand as="li" className="gap-3 max-w-fit">
           <Link className="flex justify-start items-center gap-2" href="/">
             <div className="relative h-9 w-9 rounded-full overflow-hidden bg-blue-50 p-1 flex items-center justify-center border border-blue-200 shadow-sm transition-all duration-300 hover:shadow-md hover:bg-blue-100 group">
               <img
-                src="/microscope.gif"
                 alt="Microscope"
                 className="h-7 w-7 microscope-logo animate-microscope group-hover:scale-110 transition-transform duration-300 object-contain"
+                src="/microscope.gif"
               />
             </div>
             <span className="text-2xl font-bold text-gray-800 dark:text-gray-100">
@@ -43,13 +43,13 @@ export const Navbar = () => {
             </span>
           </Link>
         </NavbarBrand>
-        <ul className="hidden lg:flex gap-4 justify-start ml-2">
+        <ul className="hidden tablet:flex gap-4 justify-start ml-2">
           {siteConfig.navItems.map((item) => (
             <NavbarItem key={item.href}>
               <Link
                 className={clsx(
                   linkStyles({ color: "foreground" }),
-                  "data-[active=true]:font-medium data-[active=true]:text-blue-600"
+                  "data-[active=true]:font-medium data-[active=true]:text-blue-600 touch-optimized-button",
                 )}
                 color="foreground"
                 data-active={location.pathname === item.href}
@@ -63,14 +63,14 @@ export const Navbar = () => {
       </NavbarContent>
 
       <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
+        className="hidden tablet:flex basis-1/5 sm:basis-full"
         justify="end"
       >
         <NavbarItem className="hidden md:flex">
           <Button
             isExternal
             as={Link}
-            className="text-sm font-normal"
+            className="text-sm font-normal touch-optimized-button"
             color="default"
             href="/about"
             variant="flat"
@@ -82,7 +82,7 @@ export const Navbar = () => {
           <Button
             isExternal
             as={Link}
-            className="text-sm font-normal"
+            className="text-sm font-normal touch-optimized-button"
             color="primary"
             href="/usage-guide"
             variant="flat"
@@ -95,7 +95,7 @@ export const Navbar = () => {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarContent className="sm:hidden basis-1 pl-4" justify="end">
+      <NavbarContent className="tablet:hidden basis-1 pl-4" justify="end">
         <ThemeSwitch />
         <NavbarMenuToggle />
       </NavbarContent>

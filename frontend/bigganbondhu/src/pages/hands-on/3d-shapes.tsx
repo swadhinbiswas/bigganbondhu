@@ -1,7 +1,8 @@
-import DefaultLayout from "@/layouts/default";
 import { animate } from "animejs";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import DefaultLayout from "@/layouts/default";
 
 export default function ShapesAnimation() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -19,7 +20,7 @@ export default function ShapesAnimation() {
   // Generate polygon points based on number of sides
   const generatePolygonPoints = (
     sides: number,
-    radius: number = 70
+    radius: number = 70,
   ): string => {
     let points = [];
     const angleStep = (Math.PI * 2) / sides;
@@ -30,6 +31,7 @@ export default function ShapesAnimation() {
       const angle = i * angleStep - Math.PI / 2; // Start from top (subtract 90 degrees)
       const x = centerX + radius * Math.cos(angle);
       const y = centerY + radius * Math.sin(angle);
+
       points.push(`${x},${y}`);
     }
 
@@ -74,6 +76,7 @@ export default function ShapesAnimation() {
 
     // Custom shape animation
     let customShapeAnimation: any;
+
     if (showCustomShape && customShapeRef.current) {
       customShapeAnimation = animate(customShapeRef.current, {
         rotateZ: [0, 360],
@@ -125,7 +128,7 @@ export default function ShapesAnimation() {
         const rotateXMatch =
           pyramid.style.transform.match(/rotateX\(([^)]+)\)/);
         const currentRotateX = parseFloat(
-          rotateXMatch ? rotateXMatch[1] : "45"
+          rotateXMatch ? rotateXMatch[1] : "45",
         );
 
         pyramid.style.transform = `rotateY(${currentRotateY + deltaX * 0.5}deg) rotateX(${currentRotateX - deltaY * 0.5}deg)`;
@@ -138,7 +141,7 @@ export default function ShapesAnimation() {
         const rotateXMatch =
           hexagon.style.transform.match(/rotateX\(([^)]+)\)/);
         const currentRotateX = parseFloat(
-          rotateXMatch ? rotateXMatch[1] : "30"
+          rotateXMatch ? rotateXMatch[1] : "30",
         );
 
         hexagon.style.transform = `rotateZ(${currentRotateZ + deltaX * 0.5}deg) rotateX(${currentRotateX - deltaY * 0.5}deg)`;
@@ -198,19 +201,19 @@ export default function ShapesAnimation() {
       <div className="max-w-5xl mx-auto py-8 px-2">
         {/* Back button */}
         <button
-          onClick={() => navigate("/hands-on")}
           className="mb-6 bg-blue-600 text-white flex items-center justify-center py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors"
+          onClick={() => navigate("/hands-on")}
         >
           <svg
-            xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 mr-2"
-            viewBox="0 0 20 20"
             fill="currentColor"
+            viewBox="0 0 20 20"
+            xmlns="http://www.w3.org/2000/svg"
           >
             <path
-              fillRule="evenodd"
-              d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
               clipRule="evenodd"
+              d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
+              fillRule="evenodd"
             />
           </svg>
           হ্যান্ডস-অন এক্সপেরিয়েন্সে ফিরে যান
@@ -231,12 +234,12 @@ export default function ShapesAnimation() {
                 বাহুর সংখ্যা (৩-২০)
               </label>
               <input
-                type="range"
-                min="3"
+                className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer dark:bg-blue-900"
                 max="20"
+                min="3"
+                type="range"
                 value={numSides}
                 onChange={(e) => setNumSides(parseInt(e.target.value))}
-                className="w-full h-2 bg-blue-200 rounded-lg appearance-none cursor-pointer dark:bg-blue-900"
               />
               <div className="flex justify-between">
                 <span className="text-xs">৩</span>
@@ -250,17 +253,17 @@ export default function ShapesAnimation() {
                 রঙ নির্বাচন করুন
               </label>
               <input
+                className="h-8 w-full"
                 type="color"
                 value={customShapeColor}
                 onChange={(e) => setCustomShapeColor(e.target.value)}
-                className="h-8 w-full"
               />
             </div>
 
             <div className="flex-1 w-full md:w-auto">
               <button
-                onClick={handleCreateShape}
                 className="w-full py-2 px-4 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors"
+                onClick={handleCreateShape}
               >
                 আকৃতি তৈরি করুন
               </button>
@@ -290,7 +293,7 @@ export default function ShapesAnimation() {
                 transform: "translateZ(75px)",
                 boxShadow: "0 0 15px 5px rgba(0, 255, 204, 0.3)",
               }}
-            ></div>
+            />
             {/* Back face */}
             <div
               className="absolute w-full h-full border-2 border-[#00ffcc] bg-gray-900 bg-opacity-50"
@@ -298,7 +301,7 @@ export default function ShapesAnimation() {
                 transform: "translateZ(-75px) rotateY(180deg)",
                 boxShadow: "0 0 15px 5px rgba(0, 255, 204, 0.3)",
               }}
-            ></div>
+            />
             {/* Left face */}
             <div
               className="absolute w-full h-full border-2 border-[#00ffcc] bg-gray-900 bg-opacity-50"
@@ -306,7 +309,7 @@ export default function ShapesAnimation() {
                 transform: "translateX(-75px) rotateY(-90deg)",
                 boxShadow: "0 0 15px 5px rgba(0, 255, 204, 0.3)",
               }}
-            ></div>
+            />
             {/* Right face */}
             <div
               className="absolute w-full h-full border-2 border-[#00ffcc] bg-gray-900 bg-opacity-50"
@@ -314,7 +317,7 @@ export default function ShapesAnimation() {
                 transform: "translateX(75px) rotateY(90deg)",
                 boxShadow: "0 0 15px 5px rgba(0, 255, 204, 0.3)",
               }}
-            ></div>
+            />
             {/* Top face */}
             <div
               className="absolute w-full h-full border-2 border-[#00ffcc] bg-gray-900 bg-opacity-50"
@@ -322,7 +325,7 @@ export default function ShapesAnimation() {
                 transform: "translateY(-75px) rotateX(90deg)",
                 boxShadow: "0 0 15px 5px rgba(0, 255, 204, 0.3)",
               }}
-            ></div>
+            />
             {/* Bottom face */}
             <div
               className="absolute w-full h-full border-2 border-[#00ffcc] bg-gray-900 bg-opacity-50"
@@ -330,7 +333,7 @@ export default function ShapesAnimation() {
                 transform: "translateY(75px) rotateX(-90deg)",
                 boxShadow: "0 0 15px 5px rgba(0, 255, 204, 0.3)",
               }}
-            ></div>
+            />
           </div>
 
           {/* Pyramid */}
@@ -350,7 +353,7 @@ export default function ShapesAnimation() {
                 transform: "translateY(75px) rotateX(-90deg)",
                 boxShadow: "0 0 15px 5px rgba(255, 0, 204, 0.3)",
               }}
-            ></div>
+            />
 
             {/* Front face (triangle) */}
             <div
@@ -362,7 +365,7 @@ export default function ShapesAnimation() {
                 filter: "drop-shadow(0 0 15px rgba(255, 0, 204, 0.3))",
                 transform: "translateZ(0) rotateX(30deg) translateY(-75px)",
               }}
-            ></div>
+            />
 
             {/* Right face (triangle) */}
             <div
@@ -375,7 +378,7 @@ export default function ShapesAnimation() {
                 transform:
                   "translateZ(0) rotateY(90deg) rotateX(30deg) translateY(-75px)",
               }}
-            ></div>
+            />
 
             {/* Back face (triangle) */}
             <div
@@ -388,7 +391,7 @@ export default function ShapesAnimation() {
                 transform:
                   "translateZ(0) rotateY(180deg) rotateX(30deg) translateY(-75px)",
               }}
-            ></div>
+            />
 
             {/* Left face (triangle) */}
             <div
@@ -401,7 +404,7 @@ export default function ShapesAnimation() {
                 transform:
                   "translateZ(0) rotateY(270deg) rotateX(30deg) translateY(-75px)",
               }}
-            ></div>
+            />
           </div>
 
           {/* Hexagon */}
@@ -415,26 +418,26 @@ export default function ShapesAnimation() {
             }}
           >
             <svg
-              width="150"
               height="150"
-              viewBox="0 0 150 150"
               style={{ filter: "drop-shadow(0 0 15px rgba(0, 102, 255, 0.7))" }}
+              viewBox="0 0 150 150"
+              width="150"
             >
               <polygon
-                points="75,10 140,45 140,105 75,140 10,105 10,45"
                 fill="rgba(18, 18, 30, 0.7)"
+                points="75,10 140,45 140,105 75,140 10,105 10,45"
                 stroke="#0066ff"
                 strokeWidth="3"
               />
               <polygon
-                points="75,30 120,55 120,95 75,120 30,95 30,55"
                 fill="rgba(18, 18, 30, 0.5)"
+                points="75,30 120,55 120,95 75,120 30,95 30,55"
                 stroke="#0066ff"
                 strokeWidth="2"
               />
               <polygon
-                points="75,50 100,65 100,85 75,100 50,85 50,65"
                 fill="rgba(18, 18, 30, 0.3)"
+                points="75,50 100,65 100,85 75,100 50,85 50,65"
                 stroke="#0066ff"
                 strokeWidth="1"
               />
@@ -454,31 +457,31 @@ export default function ShapesAnimation() {
               }}
             >
               <svg
-                width="150"
                 height="150"
-                viewBox="0 0 150 150"
                 style={{
                   filter: `drop-shadow(0 0 15px ${customShapeColor}66)`,
                 }}
+                viewBox="0 0 150 150"
+                width="150"
               >
                 <polygon
-                  points={generatePolygonPoints(numSides, 70)}
                   fill={`${customShapeColor}22`}
+                  points={generatePolygonPoints(numSides, 70)}
                   stroke={customShapeColor}
                   strokeWidth="3"
                 />
                 {numSides >= 4 && (
                   <polygon
-                    points={generatePolygonPoints(numSides, 50)}
                     fill={`${customShapeColor}44`}
+                    points={generatePolygonPoints(numSides, 50)}
                     stroke={customShapeColor}
                     strokeWidth="2"
                   />
                 )}
                 {numSides >= 5 && (
                   <polygon
-                    points={generatePolygonPoints(numSides, 30)}
                     fill={`${customShapeColor}66`}
+                    points={generatePolygonPoints(numSides, 30)}
                     stroke={customShapeColor}
                     strokeWidth="1"
                   />
@@ -488,7 +491,7 @@ export default function ShapesAnimation() {
           )}
 
           {/* Glow effect at the bottom */}
-          <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-blue-500/20 to-transparent"></div>
+          <div className="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-blue-500/20 to-transparent" />
         </div>
 
         <div className="mt-8 text-center">

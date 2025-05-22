@@ -54,7 +54,7 @@ export interface AnalysisResult {
  * @returns Promise with analysis results
  */
 export async function analyzeImageWithAI(
-  imageUrl: string
+  imageUrl: string,
 ): Promise<AnalysisResult> {
   try {
     // Validate image URL
@@ -69,7 +69,7 @@ export async function analyzeImageWithAI(
     ) {
       console.error("OpenRouter API key is missing or invalid");
       throw new Error(
-        "API configuration error. Please contact the administrator."
+        "API configuration error. Please contact the administrator.",
       );
     }
 
@@ -118,23 +118,24 @@ Respond in simple, encouraging language suitable for a school-aged child. Be cle
         }),
         // Add a timeout to prevent hanging requests
         signal: AbortSignal.timeout(30000), // 30 second timeout
-      }
+      },
     );
 
     if (!response.ok) {
       const errorText = await response.text();
+
       console.error(`OpenRouter API error: ${response.status}`, errorText);
 
       // More specific error messages based on status code
       if (response.status === 401 || response.status === 403) {
         throw new Error(
-          "API authentication error. Please check your API key configuration."
+          "API authentication error. Please check your API key configuration.",
         );
       } else if (response.status === 429) {
         throw new Error("API rate limit exceeded. Please try again later.");
       } else {
         throw new Error(
-          `ছবি বিশ্লেষণে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন। (${response.status})`
+          `ছবি বিশ্লেষণে সমস্যা হয়েছে। দয়া করে আবার চেষ্টা করুন। (${response.status})`,
         );
       }
     }
@@ -151,6 +152,7 @@ Respond in simple, encouraging language suitable for a school-aged child. Be cle
 
     // Handle different response formats
     let aiResponse = "";
+
     if (
       data.choices &&
       data.choices.length > 0 &&
@@ -166,6 +168,7 @@ Respond in simple, encouraging language suitable for a school-aged child. Be cle
         typeof data.error === "string"
           ? data.error
           : data.error.message || "Unknown OpenRouter error";
+
       throw new Error(`OpenRouter API error: ${errorMessage}`);
     } else {
       console.error("Unexpected response format:", data);
@@ -203,8 +206,9 @@ function parseAIResponse(aiResponse: string): AnalysisResult {
   try {
     // Extract visible objects
     const visibleMatch = aiResponse.match(
-      /What is visible.*?:(.*?)(?=\d\.|$)/is
+      /What is visible.*?:(.*?)(?=\d\.|$)/is,
     );
+
     if (visibleMatch && visibleMatch[1]) {
       result.visible_objects = visibleMatch[1]
         .split(/,|\band\b/)
@@ -213,6 +217,7 @@ function parseAIResponse(aiResponse: string): AnalysisResult {
     } else {
       // Alternative approach - just take the first paragraph
       const firstParagraph = aiResponse.split("\n")[0];
+
       result.visible_objects = [firstParagraph.trim()];
     }
 
@@ -220,16 +225,19 @@ function parseAIResponse(aiResponse: string): AnalysisResult {
     const typeMatch =
       aiResponse.match(/observation.*?is.*?:(.*?)(?=\d\.|$)/is) ||
       aiResponse.match(/type of observation.*?:(.*?)(?=\d\.|$)/is);
+
     if (typeMatch && typeMatch[1]) {
       result.observation_type = typeMatch[1].trim();
     }
 
     // Extract usefulness
     const usefulMatch = aiResponse.match(
-      /Is the photo useful.*?:(.*?)(?=\d\.|$)/is
+      /Is the photo useful.*?:(.*?)(?=\d\.|$)/is,
     );
+
     if (usefulMatch && usefulMatch[1]) {
       const usefulText = usefulMatch[1].toLowerCase().trim();
+
       result.is_useful =
         !usefulText.includes("not useful") && !usefulText.startsWith("no");
       result.usefulness_reason = usefulMatch[1].trim();
@@ -240,6 +248,7 @@ function parseAIResponse(aiResponse: string): AnalysisResult {
       aiResponse.match(/fun fact.*?:(.*?)(?=$)/is) ||
       aiResponse.match(/tip.*?:(.*?)(?=$)/is) ||
       aiResponse.match(/Did you know.*?(?=$)/is);
+
     if (funFactMatch && funFactMatch[1]) {
       result.fun_fact = funFactMatch[1].trim();
     } else {
@@ -247,6 +256,7 @@ function parseAIResponse(aiResponse: string): AnalysisResult {
       const paragraphs = aiResponse
         .split("\n")
         .filter((p) => p.trim().length > 0);
+
       if (paragraphs.length > 0) {
         result.fun_fact = paragraphs[paragraphs.length - 1].trim();
       }
@@ -256,6 +266,7 @@ function parseAIResponse(aiResponse: string): AnalysisResult {
     // If parsing fails, use the raw response as the fun fact
     const shortenedResponse =
       aiResponse.substring(0, 500) + (aiResponse.length > 500 ? "..." : "");
+
     result.fun_fact = shortenedResponse;
   }
 

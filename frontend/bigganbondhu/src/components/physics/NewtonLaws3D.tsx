@@ -86,14 +86,14 @@ function FirstLawSimulation({
         </mesh>
 
         {/* Label */}
-        <Text position={[0, 1.5, 0]} fontSize={0.4} color="white">
+        <Text color="white" fontSize={0.4} position={[0, 1.5, 0]}>
           At Rest
         </Text>
 
         {/* Force indicator (none) */}
         <mesh position={[0, 0.5, 0]}>
           <sphereGeometry args={[0.1, 16, 16]} />
-          <meshStandardMaterial color="#cccccc" transparent opacity={0.6} />
+          <meshStandardMaterial transparent color="#cccccc" opacity={0.6} />
         </mesh>
       </group>
 
@@ -102,7 +102,7 @@ function FirstLawSimulation({
         {/* Motion path */}
         <mesh position={[0, -0.95, 0]} rotation={[-Math.PI / 2, 0, 0]}>
           <planeGeometry args={[10, 0.5]} />
-          <meshBasicMaterial color="#3498db" transparent opacity={0.3} />
+          <meshBasicMaterial transparent color="#3498db" opacity={0.3} />
         </mesh>
 
         {/* Moving object */}
@@ -128,13 +128,13 @@ function FirstLawSimulation({
         </group>
 
         {/* Label */}
-        <Text position={[3, 1.5, 0]} fontSize={0.4} color="white">
+        <Text color="white" fontSize={0.4} position={[3, 1.5, 0]}>
           Uniform Motion
         </Text>
       </group>
 
       {/* Floor */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]}>
+      <mesh position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[20, 15]} />
         <meshStandardMaterial color="#555555" metalness={0.2} roughness={0.8} />
       </mesh>
@@ -204,18 +204,18 @@ function SecondLawSimulation({ mass, force }: { mass: number; force: number }) {
       {/* Motion path */}
       <mesh position={[0, -size / 2 - 0.06, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[12, 1]} />
-        <meshBasicMaterial color="#9b59b6" transparent opacity={0.15} />
+        <meshBasicMaterial transparent color="#9b59b6" opacity={0.15} />
       </mesh>
 
       {/* Mass cube with shadow */}
-      <mesh ref={cubeRef} position={[0, 0, 0]} castShadow receiveShadow>
+      <mesh ref={cubeRef} castShadow receiveShadow position={[0, 0, 0]}>
         <boxGeometry args={[size, size, size]} />
         <meshStandardMaterial
           color="#9b59b6"
-          metalness={0.4}
-          roughness={0.6}
           emissive="#9b59b6"
           emissiveIntensity={0.1}
+          metalness={0.4}
+          roughness={0.6}
         />
       </mesh>
 
@@ -244,9 +244,9 @@ function SecondLawSimulation({ mass, force }: { mass: number; force: number }) {
 
       {/* Floor */}
       <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -size / 2 - 0.1, 0]}
         receiveShadow
+        position={[0, -size / 2 - 0.1, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
       >
         <planeGeometry args={[20, 15]} />
         <meshStandardMaterial color="#555555" metalness={0.2} roughness={0.8} />
@@ -256,11 +256,11 @@ function SecondLawSimulation({ mass, force }: { mass: number; force: number }) {
       <group position={[0, 2.5, 0]}>
         {/* F = m × a formula */}
         <Text
-          position={[0, 0.6, 0]}
-          fontSize={0.5}
-          color="white"
           anchorX="center"
+          color="white"
           font="/fonts/roboto.woff"
+          fontSize={0.5}
+          position={[0, 0.6, 0]}
         >
           F = m × a
         </Text>
@@ -268,42 +268,42 @@ function SecondLawSimulation({ mass, force }: { mass: number; force: number }) {
         {/* Calculation with values */}
         <group position={[0, 0, 0]}>
           <Text
-            position={[-1.5, 0, 0]}
-            fontSize={0.4}
-            color="#f1c40f"
             anchorX="center"
+            color="#f1c40f"
+            fontSize={0.4}
+            position={[-1.5, 0, 0]}
           >
             {`${force.toFixed(2)}N`}
           </Text>
           <Text
-            position={[0, 0, 0]}
-            fontSize={0.4}
-            color="#ffffff"
             anchorX="center"
+            color="#ffffff"
+            fontSize={0.4}
+            position={[0, 0, 0]}
           >
             =
           </Text>
           <Text
-            position={[0.8, 0, 0]}
-            fontSize={0.4}
-            color="#9b59b6"
             anchorX="center"
+            color="#9b59b6"
+            fontSize={0.4}
+            position={[0.8, 0, 0]}
           >
             {`${mass.toFixed(1)}kg`}
           </Text>
           <Text
-            position={[1.6, 0, 0]}
-            fontSize={0.4}
-            color="#ffffff"
             anchorX="center"
+            color="#ffffff"
+            fontSize={0.4}
+            position={[1.6, 0, 0]}
           >
             ×
           </Text>
           <Text
-            position={[2.5, 0, 0]}
-            fontSize={0.4}
-            color="#2ecc71"
             anchorX="center"
+            color="#2ecc71"
+            fontSize={0.4}
+            position={[2.5, 0, 0]}
           >
             {`${acceleration.toFixed(2)}m/s²`}
           </Text>
@@ -312,26 +312,26 @@ function SecondLawSimulation({ mass, force }: { mass: number; force: number }) {
         {/* Parameter details */}
         <group position={[0, -0.8, 0]}>
           <Text
-            position={[-1.5, 0, 0]}
-            fontSize={0.25}
-            color="#f1c40f"
             anchorX="center"
+            color="#f1c40f"
+            fontSize={0.25}
+            position={[-1.5, 0, 0]}
           >
             Force
           </Text>
           <Text
-            position={[0.8, 0, 0]}
-            fontSize={0.25}
-            color="#9b59b6"
             anchorX="center"
+            color="#9b59b6"
+            fontSize={0.25}
+            position={[0.8, 0, 0]}
           >
             Mass
           </Text>
           <Text
-            position={[2.5, 0, 0]}
-            fontSize={0.25}
-            color="#2ecc71"
             anchorX="center"
+            color="#2ecc71"
+            fontSize={0.25}
+            position={[2.5, 0, 0]}
           >
             Acceleration
           </Text>
@@ -375,6 +375,7 @@ function ThirdLawSimulation({ mass, force }: { mass: number; force: number }) {
 
       // Add pulsing effect based on force
       const pulseIntensity = Math.sin(clockRef.current * 5) * 0.05 * forceValue;
+
       if (arrow1Ref.current) {
         arrow1Ref.current.scale.y = 1 + pulseIntensity;
         arrow1Ref.current.scale.z = 1 + pulseIntensity;
@@ -439,22 +440,22 @@ function ThirdLawSimulation({ mass, force }: { mass: number; force: number }) {
 
       {/* Platform for objects */}
       <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -0.5, 0]}
         receiveShadow
+        position={[0, -0.5, 0]}
+        rotation={[-Math.PI / 2, 0, 0]}
       >
         <boxGeometry args={[12, 5, 0.2]} />
         <meshStandardMaterial color="#333333" />
       </mesh>
 
       {/* Object 1 (left) */}
-      <mesh ref={object1Ref} position={[-2, 0, 0]} castShadow receiveShadow>
+      <mesh ref={object1Ref} castShadow receiveShadow position={[-2, 0, 0]}>
         <boxGeometry args={[size, size, size]} />
         <meshStandardMaterial color="#e74c3c" metalness={0.4} roughness={0.6} />
       </mesh>
 
       {/* Object 2 (right) */}
-      <mesh ref={object2Ref} position={[2, 0, 0]} castShadow receiveShadow>
+      <mesh ref={object2Ref} castShadow receiveShadow position={[2, 0, 0]}>
         <boxGeometry args={[size, size, size]} />
         <meshStandardMaterial color="#3498db" metalness={0.4} roughness={0.6} />
       </mesh>
@@ -529,35 +530,35 @@ function ThirdLawSimulation({ mass, force }: { mass: number; force: number }) {
 
       {/* Text labels with enhanced styling */}
       <group position={[-2, 1.5, 0]}>
-        <Text fontSize={0.3} color="#e74c3c" anchorX="center">
+        <Text anchorX="center" color="#e74c3c" fontSize={0.3}>
           Action Force
         </Text>
         <Text
-          position={[0, -0.3, 0]}
-          fontSize={0.2}
-          color="#ffffff"
           anchorX="center"
+          color="#ffffff"
+          fontSize={0.2}
+          position={[0, -0.3, 0]}
         >
           {`${forceValue.toFixed(2)}N`}
         </Text>
       </group>
 
       <group position={[2, 1.5, 0]}>
-        <Text fontSize={0.3} color="#3498db" anchorX="center">
+        <Text anchorX="center" color="#3498db" fontSize={0.3}>
           Reaction Force
         </Text>
         <Text
-          position={[0, -0.3, 0]}
-          fontSize={0.2}
-          color="#ffffff"
           anchorX="center"
+          color="#ffffff"
+          fontSize={0.2}
+          position={[0, -0.3, 0]}
         >
           {`${forceValue.toFixed(2)}N`}
         </Text>
       </group>
 
       {/* Floor */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -1, 0]} receiveShadow>
+      <mesh receiveShadow position={[0, -1, 0]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[20, 15]} />
         <meshStandardMaterial color="#555555" metalness={0.2} roughness={0.8} />
       </mesh>
@@ -578,37 +579,37 @@ function SceneSetup({ children }: { children: React.ReactNode }) {
   return (
     <>
       {/* Scene environment */}
-      <color attach="background" args={["#111827"]} />
-      <fog attach="fog" args={["#111827", 8, 25]} />
+      <color args={["#111827"]} attach="background" />
+      <fog args={["#111827", 8, 25]} attach="fog" />
 
       {/* Ambient light for general illumination */}
       <ambientLight intensity={0.6} />
 
       {/* Main directional light with shadow */}
       <directionalLight
-        position={[10, 10, 5]}
-        intensity={1}
         castShadow
-        shadow-mapSize-width={1024}
-        shadow-mapSize-height={1024}
+        intensity={1}
+        position={[10, 10, 5]}
+        shadow-camera-bottom={-10}
         shadow-camera-far={50}
         shadow-camera-left={-10}
         shadow-camera-right={10}
         shadow-camera-top={10}
-        shadow-camera-bottom={-10}
+        shadow-mapSize-height={1024}
+        shadow-mapSize-width={1024}
       />
 
       {/* Fill light from opposite direction */}
-      <directionalLight position={[-5, 5, -2]} intensity={0.3} />
+      <directionalLight intensity={0.3} position={[-5, 5, -2]} />
 
       {/* Controls for interactivity */}
       <OrbitControls
-        enableZoom={true}
-        enablePan={true}
-        minDistance={3}
-        maxDistance={15}
-        enableDamping={true}
         dampingFactor={0.05}
+        enableDamping={true}
+        enablePan={true}
+        enableZoom={true}
+        maxDistance={15}
+        minDistance={3}
       />
 
       {children}
@@ -635,10 +636,10 @@ const NewtonLaws3D: React.FC<NewtonLaws3DProps> = ({
       <Canvas shadows>
         <SceneSetup>
           {lawNumber === 1 && (
-            <FirstLawSimulation mass={mass} friction={friction} />
+            <FirstLawSimulation friction={friction} mass={mass} />
           )}
-          {lawNumber === 2 && <SecondLawSimulation mass={mass} force={force} />}
-          {lawNumber === 3 && <ThirdLawSimulation mass={mass} force={force} />}
+          {lawNumber === 2 && <SecondLawSimulation force={force} mass={mass} />}
+          {lawNumber === 3 && <ThirdLawSimulation force={force} mass={mass} />}
         </SceneSetup>
       </Canvas>
 

@@ -11,7 +11,7 @@ import {
  */
 export const calculateTotalResistance = (
   components: CircuitComponent[],
-  mode: CircuitMode
+  mode: CircuitMode,
 ): number => {
   const resistors = components.filter((comp) => comp.type === "resistor");
 
@@ -26,6 +26,7 @@ export const calculateTotalResistance = (
   } else if (mode === "parallel") {
     // Parallel: reciprocal of sum of reciprocals
     const reciprocalSum = resistances.reduce((sum, r) => sum + 1 / r, 0);
+
     return 1 / reciprocalSum;
   } else {
     // Free mode or challenge - for now, treat as series
@@ -38,7 +39,7 @@ export const calculateTotalResistance = (
  * Calculate the total voltage in the circuit
  */
 export const calculateTotalVoltage = (
-  components: CircuitComponent[]
+  components: CircuitComponent[],
 ): number => {
   const batteries = components.filter((comp) => comp.type === "battery");
 
@@ -47,7 +48,7 @@ export const calculateTotalVoltage = (
   // Sum all battery voltages (or default to 6V)
   return batteries.reduce(
     (sum, battery) => sum + (battery.properties.voltage || 6),
-    0
+    0,
   );
 };
 
@@ -56,7 +57,7 @@ export const calculateTotalVoltage = (
  */
 export const calculateTotalCapacitance = (
   components: CircuitComponent[],
-  mode: CircuitMode
+  mode: CircuitMode,
 ): number => {
   const capacitors = components.filter((comp) => comp.type === "capacitor");
 
@@ -68,6 +69,7 @@ export const calculateTotalCapacitance = (
   if (mode === "series") {
     // Series: reciprocal of sum of reciprocals
     const reciprocalSum = capacitances.reduce((sum, c) => sum + 1 / c, 0);
+
     return 1 / reciprocalSum;
   } else if (mode === "parallel") {
     // Parallel: capacitances add up
@@ -83,7 +85,7 @@ export const calculateTotalCapacitance = (
  */
 export const calculateTotalInductance = (
   components: CircuitComponent[],
-  mode: CircuitMode
+  mode: CircuitMode,
 ): number => {
   const inductors = components.filter((comp) => comp.type === "inductor");
 
@@ -98,6 +100,7 @@ export const calculateTotalInductance = (
   } else if (mode === "parallel") {
     // Parallel: reciprocal of sum of reciprocals
     const reciprocalSum = inductances.reduce((sum, i) => sum + 1 / i, 0);
+
     return 1 / reciprocalSum;
   } else {
     // Default to series behavior for free mode
@@ -110,7 +113,7 @@ export const calculateTotalInductance = (
  */
 export const calculateCurrent = (
   totalVoltage: number,
-  totalResistance: number
+  totalResistance: number,
 ): number => {
   // Prevent division by zero
   if (totalResistance <= 0) return 0;
@@ -144,7 +147,7 @@ export const calculateVoltageAcrossComponent = (
   component: CircuitComponent,
   totalVoltage: number,
   totalResistance: number,
-  mode: CircuitMode
+  mode: CircuitMode,
 ): number => {
   if (component.type !== "resistor") return 0;
 
@@ -167,7 +170,7 @@ export const calculateVoltageAcrossComponent = (
  */
 export const calculateCircuit = (
   circuitState: CircuitState,
-  mode: CircuitMode
+  mode: CircuitMode,
 ): CircuitState => {
   const { components, connections } = circuitState;
 
@@ -190,8 +193,10 @@ export const calculateCircuit = (
     // In parallel, current divides based on resistance ratios
     if (mode === "parallel") {
       const toComp = components.find((c) => c.id === conn.to);
+
       if (toComp && toComp.type === "resistor") {
         const resistance = toComp.properties.resistance || 10;
+
         // Current division formula
         current = totalVoltage / resistance;
       }
@@ -200,13 +205,14 @@ export const calculateCircuit = (
     // Voltage across the component
     let voltage = 0;
     const connectedComp = components.find((c) => c.id === conn.to);
+
     if (connectedComp) {
       if (connectedComp.type === "resistor") {
         voltage = calculateVoltageAcrossComponent(
           connectedComp,
           totalVoltage,
           totalResistance,
-          mode
+          mode,
         );
       } else if (connectedComp.type === "led") {
         // LED has a forward voltage drop (typically around 2V)
@@ -237,7 +243,7 @@ export const calculateCircuit = (
  * Get the available connection points for a component based on its type
  */
 export const getConnectionPoints = (
-  component: CircuitComponent
+  component: CircuitComponent,
 ): {
   input: { x: number; y: number }[];
   output: { x: number; y: number }[];
@@ -253,6 +259,7 @@ export const getConnectionPoints = (
     const sin = Math.sin(rad);
     const rx = x * cos - y * sin;
     const ry = x * sin + y * cos;
+
     return { x: component.x + rx, y: component.y + ry };
   };
 

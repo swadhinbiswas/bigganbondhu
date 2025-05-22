@@ -1,55 +1,56 @@
-import DefaultLayout from "@/layouts/default";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+
+import DefaultLayout from "@/layouts/default";
 
 export default function UsageGuidePage() {
   return (
     <DefaultLayout>
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
+        className="max-w-4xl mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-8"
+        initial={{ opacity: 0, y: 20 }}
         transition={{ duration: 0.5 }}
-        className="max-w-4xl mx-auto"
       >
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 dark:text-white mb-4">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3 sm:mb-4">
             ব্যবহার নির্দেশিকা
           </h1>
-          <p className="text-lg text-gray-600 dark:text-gray-300">
+          <p className="text-base sm:text-lg text-gray-600 dark:text-gray-300">
             বিজ্ঞানবন্ধু ওয়েবসাইট ব্যবহারের সম্পূর্ণ গাইড
           </p>
         </div>
 
         {/* Site Navigation Guide */}
-        <div className="bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 rounded-xl shadow-lg p-6 mb-8 border border-emerald-100 dark:border-emerald-800/30">
-          <h2 className="text-2xl font-semibold mb-4 text-emerald-700 dark:text-emerald-300">
+        <div className="bg-gradient-to-r from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8 border border-emerald-100 dark:border-emerald-800/30">
+          <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-emerald-700 dark:text-emerald-300">
             সাইট ব্যবহারের সাধারণ নির্দেশনা
           </h2>
 
-          <div className="space-y-4 mb-6">
+          <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
             <div>
-              <h3 className="text-xl font-medium mb-2 text-gray-800 dark:text-gray-200">
+              <h3 className="text-lg sm:text-xl font-medium mb-2 text-gray-800 dark:text-gray-200">
                 সাইটের মূল বিভাগসমূহ
               </h3>
-              <ul className="list-disc pl-6 space-y-2">
-                <li className="text-gray-700 dark:text-gray-300">
+              <ul className="list-disc pl-4 sm:pl-6 space-y-1 sm:space-y-2">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">হোম পেজ:</span> সাইটের প্রধান
                   পাতা যেখানে সকল বিভাগের সংক্ষিপ্ত বিবরণ পাবেন।
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">পদার্থবিজ্ঞান:</span>{" "}
                   পদার্থবিজ্ঞান সম্পর্কিত ইন্টারেক্টিভ অধ্যায়, সিমুলেশন এবং
                   কুইজ।
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">জীববিজ্ঞান:</span> জীববিজ্ঞানের
                   বিভিন্ন বিষয়, ৩ডি মডেল এবং ইন্টারেক্টিভ অ্যানিমেশন।
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">রসায়ন:</span> রসায়ন বিষয়ক
                   ইন্টারেক্টিভ পরীক্ষা, মলিকিউলার মডেল এবং শিক্ষামূলক গেম।
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">ক্ষুদ্র গবেষণা:</span> AI
                   ভিত্তিক বিজ্ঞান সহায়তা যেখানে আপনি বিজ্ঞান সম্পর্কিত প্রশ্ন
                   জিজ্ঞাসা করতে পারেন।
@@ -58,19 +59,19 @@ export default function UsageGuidePage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-medium mb-2 mt-4 text-gray-800 dark:text-gray-200">
+              <h3 className="text-lg sm:text-xl font-medium mb-2 mt-3 sm:mt-4 text-gray-800 dark:text-gray-200">
                 সাইট নেভিগেশন
               </h3>
-              <ul className="list-disc pl-6 space-y-2">
-                <li className="text-gray-700 dark:text-gray-300">
+              <ul className="list-disc pl-4 sm:pl-6 space-y-1 sm:space-y-2">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">নেভিগেশন বার:</span> পেজের উপরে
                   অবস্থিত মেনু ব্যবহার করে বিভিন্ন বিভাগে যেতে পারেন।
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">থিম সুইচ:</span> উপরের ডান দিকে
                   থাকা সুইচ ব্যবহার করে লাইট/ডার্ক মোড পরিবর্তন করতে পারেন।
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">ফুটার লিংক:</span> পেজের নিচে
                   আমাদের সম্পর্কে, নির্দেশিকা এবং যোগাযোগের লিংক পাবেন।
                 </li>
@@ -78,24 +79,24 @@ export default function UsageGuidePage() {
             </div>
 
             <div>
-              <h3 className="text-xl font-medium mb-2 mt-4 text-gray-800 dark:text-gray-200">
+              <h3 className="text-lg sm:text-xl font-medium mb-2 mt-3 sm:mt-4 text-gray-800 dark:text-gray-200">
                 ইন্টারেক্টিভ কন্টেন্ট ব্যবহার
               </h3>
-              <ul className="list-disc pl-6 space-y-2">
-                <li className="text-gray-700 dark:text-gray-300">
+              <ul className="list-disc pl-4 sm:pl-6 space-y-1 sm:space-y-2">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">সিমুলেশন:</span> সিমুলেশনগুলো
                   ব্যবহার করতে স্ক্রিনে দেওয়া পরিবর্তনযোগ্য প্যারামিটার সমন্বয়
                   করুন।
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">৩ডি মডেল:</span> ৩ডি মডেলগুলো
                   ঘুরিয়ে, জুম করে এবং বিভিন্ন অংশে ক্লিক করে বিস্তারিত দেখুন।
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">কুইজ:</span> প্রশ্নের উত্তর
                   দিয়ে আপনার জ্ঞান যাচাই করুন এবং ফলাফল দেখুন।
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   <span className="font-medium">অডিও টিউটোরিয়াল:</span> শেখার
                   জন্য অডিও ব্যাখ্যা শুনতে প্লে বাটনে ক্লিক করুন।
                 </li>
@@ -104,97 +105,97 @@ export default function UsageGuidePage() {
           </div>
         </div>
 
-        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+        <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 mb-6 sm:mb-8">
           <div className="prose dark:prose-invert max-w-none">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-700 dark:text-gray-200">
+            <h2 className="text-xl sm:text-2xl font-semibold mb-3 sm:mb-4 text-gray-700 dark:text-gray-200">
               ক্ষুদ্র গবেষণা ফিচার
             </h2>
 
-            <p className="text-gray-700 dark:text-gray-300 mb-4">
+            <p className="text-sm sm:text-base text-gray-700 dark:text-gray-300 mb-3 sm:mb-4">
               ক্ষুদ্র গবেষণা ফিচারটি আপনাকে বিজ্ঞান সম্পর্কিত প্রশ্ন জিজ্ঞাসা
               করতে এবং ছবি বিশ্লেষণ করতে সাহায্য করে। এই ফিচারটি ব্যবহার করার
               নিয়মাবলী নিম্নে দেওয়া হলো:
             </p>
 
-            <h3 className="text-xl font-medium mt-6 mb-3 text-gray-700 dark:text-gray-200">
+            <h3 className="text-lg sm:text-xl font-medium mt-4 sm:mt-6 mb-2 sm:mb-3 text-gray-700 dark:text-gray-200">
               প্রশ্ন জিজ্ঞাসা করা
             </h3>
 
-            <ol className="list-decimal pl-6 space-y-3 mb-6">
-              <li className="text-gray-700 dark:text-gray-300">
+            <ol className="list-decimal pl-4 sm:pl-6 space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">প্রশ্ন লিখুন:</span> "আপনার প্রশ্ন
                 এখানে লিখুন..." টেক্সট বক্সে আপনার বিজ্ঞান সম্পর্কিত প্রশ্ন
                 লিখুন।
               </li>
-              <li className="text-gray-700 dark:text-gray-300">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">পাঠান বাটন:</span> আপনার প্রশ্ন
                 লেখা শেষ হলে "পাঠান" বাটনে ক্লিক করুন।
               </li>
-              <li className="text-gray-700 dark:text-gray-300">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">উত্তর দেখুন:</span> কিছুক্ষণ
                 অপেক্ষা করার পর, আপনার প্রশ্নের উত্তর "ফলাফল" বিভাগে দেখতে
                 পাবেন।
               </li>
             </ol>
 
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg border border-blue-100 dark:border-blue-800/30 mb-6">
-              <h4 className="font-medium text-lg mb-2 text-blue-700 dark:text-blue-300">
+            <div className="bg-blue-50 dark:bg-blue-900/20 p-3 sm:p-4 rounded-lg border border-blue-100 dark:border-blue-800/30 mb-4 sm:mb-6">
+              <h4 className="font-medium text-base sm:text-lg mb-2 text-blue-700 dark:text-blue-300">
                 উদাহরণ প্রশ্ন
               </h4>
-              <ul className="list-disc pl-5 space-y-1">
-                <li className="text-gray-700 dark:text-gray-300">
+              <ul className="list-disc pl-4 sm:pl-5 space-y-1">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   "পানি কেন নীল দেখায়?"
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   "আলোর গতি কত?"
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   "সূর্যগ্রহণ কীভাবে ঘটে?"
                 </li>
-                <li className="text-gray-700 dark:text-gray-300">
+                <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                   "মানব দেহে কত হাড় আছে?"
                 </li>
               </ul>
             </div>
 
-            <h3 className="text-xl font-medium mt-8 mb-3 text-gray-700 dark:text-gray-200">
+            <h3 className="text-lg sm:text-xl font-medium mt-6 sm:mt-8 mb-2 sm:mb-3 text-gray-700 dark:text-gray-200">
               ছবি বিশ্লেষণ করা
             </h3>
 
-            <ol className="list-decimal pl-6 space-y-3 mb-6">
-              <li className="text-gray-700 dark:text-gray-300">
+            <ol className="list-decimal pl-4 sm:pl-6 space-y-2 sm:space-y-3 mb-4 sm:mb-6">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">ছবি আপলোড করুন:</span> "ছবি আপলোড
                 করতে এখানে ক্লিক করুন" এ ক্লিক করে আপনার বিজ্ঞান সম্পর্কিত ছবি
                 (যেমন: উদ্ভিদ, প্রাণী, প্রাকৃতিক দৃশ্য) আপলোড করুন।
               </li>
-              <li className="text-gray-700 dark:text-gray-300">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">পাঠান বাটন:</span> ছবি নির্বাচন
                 করার পর "পাঠান" বাটনে ক্লিক করুন।
               </li>
-              <li className="text-gray-700 dark:text-gray-300">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">বিশ্লেষণ দেখুন:</span> কিছুক্ষণ
                 অপেক্ষা করার পর, ছবির বিশ্লেষণ "ফলাফল" বিভাগে দেখতে পাবেন।
               </li>
             </ol>
 
-            <h4 className="text-lg font-medium mt-4 mb-2 text-gray-700 dark:text-gray-200">
+            <h4 className="text-base sm:text-lg font-medium mt-3 sm:mt-4 mb-2 text-gray-700 dark:text-gray-200">
               ছবি বিশ্লেষণে আপনি পাবেন:
             </h4>
 
-            <ul className="list-disc pl-6 space-y-2 mb-6">
-              <li className="text-gray-700 dark:text-gray-300">
+            <ul className="list-disc pl-4 sm:pl-6 space-y-1 sm:space-y-2 mb-4 sm:mb-6">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">ছবিতে যা দেখা যায়:</span> ছবিতে
                 কী কী বস্তু বা প্রাণী দেখা যাচ্ছে তার তালিকা।
               </li>
-              <li className="text-gray-700 dark:text-gray-300">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">পর্যবেক্ষণের ধরন:</span> ছবিটি কোন
                 ধরনের (উদ্ভিদ, প্রাণী, পরিবেশ ইত্যাদি)।
               </li>
-              <li className="text-gray-700 dark:text-gray-300">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">শিক্ষার জন্য উপযোগিতা:</span>{" "}
                 ছবিটি বিজ্ঞান শিক্ষার জন্য কতটা উপযোগী তার মূল্যায়ন।
               </li>
-              <li className="text-gray-700 dark:text-gray-300">
+              <li className="text-sm sm:text-base text-gray-700 dark:text-gray-300">
                 <span className="font-medium">আকর্ষণীয় তথ্য:</span> ছবি
                 সম্পর্কিত একটি মজার বা শিক্ষণীয় তথ্য।
               </li>
@@ -203,15 +204,15 @@ export default function UsageGuidePage() {
             <div className="bg-yellow-50 dark:bg-yellow-900/20 p-4 rounded-lg border border-yellow-100 dark:border-yellow-800/30 mb-6">
               <h4 className="font-medium text-lg mb-2 text-yellow-700 dark:text-yellow-300 flex items-center">
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5 mr-2"
-                  viewBox="0 0 20 20"
                   fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
-                    fillRule="evenodd"
-                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9a1 1 0 00-1-1z"
                     clipRule="evenodd"
+                    d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2h-1V9a1 1 0 00-1-1z"
+                    fillRule="evenodd"
                   />
                 </svg>
                 গুরুত্বপূর্ণ টিপস
@@ -248,8 +249,8 @@ export default function UsageGuidePage() {
                 প্যারামিটার পরিবর্তন করে ফলাফল দেখুন।
               </p>
               <Link
-                to="/engines/physics/simulations"
                 className="text-purple-600 dark:text-purple-400 hover:underline"
+                to="/engines/physics/simulations"
               >
                 আরও জানুন →
               </Link>
@@ -263,8 +264,8 @@ export default function UsageGuidePage() {
                 জটিল বিজ্ঞান ধারণাগুলো বুঝতে ইন্টারেক্টিভ ৩ডি মডেল ব্যবহার করুন।
               </p>
               <Link
-                to="/engines/biology/models"
                 className="text-purple-600 dark:text-purple-400 hover:underline"
+                to="/engines/biology/models"
               >
                 আরও জানুন →
               </Link>
@@ -279,8 +280,8 @@ export default function UsageGuidePage() {
                 করুন।
               </p>
               <Link
-                to="/quiz"
                 className="text-purple-600 dark:text-purple-400 hover:underline"
+                to="/quiz"
               >
                 আরও জানুন →
               </Link>
@@ -295,8 +296,8 @@ export default function UsageGuidePage() {
                 শুনুন।
               </p>
               <Link
-                to="/audio-explanations"
                 className="text-purple-600 dark:text-purple-400 hover:underline"
+                to="/audio-explanations"
               >
                 আরও জানুন →
               </Link>
@@ -364,34 +365,34 @@ export default function UsageGuidePage() {
 
         <div className="flex justify-center space-x-4 mt-8">
           <Link
-            to="/small-research"
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+            to="/small-research"
           >
             ক্ষুদ্র গবেষণা পেজে যান
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 ml-2"
-              viewBox="0 0 20 20"
               fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fillRule="evenodd"
-                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
                 clipRule="evenodd"
+                d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z"
+                fillRule="evenodd"
               />
             </svg>
           </Link>
 
           <Link
-            to="/"
             className="inline-flex items-center px-4 py-2 bg-emerald-600 text-white rounded-md hover:bg-emerald-700 transition-colors"
+            to="/"
           >
             হোম পেজে ফিরে যান
             <svg
-              xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5 ml-2"
-              viewBox="0 0 20 20"
               fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
             </svg>

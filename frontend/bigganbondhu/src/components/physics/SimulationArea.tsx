@@ -1,5 +1,7 @@
 import React, { RefObject, useState } from "react";
+
 import { PhysicsExperiment } from "../../types/physics";
+
 import CircuitSimulator from "./CircuitSimulator";
 import CircularMotionControls from "./CircularMotionControls";
 import CircularMotionInfo from "./CircularMotionInfo";
@@ -39,47 +41,47 @@ const SimulationArea: React.FC<SimulationAreaProps> = ({
   const isCircuitSimulator = selectedExperiment.type === "circuit";
 
   return (
-    <div className="md:col-span-2 bg-white dark:bg-gray-900 p-4 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800">
-      <h2 className="text-xl font-semibold mb-4 text-gray-800 dark:text-gray-100">
+    <div className="md:col-span-2 bg-white dark:bg-gray-900 p-3 sm:p-4 lg:p-6 rounded-lg shadow-lg border border-gray-200 dark:border-gray-800">
+      <h2 className="text-lg sm:text-xl font-semibold mb-3 sm:mb-4 text-gray-800 dark:text-gray-100">
         Simulation
       </h2>
-      <p className="mb-4 text-gray-700 dark:text-gray-300">
+      <p className="mb-3 sm:mb-4 text-sm sm:text-base text-gray-700 dark:text-gray-300">
         {selectedExperiment.description}
       </p>
 
       {isInclinedPlane && params ? (
         <InclinedPlane
+          lang={"en"}
           params={{
             mass: params.mass ?? 2,
             angle: params.angle ?? 20,
             friction: params.friction ?? 0.2,
           }}
-          lang={"en"}
         />
       ) : isNewton3D && params ? (
         <NewtonLaws3D
-          lawNumber={params.lawNumber || 1}
-          mass={params.mass || 2}
           force={params.force || 0.05}
           friction={params.friction || 0.3}
+          lawNumber={params.lawNumber || 1}
+          mass={params.mass || 2}
         />
       ) : isFreeFall3D && params ? (
         <FreeFall3D
+          gravity={params.gravity || 9.8}
           initialHeight={params.initialHeight || 20}
           initialVelocity={params.initialVelocity || 0}
-          gravity={params.gravity || 9.8}
         />
       ) : isRayDiagramOptics && params ? (
         <RayDiagramOptics />
       ) : isWaveInterference ? (
         <WaveInterference />
       ) : isCircularMotion && params ? (
-        <>
+        <div className="space-y-3 sm:space-y-4">
           {/* Language Toggle Button */}
-          <div className="mb-4 flex justify-end">
+          <div className="flex justify-end">
             <button
+              className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200 text-sm sm:text-base touch-optimized-button"
               onClick={() => setLanguage(language === "en" ? "bn" : "en")}
-              className="px-3 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-200"
             >
               {language === "en" ? "বাংলা" : "English"}
             </button>
@@ -87,52 +89,52 @@ const SimulationArea: React.FC<SimulationAreaProps> = ({
 
           {/* Information Display */}
           <CircularMotionInfo
+            language={language}
             mass={params.mass || 1}
             radius={params.radius || 3}
             speed={params.speed || 2}
-            language={language}
           />
 
-          <div className="mt-4">
+          <div className="space-y-3 sm:space-y-4">
             {/* Circular Motion Controls */}
             <CircularMotionControls
-              showVelocityVector={showVelocityVector}
               showForceVector={showForceVector}
-              showTrace={showTrace}
               showSlowMotion={showSlowMotion}
+              showTrace={showTrace}
+              showVelocityVector={showVelocityVector}
+              onToggleForce={() => setShowForceVector(!showForceVector)}
+              onToggleSlowMotion={() => setShowSlowMotion(!showSlowMotion)}
+              onToggleTrace={() => setShowTrace(!showTrace)}
               onToggleVelocity={() =>
                 setShowVelocityVector(!showVelocityVector)
               }
-              onToggleForce={() => setShowForceVector(!showForceVector)}
-              onToggleTrace={() => setShowTrace(!showTrace)}
-              onToggleSlowMotion={() => setShowSlowMotion(!showSlowMotion)}
             />
 
             <UniformCircularMotion
+              lang={language}
               params={{
                 mass: params.mass || 1,
                 radius: params.radius || 3,
                 speed: params.speed || 2,
               }}
-              showVelocityVector={showVelocityVector}
               showForceVector={showForceVector}
               showFormulas={true}
               showTrace={showTrace}
+              showVelocityVector={showVelocityVector}
               slowMotion={showSlowMotion}
-              lang={language}
             />
           </div>
-        </>
+        </div>
       ) : isCircuitSimulator && params ? (
         <CircuitSimulator
-          voltage={params.voltage || 9}
           resistance={params.resistance || 100}
+          voltage={params.voltage || 9}
         />
       ) : (
         <div
           ref={sceneRef}
-          className="w-full h-[500px] bg-gray-100 dark:bg-gray-800 rounded overflow-hidden shadow-inner"
-        ></div>
+          className="w-full h-[300px] sm:h-[400px] lg:h-[500px] bg-gray-100 dark:bg-gray-800 rounded overflow-hidden shadow-inner"
+        />
       )}
     </div>
   );

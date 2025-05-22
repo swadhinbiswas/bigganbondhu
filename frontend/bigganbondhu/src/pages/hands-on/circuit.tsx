@@ -1,7 +1,8 @@
-import P5CircuitSimulator from "@/components/physics/circuit/P5CircuitSimulator";
-import DefaultLayout from "@/layouts/default";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+import P5CircuitSimulator from "@/components/physics/circuit/P5CircuitSimulator";
+import DefaultLayout from "@/layouts/default";
 
 const MODES = [
   { key: "series" as "series", label: "সিরিজ", icon: "🔗" },
@@ -58,7 +59,7 @@ export default function CircuitDesignPage() {
   const [showCurrent, setShowCurrent] = useState(true);
   const [resetKey, setResetKey] = useState(0);
   const [selectedChallenge, setSelectedChallenge] = useState(
-    CHALLENGES[0].challenge
+    CHALLENGES[0].challenge,
   );
   const [voltage, setVoltage] = useState(6);
   const [resistance, setResistance] = useState(10);
@@ -75,6 +76,7 @@ export default function CircuitDesignPage() {
   const handleSave = () => {
     try {
       const canvasState = document.querySelector("canvas")?.toDataURL();
+
       localStorage.setItem(
         "circuit-sim-state",
         JSON.stringify({
@@ -85,7 +87,7 @@ export default function CircuitDesignPage() {
           showCurrent,
           timestamp: Date.now(),
           canvasState,
-        })
+        }),
       );
       alert("সার্কিট সংরক্ষণ করা হয়েছে!");
     } catch (err) {
@@ -96,15 +98,17 @@ export default function CircuitDesignPage() {
 
   const handleLoad = () => {
     const data = localStorage.getItem("circuit-sim-state");
+
     if (data) {
       try {
         const savedState = JSON.parse(data);
+
         setResetKey(savedState.key || 0);
         setMode(savedState.mode || "free");
         setVoltage(savedState.voltage || 6);
         setResistance(savedState.resistance || 10);
         setShowCurrent(
-          savedState.showCurrent !== undefined ? savedState.showCurrent : true
+          savedState.showCurrent !== undefined ? savedState.showCurrent : true,
         );
 
         alert("সংরক্ষিত সার্কিট লোড হয়েছে!");
@@ -119,10 +123,12 @@ export default function CircuitDesignPage() {
 
   const handleExport = () => {
     const el = document.querySelector("canvas");
+
     if (el && el instanceof HTMLCanvasElement) {
       try {
         const url = el.toDataURL("image/png");
         const a = document.createElement("a");
+
         a.href = url;
         a.download = `circuit-design-${Date.now()}.png`;
         a.click();
@@ -165,15 +171,15 @@ export default function CircuitDesignPage() {
         </p>
 
         {/* Toolbar with new design */}
-        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-4 mb-6 border border-gray-200 dark:border-gray-700">
-          <div className="flex flex-wrap gap-3 justify-center mb-4">
+        <div className="bg-white dark:bg-gray-900 rounded-xl shadow-lg p-3 sm:p-4 mb-6 border border-gray-200 dark:border-gray-700">
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center mb-4">
             {MODES.map((m) => (
               <button
                 key={m.key}
-                className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold border transition text-base shadow-sm
+                className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 rounded-lg font-semibold border transition text-sm sm:text-base shadow-sm touch-optimized-button
                   ${mode === m.key ? "bg-blue-600 text-white border-blue-700" : "bg-white dark:bg-gray-800 text-blue-700 dark:text-blue-200 border-blue-200 dark:border-blue-700 hover:bg-blue-100 dark:hover:bg-gray-700"}`}
-                onClick={() => setMode(m.key)}
                 title={m.label}
+                onClick={() => setMode(m.key)}
               >
                 <span>{m.icon}</span> {m.label}
                 {m.key === "challenge" && (
@@ -185,51 +191,51 @@ export default function CircuitDesignPage() {
             ))}
           </div>
 
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex flex-wrap gap-2 sm:gap-3 justify-center">
             <button
               className={`flex items-center gap-2 px-4 py-2 rounded-lg font-semibold border transition shadow-sm
                 ${showCurrent ? "bg-green-600 text-white border-green-700" : "bg-white dark:bg-gray-800 text-green-700 dark:text-green-200 border-green-200 dark:border-green-700 hover:bg-green-100 dark:hover:bg-gray-700"}`}
-              onClick={() => setShowCurrent((v) => !v)}
               title="কারেন্ট প্রবাহ টগল করুন"
+              onClick={() => setShowCurrent((v) => !v)}
             >
               ⚡ {showCurrent ? "কারেন্ট দেখান" : "কারেন্ট লুকান"}
             </button>
 
             <button
               className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold border border-red-400 bg-white dark:bg-gray-800 text-red-700 dark:text-red-200 hover:bg-red-50 dark:hover:bg-red-900/30 transition shadow-sm"
-              onClick={handleReset}
               title="রিসেট"
+              onClick={handleReset}
             >
               ♻️ রিসেট
             </button>
 
             <button
               className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold border border-blue-400 bg-white dark:bg-gray-800 text-blue-700 dark:text-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition shadow-sm"
-              onClick={handleSave}
               title="সংরক্ষণ"
+              onClick={handleSave}
             >
               💾 সংরক্ষণ
             </button>
 
             <button
               className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold border border-blue-400 bg-white dark:bg-gray-800 text-blue-700 dark:text-blue-200 hover:bg-blue-50 dark:hover:bg-blue-900/30 transition shadow-sm"
-              onClick={handleLoad}
               title="লোড"
+              onClick={handleLoad}
             >
               📂 লোড
             </button>
 
             <button
               className="flex items-center gap-2 px-4 py-2 rounded-lg font-semibold border border-purple-400 bg-white dark:bg-gray-800 text-purple-700 dark:text-purple-200 hover:bg-purple-50 dark:hover:bg-purple-900/30 transition shadow-sm"
-              onClick={handleExport}
               title="এক্সপোর্ট"
+              onClick={handleExport}
             >
               🖼️ এক্সপোর্ট
             </button>
           </div>
 
           {/* Parameter controls */}
-          <div className="mt-4 flex flex-wrap gap-4 justify-center items-center">
+          <div className="mt-4 flex flex-wrap gap-3 sm:gap-4 justify-center items-center">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                 ভোল্টেজ (V)
@@ -242,12 +248,12 @@ export default function CircuitDesignPage() {
                   -
                 </button>
                 <input
-                  type="number"
                   className="w-16 text-center border-t border-b border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  max="24"
+                  min="1"
+                  type="number"
                   value={voltage}
                   onChange={(e) => setVoltage(Number(e.target.value))}
-                  min="1"
-                  max="24"
                 />
                 <button
                   className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-r-md border border-gray-300 dark:border-gray-600"
@@ -270,12 +276,12 @@ export default function CircuitDesignPage() {
                   -
                 </button>
                 <input
-                  type="number"
                   className="w-16 text-center border-t border-b border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
+                  max="1000"
+                  min="1"
+                  type="number"
                   value={resistance}
                   onChange={(e) => setResistance(Number(e.target.value))}
-                  min="1"
-                  max="1000"
                 />
                 <button
                   className="px-2 py-1 bg-gray-200 dark:bg-gray-700 rounded-r-md border border-gray-300 dark:border-gray-600"
@@ -322,11 +328,11 @@ export default function CircuitDesignPage() {
             <select
               className="px-4 py-2 rounded-lg border border-yellow-400 bg-white dark:bg-gray-800 text-yellow-900 dark:text-yellow-200 font-semibold mb-2"
               value={CHALLENGES.findIndex(
-                (c) => c.challenge === selectedChallenge
+                (c) => c.challenge === selectedChallenge,
               )}
               onChange={(e) =>
                 setSelectedChallenge(
-                  CHALLENGES[parseInt(e.target.value)].challenge
+                  CHALLENGES[parseInt(e.target.value)].challenge,
                 )
               }
             >
@@ -364,12 +370,12 @@ export default function CircuitDesignPage() {
         <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-6 mb-8 border border-blue-100 dark:border-blue-800">
           <P5CircuitSimulator
             key={resetKey}
-            voltage={voltage}
-            resistance={resistance}
-            showLabels={true}
-            mode={mode}
-            showCurrent={showCurrent}
             challenge={mode === "challenge" ? selectedChallenge : undefined}
+            mode={mode}
+            resistance={resistance}
+            showCurrent={showCurrent}
+            showLabels={true}
+            voltage={voltage}
             onChallengeResult={handleChallengeResult}
           />
         </div>

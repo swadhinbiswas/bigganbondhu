@@ -17,6 +17,7 @@ declare module "@react-types/shared" {
 // Detect touch device
 const isTouchDevice = () => {
   if (typeof window === "undefined") return false;
+
   return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 };
 
@@ -30,6 +31,7 @@ export function Provider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (typeof document !== "undefined") {
       const html = document.documentElement;
+
       if (theme === "dark") {
         html.classList.add("dark");
       } else {

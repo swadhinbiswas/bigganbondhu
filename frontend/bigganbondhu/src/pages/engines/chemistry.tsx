@@ -1,8 +1,9 @@
+import { useEffect, useRef, useState } from "react";
+
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DefaultLayout from "@/layouts/default";
 import apiService from "@/services/apiService";
-import { useEffect, useRef, useState } from "react";
 
 type Chemical = {
   id: string;
@@ -75,12 +76,13 @@ const render3DView = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
   reaction: Reaction | null,
   settings: LabSettings,
-  animationActive: boolean
+  animationActive: boolean,
 ) => {
   if (!canvasRef.current) return null;
 
   const canvas = canvasRef.current;
   const ctx = canvas.getContext("2d");
+
   if (!ctx) return null;
 
   // Clear and set dimensions
@@ -235,7 +237,7 @@ const render3DView = (
       backTopLeft.x,
       liquidBackY,
       backBottomLeft.x,
-      backBottomLeft.y
+      backBottomLeft.y,
     );
 
     const baseColor = reaction.color || "#e0e0ff";
@@ -258,7 +260,7 @@ const render3DView = (
       centerX + beakerWidth / 4,
       liquidY + 5,
       frontTopRight.x,
-      liquidY
+      liquidY,
     );
     ctx.lineTo(backTopRight.x, liquidBackY);
     ctx.bezierCurveTo(
@@ -267,7 +269,7 @@ const render3DView = (
       centerX - beakerWidth / 4 - beakerDepth * Math.sin(rotationRad),
       liquidBackY + 5,
       backTopLeft.x,
-      liquidBackY
+      liquidBackY,
     );
     ctx.closePath();
 
@@ -276,7 +278,7 @@ const render3DView = (
       frontTopLeft.x,
       liquidY,
       backTopLeft.x,
-      liquidBackY
+      liquidBackY,
     );
 
     topLiquidGradient.addColorStop(0, lighterColor);
@@ -294,7 +296,7 @@ const render3DView = (
       centerX + beakerWidth / 4,
       liquidY + 5,
       frontTopRight.x,
-      liquidY
+      liquidY,
     );
     ctx.lineTo(frontBottomRight.x, frontBottomRight.y);
     ctx.lineTo(frontBottomLeft.x, frontBottomLeft.y);
@@ -305,7 +307,7 @@ const render3DView = (
       frontTopLeft.x,
       liquidY,
       frontBottomLeft.x,
-      frontBottomLeft.y
+      frontBottomLeft.y,
     );
 
     frontLiquidGradient.addColorStop(0, lighterColor);
@@ -326,7 +328,7 @@ const render3DView = (
       reflectionHeight,
       0,
       0,
-      Math.PI * 2
+      Math.PI * 2,
     );
 
     const reflectionGradient = ctx.createRadialGradient(
@@ -335,7 +337,7 @@ const render3DView = (
       0,
       centerX - beakerWidth * 0.15,
       liquidY + 5,
-      reflectionWidth
+      reflectionWidth,
     );
 
     reflectionGradient.addColorStop(0, "rgba(255, 255, 255, 0.15)");
@@ -367,8 +369,9 @@ const render3DView = (
             0,
             bubbleX,
             bubbleY,
-            bubbleSize
+            bubbleSize,
           );
+
           bubbleGradient.addColorStop(0, "rgba(255, 255, 255, 0.8)");
           bubbleGradient.addColorStop(0.5, "rgba(255, 255, 255, 0.4)");
           bubbleGradient.addColorStop(1, "rgba(255, 255, 255, 0.1)");
@@ -383,7 +386,7 @@ const render3DView = (
             bubbleY - bubbleSize * 0.3,
             bubbleSize * 0.2,
             0,
-            Math.PI * 2
+            Math.PI * 2,
           );
           ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
           ctx.fill();
@@ -424,7 +427,7 @@ const render3DView = (
             0,
             smokeBaseX,
             smokeBaseY,
-            smokeSize
+            smokeSize,
           );
 
           smokeGradient.addColorStop(0, "rgba(200, 200, 200, 0.2)");
@@ -437,7 +440,7 @@ const render3DView = (
             smokeBaseY - smokeSize * 0.7,
             smokeSize,
             0,
-            Math.PI * 2
+            Math.PI * 2,
           );
           ctx.fill();
         }
@@ -459,7 +462,7 @@ const render3DView = (
             0,
             swirlX,
             swirlY,
-            swirlRadius
+            swirlRadius,
           );
 
           const targetColor = reaction.color;
@@ -521,6 +524,7 @@ const render3DView = (
       ctx.fillStyle = "#aaa";
       ctx.textAlign = "left";
       const markValue = Math.round((1 - i) * 100);
+
       ctx.fillText(`${markValue}ml`, frontTopLeft.x - 30, markY + 4);
     }
   }
@@ -575,12 +579,14 @@ const ChemistryEngine = () => {
       try {
         setLoading(true);
         const data = await apiService.chemistry.getAll();
+
         setChemicals((data as any).chemicals || []);
         setLoading(false);
       } catch (err) {
         console.error("Failed to load from API, trying local data", err);
         try {
           const data = await apiService.chemistry.getChemicals();
+
           setChemicals((data as any).chemicals || []);
           setLoading(false);
         } catch (fetchErr) {
@@ -599,6 +605,7 @@ const ChemistryEngine = () => {
     if (canvasRef.current && reaction) {
       // Set initial canvas dimensions
       const canvas = canvasRef.current;
+
       canvas.width = canvas.clientWidth;
       canvas.height = canvas.clientHeight;
 
@@ -653,7 +660,7 @@ const ChemistryEngine = () => {
         chem1,
         chem2,
         temperature,
-        mixingSpeed
+        mixingSpeed,
       );
 
       setReaction(data as Reaction);
@@ -677,6 +684,7 @@ const ChemistryEngine = () => {
         labSettings.language === "bn"
           ? "রাসায়নিক বিক্রিয়া খুঁজে পাওয়া যায়নি।"
           : "No reaction found for these chemicals.";
+
       setError(errorMsg);
     }
   };
@@ -686,12 +694,13 @@ const ChemistryEngine = () => {
       "Applying lab settings:",
       labSettings,
       "to reaction:",
-      reactionData.id
+      reactionData.id,
     );
   };
 
   const drawReactionAnimation = (animationType: string, color: string) => {
     const canvas = canvasRef.current;
+
     if (!canvas) return;
 
     // Reset any ongoing animations
@@ -703,10 +712,12 @@ const ChemistryEngine = () => {
     // Check if we should render in 3D mode
     if (labSettings.viewMode === "3d") {
       render3DView(canvasRef, reaction, labSettings, animationActive);
+
       return;
     }
 
     const ctx = canvas.getContext("2d");
+
     if (!ctx) return;
 
     // Clear canvas
@@ -729,7 +740,7 @@ const ChemistryEngine = () => {
         10,
         0,
         0,
-        Math.PI * 2
+        Math.PI * 2,
       );
       const shadowGradient = ctx.createRadialGradient(
         canvas.width * 0.5,
@@ -737,8 +748,9 @@ const ChemistryEngine = () => {
         0,
         canvas.width * 0.5,
         canvas.height * 0.8 + 5,
-        canvas.width * 0.35
+        canvas.width * 0.35,
       );
+
       shadowGradient.addColorStop(0, "rgba(0, 0, 0, 0.2)");
       shadowGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = shadowGradient;
@@ -762,7 +774,7 @@ const ChemistryEngine = () => {
         canvas.height * 0.8,
         canvas.width * 0.2 + cornerRadius,
         canvas.height * 0.8,
-        cornerRadius
+        cornerRadius,
       );
 
       // Bottom side
@@ -774,7 +786,7 @@ const ChemistryEngine = () => {
         canvas.height * 0.8,
         canvas.width * 0.8,
         canvas.height * 0.8 - cornerRadius,
-        cornerRadius
+        cornerRadius,
       );
 
       // Right side
@@ -789,8 +801,9 @@ const ChemistryEngine = () => {
         canvas.width * 0.2,
         0,
         canvas.width * 0.8,
-        0
+        0,
       );
+
       glassBodyGradient.addColorStop(0, "rgba(220, 240, 250, 0.08)");
       glassBodyGradient.addColorStop(0.5, "rgba(240, 245, 250, 0.05)");
       glassBodyGradient.addColorStop(1, "rgba(220, 240, 250, 0.08)");
@@ -808,8 +821,9 @@ const ChemistryEngine = () => {
         canvas.width * 0.21,
         canvas.height * 0.2,
         canvas.width * 0.24,
-        canvas.height * 0.2
+        canvas.height * 0.2,
       );
+
       leftReflection.addColorStop(0, "rgba(255, 255, 255, 0.4)");
       leftReflection.addColorStop(1, "rgba(255, 255, 255, 0)");
 
@@ -850,7 +864,7 @@ const ChemistryEngine = () => {
           ctx.fillText(
             `${Math.round((0.8 - i) * 100)}ml`,
             canvas.width * 0.2 + lineWidth + 2,
-            canvas.height * i + 4
+            canvas.height * i + 4,
           );
         }
       }
@@ -865,7 +879,7 @@ const ChemistryEngine = () => {
       0,
       canvas.height * 0.4,
       0,
-      canvas.height * 0.8
+      canvas.height * 0.8,
     );
 
     // Create more realistic color from the hex color
@@ -881,7 +895,7 @@ const ChemistryEngine = () => {
       canvas.width * 0.21, // Slightly inside the beaker
       canvas.height * 0.4,
       canvas.width * 0.58,
-      canvas.height * 0.39 // Slightly above bottom for 3D effect
+      canvas.height * 0.39, // Slightly above bottom for 3D effect
     );
 
     // Add meniscus effect (curved liquid surface)
@@ -891,7 +905,7 @@ const ChemistryEngine = () => {
       canvas.width * 0.5,
       canvas.height * 0.39,
       canvas.width * 0.79,
-      canvas.height * 0.4
+      canvas.height * 0.4,
     );
     ctx.fill();
 
@@ -917,7 +931,7 @@ const ChemistryEngine = () => {
             0,
             canvas.height * 0.4,
             0,
-            canvas.height * 0.8
+            canvas.height * 0.8,
           );
 
           const baseColor = color || "#e0e0ff";
@@ -932,7 +946,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.21,
             canvas.height * 0.4,
             canvas.width * 0.58,
-            canvas.height * 0.39
+            canvas.height * 0.39,
           );
 
           // Add meniscus effect
@@ -942,7 +956,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.5,
             canvas.height * 0.39,
             canvas.width * 0.79,
-            canvas.height * 0.4
+            canvas.height * 0.4,
           );
           ctx.fill();
 
@@ -955,8 +969,9 @@ const ChemistryEngine = () => {
               0,
               bubble.x,
               bubble.y,
-              bubble.r
+              bubble.r,
             );
+
             bubbleGradient.addColorStop(0, "rgba(255, 255, 255, 0.8)");
             bubbleGradient.addColorStop(0.9, "rgba(255, 255, 255, 0.2)");
             bubbleGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
@@ -974,7 +989,7 @@ const ChemistryEngine = () => {
               bubble.y - bubble.r * 0.3,
               bubble.r / 4,
               0,
-              Math.PI * 2
+              Math.PI * 2,
             );
             ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
             ctx.fill();
@@ -992,7 +1007,7 @@ const ChemistryEngine = () => {
                 canvas.height * 0.4,
                 bubble.r * 1.5,
                 0,
-                Math.PI * 2
+                Math.PI * 2,
               );
               ctx.fillStyle = "rgba(255, 255, 255, 0.3)";
               ctx.fill();
@@ -1034,6 +1049,7 @@ const ChemistryEngine = () => {
             };
           } catch (e) {
             console.error("Error parsing color:", hex, e);
+
             return { r: 224, g: 224, b: 255 }; // Default on error
           }
         };
@@ -1055,6 +1071,7 @@ const ChemistryEngine = () => {
           direction: number;
           speed: number;
         }[] = [];
+
         for (let i = 0; i < 5; i++) {
           swirlPoints.push({
             x: canvas.width * (0.3 + Math.random() * 0.4),
@@ -1079,13 +1096,13 @@ const ChemistryEngine = () => {
           if (progress <= 1) {
             // Calculate interpolated color
             const baseR = Math.floor(
-              startRgb.r * (1 - progress) + targetRgb.r * progress
+              startRgb.r * (1 - progress) + targetRgb.r * progress,
             );
             const baseG = Math.floor(
-              startRgb.g * (1 - progress) + targetRgb.g * progress
+              startRgb.g * (1 - progress) + targetRgb.g * progress,
             );
             const baseB = Math.floor(
-              startRgb.b * (1 - progress) + targetRgb.b * progress
+              startRgb.b * (1 - progress) + targetRgb.b * progress,
             );
 
             // Convert to hex for gradient
@@ -1096,7 +1113,7 @@ const ChemistryEngine = () => {
               0,
               canvas.height * 0.4,
               0,
-              canvas.height * 0.8
+              canvas.height * 0.8,
             );
 
             const lighterColor = adjustColorBrightness(baseColor, 15);
@@ -1110,7 +1127,7 @@ const ChemistryEngine = () => {
               canvas.width * 0.21,
               canvas.height * 0.4,
               canvas.width * 0.58,
-              canvas.height * 0.39
+              canvas.height * 0.39,
             );
 
             // Add meniscus effect
@@ -1120,7 +1137,7 @@ const ChemistryEngine = () => {
               canvas.width * 0.5,
               canvas.height * 0.39,
               canvas.width * 0.79,
-              canvas.height * 0.4
+              canvas.height * 0.4,
             );
             ctx.fill();
 
@@ -1133,11 +1150,12 @@ const ChemistryEngine = () => {
                 0,
                 swirl.x,
                 swirl.y,
-                swirl.radius
+                swirl.radius,
               );
 
               // Target color with transparency
               const targetColorWithAlpha = `rgba(${targetRgb.r}, ${targetRgb.g}, ${targetRgb.b}, ${0.4 * progress})`;
+
               swirlGradient.addColorStop(0, targetColorWithAlpha);
               swirlGradient.addColorStop(1, "rgba(0, 0, 0, 0)");
 
@@ -1155,11 +1173,11 @@ const ChemistryEngine = () => {
               // Keep swirls within liquid bounds
               swirl.x = Math.max(
                 canvas.width * 0.25,
-                Math.min(swirl.x, canvas.width * 0.75)
+                Math.min(swirl.x, canvas.width * 0.75),
               );
               swirl.y = Math.max(
                 canvas.height * 0.45,
-                Math.min(swirl.y, canvas.height * 0.75)
+                Math.min(swirl.y, canvas.height * 0.75),
               );
             });
 
@@ -1174,7 +1192,7 @@ const ChemistryEngine = () => {
               canvas.height * 0.1,
               0,
               0,
-              Math.PI * 2
+              Math.PI * 2,
             );
             ctx.fill();
             ctx.globalCompositeOperation = "source-over";
@@ -1189,7 +1207,7 @@ const ChemistryEngine = () => {
               canvas.height * 0.02,
               0,
               0,
-              Math.PI * 2
+              Math.PI * 2,
             );
             ctx.fill();
 
@@ -1206,11 +1224,12 @@ const ChemistryEngine = () => {
                 20,
                 canvas.width * 0.5,
                 canvas.height * 0.6,
-                canvas.width * 0.4
+                canvas.width * 0.4,
               );
+
               glowGradient.addColorStop(
                 0,
-                `rgba(255, 220, 150, ${0.1 * progress})`
+                `rgba(255, 220, 150, ${0.1 * progress})`,
               ); // Warm glow
               glowGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
               ctx.fillStyle = glowGradient;
@@ -1218,7 +1237,7 @@ const ChemistryEngine = () => {
                 canvas.width * 0.21,
                 canvas.height * 0.4,
                 canvas.width * 0.58,
-                canvas.height * 0.39
+                canvas.height * 0.39,
               );
               ctx.globalCompositeOperation = "source-over";
 
@@ -1239,8 +1258,9 @@ const ChemistryEngine = () => {
 
               // Add steam effect
               const steamCount = Math.floor(
-                3 + (labSettings.temperature - 30) / 10
+                3 + (labSettings.temperature - 30) / 10,
               );
+
               for (let i = 0; i < steamCount; i++) {
                 const steamX = canvas.width * (0.3 + Math.random() * 0.4);
                 const steamBaseY = canvas.height * 0.39;
@@ -1256,15 +1276,16 @@ const ChemistryEngine = () => {
                   steamX + (Math.random() * 20 - 10),
                   steamBaseY - steamHeight * 0.7,
                   steamX + (Math.random() * 30 - 15),
-                  steamBaseY - steamHeight
+                  steamBaseY - steamHeight,
                 );
 
                 const steamGradient = ctx.createLinearGradient(
                   0,
                   steamBaseY,
                   0,
-                  steamBaseY - steamHeight
+                  steamBaseY - steamHeight,
                 );
+
                 steamGradient.addColorStop(0, "rgba(255, 255, 255, 0.5)");
                 steamGradient.addColorStop(0.3, "rgba(255, 255, 255, 0.3)");
                 steamGradient.addColorStop(1, "rgba(255, 255, 255, 0)");
@@ -1283,7 +1304,7 @@ const ChemistryEngine = () => {
               0,
               canvas.height * 0.4,
               0,
-              canvas.height * 0.8
+              canvas.height * 0.8,
             );
 
             const lighterColor = adjustColorBrightness(color, 15);
@@ -1297,7 +1318,7 @@ const ChemistryEngine = () => {
               canvas.width * 0.21,
               canvas.height * 0.4,
               canvas.width * 0.58,
-              canvas.height * 0.39
+              canvas.height * 0.39,
             );
 
             // Add meniscus effect
@@ -1307,7 +1328,7 @@ const ChemistryEngine = () => {
               canvas.width * 0.5,
               canvas.height * 0.39,
               canvas.width * 0.79,
-              canvas.height * 0.4
+              canvas.height * 0.4,
             );
             ctx.fill();
 
@@ -1322,7 +1343,7 @@ const ChemistryEngine = () => {
               canvas.height * 0.1,
               0,
               0,
-              Math.PI * 2
+              Math.PI * 2,
             );
             ctx.fill();
             ctx.globalCompositeOperation = "source-over";
@@ -1357,6 +1378,7 @@ const ChemistryEngine = () => {
         for (let i = 0; i < 80; i++) {
           // Create clustering effect - particles appear more in certain areas
           let xCluster = 0;
+
           if (i % 3 === 0) {
             xCluster = Math.random() * 0.2 + 0.2; // Left cluster
           } else if (i % 3 === 1) {
@@ -1401,7 +1423,7 @@ const ChemistryEngine = () => {
             0,
             canvas.height * 0.4,
             0,
-            canvas.height * 0.8
+            canvas.height * 0.8,
           );
 
           const baseColor = color || "#e0e0ff";
@@ -1417,7 +1439,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.21,
             canvas.height * 0.4,
             canvas.width * 0.58,
-            canvas.height * 0.39
+            canvas.height * 0.39,
           );
 
           // Add transparency overlay for better precipitate visibility
@@ -1427,7 +1449,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.21,
             canvas.height * 0.4,
             canvas.width * 0.58,
-            canvas.height * 0.39
+            canvas.height * 0.39,
           );
           ctx.globalAlpha = 1.0;
 
@@ -1438,7 +1460,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.5,
             canvas.height * 0.39,
             canvas.width * 0.79,
-            canvas.height * 0.4
+            canvas.height * 0.4,
           );
           ctx.fill();
 
@@ -1448,7 +1470,7 @@ const ChemistryEngine = () => {
               0,
               canvas.height * 0.79 - 10,
               0,
-              canvas.height * 0.79
+              canvas.height * 0.79,
             );
 
             sedimentGradient.addColorStop(0, "rgba(85, 85, 85, 0.1)");
@@ -1462,10 +1484,12 @@ const ChemistryEngine = () => {
             // Create sediment surface based on the sediment map
             for (let x = 0; x < canvas.width; x++) {
               const mapIndex = Math.floor(
-                (x / canvas.width) * sedimentMap.length
+                (x / canvas.width) * sedimentMap.length,
               );
+
               if (x >= canvas.width * 0.21 && x <= canvas.width * 0.79) {
                 const height = sedimentMap[mapIndex] * 0.15;
+
                 ctx.lineTo(x, canvas.height * 0.79 - height);
               }
             }
@@ -1504,7 +1528,7 @@ const ChemistryEngine = () => {
               0,
               particle.x,
               particle.y,
-              particle.size
+              particle.size,
             );
 
             particleGradient.addColorStop(0, highlightColor);
@@ -1532,12 +1556,12 @@ const ChemistryEngine = () => {
                 if (i === 0) {
                   ctx.moveTo(
                     radius * Math.cos(angle),
-                    radius * Math.sin(angle)
+                    radius * Math.sin(angle),
                   );
                 } else {
                   ctx.lineTo(
                     radius * Math.cos(angle),
-                    radius * Math.sin(angle)
+                    radius * Math.sin(angle),
                   );
                 }
               }
@@ -1560,11 +1584,11 @@ const ChemistryEngine = () => {
 
                 ctx.lineTo(
                   longRadius * Math.cos(angle),
-                  longRadius * Math.sin(angle)
+                  longRadius * Math.sin(angle),
                 );
                 ctx.lineTo(
                   shortRadius * Math.cos(angle + Math.PI / 6),
-                  shortRadius * Math.sin(angle + Math.PI / 6)
+                  shortRadius * Math.sin(angle + Math.PI / 6),
                 );
               }
               ctx.closePath();
@@ -1577,7 +1601,7 @@ const ChemistryEngine = () => {
                 particle.y,
                 particle.size / 2,
                 0,
-                Math.PI * 2
+                Math.PI * 2,
               );
               ctx.fill();
             }
@@ -1598,7 +1622,7 @@ const ChemistryEngine = () => {
               // Keep particles within beaker
               particle.x = Math.max(
                 canvas.width * 0.22,
-                Math.min(particle.x, canvas.width * 0.78)
+                Math.min(particle.x, canvas.width * 0.78),
               );
 
               // Move downward
@@ -1606,7 +1630,7 @@ const ChemistryEngine = () => {
 
               // Check if particle has reached bottom or sediment layer
               const mapIndex = Math.floor(
-                (particle.x / canvas.width) * sedimentMap.length
+                (particle.x / canvas.width) * sedimentMap.length,
               );
               const sedimentHeight = sedimentMap[mapIndex] * 0.15;
               const bottomThreshold = canvas.height * 0.79 - sedimentHeight;
@@ -1694,7 +1718,7 @@ const ChemistryEngine = () => {
             0,
             canvas.height * 0.4,
             0,
-            canvas.height * 0.8
+            canvas.height * 0.8,
           );
 
           const baseColor = color || "#e0e0ff";
@@ -1709,7 +1733,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.21,
             canvas.height * 0.4,
             canvas.width * 0.58,
-            canvas.height * 0.39
+            canvas.height * 0.39,
           );
 
           // Add meniscus effect
@@ -1719,7 +1743,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.5,
             canvas.height * 0.39,
             canvas.width * 0.79,
-            canvas.height * 0.4
+            canvas.height * 0.4,
           );
           ctx.fill();
 
@@ -1730,7 +1754,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.21,
             0,
             canvas.width * 0.58,
-            canvas.height * 0.8
+            canvas.height * 0.8,
           );
           ctx.clip();
 
@@ -1761,7 +1785,7 @@ const ChemistryEngine = () => {
               0,
               0,
               0,
-              particle.size
+              particle.size,
             );
 
             const tempFactor = labSettings.temperature / 50; // 0.5 to 2
@@ -1792,7 +1816,7 @@ const ChemistryEngine = () => {
                 offsetY,
                 particle.size * sizeMultiplier,
                 0,
-                Math.PI * 2
+                Math.PI * 2,
               );
               ctx.fill();
             }
@@ -1835,7 +1859,7 @@ const ChemistryEngine = () => {
             0,
             canvas.width * 0.5,
             canvas.height * 0.4,
-            canvas.width * 0.2
+            canvas.width * 0.2,
           );
 
           // Safely extract color components for glow
@@ -1868,7 +1892,7 @@ const ChemistryEngine = () => {
             canvas.height * 0.05,
             0,
             0,
-            Math.PI * 2
+            Math.PI * 2,
           );
           ctx.fill();
 
@@ -1887,7 +1911,7 @@ const ChemistryEngine = () => {
           canvas.width * 0.2,
           canvas.height * 0.4,
           canvas.width * 0.6,
-          canvas.height * 0.4
+          canvas.height * 0.4,
         );
         break;
     }
@@ -1915,6 +1939,7 @@ const ChemistryEngine = () => {
       const url = URL.createObjectURL(audioBlob);
 
       const audio = new Audio(url);
+
       audioRef.current = audio;
       audio.play();
     } catch (err) {
@@ -1936,8 +1961,10 @@ const ChemistryEngine = () => {
 
     // Clear the canvas
     const canvas = canvasRef.current;
+
     if (canvas) {
       const ctx = canvas.getContext("2d");
+
       if (ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
@@ -1970,6 +1997,7 @@ const ChemistryEngine = () => {
 
   const handleTemperatureChange = (value: number[]) => {
     const newTemperature = value[0];
+
     setLabSettings({
       ...labSettings,
       temperature: newTemperature,
@@ -1989,6 +2017,7 @@ const ChemistryEngine = () => {
 
   const handleMixingSpeedChange = (value: number[]) => {
     const newMixingSpeed = value[0];
+
     setLabSettings({
       ...labSettings,
       mixingSpeed: newMixingSpeed,
@@ -2035,7 +2064,7 @@ const ChemistryEngine = () => {
     return (
       <DefaultLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" />
         </div>
       </DefaultLayout>
     );
@@ -2050,6 +2079,7 @@ const ChemistryEngine = () => {
   }
 
   const chemicalsByType: Record<string, Chemical[]> = {};
+
   chemicals.forEach((chemical) => {
     if (!chemicalsByType[chemical.type]) {
       chemicalsByType[chemical.type] = [];
@@ -2072,8 +2102,8 @@ const ChemistryEngine = () => {
           {/* Add Atom Builder link */}
           <div className="mt-4 md:mt-0 flex gap-4">
             <a
-              href="/engines/atom-builder"
               className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:shadow-lg transition-all"
+              href="/engines/atom-builder"
             >
               <span>⚛️</span>
               <span>
@@ -2085,7 +2115,7 @@ const ChemistryEngine = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           <div className="lg:col-span-2">
-            <Tabs defaultValue="chemicals" className="w-full">
+            <Tabs className="w-full" defaultValue="chemicals">
               <TabsList className="w-full grid grid-cols-3">
                 <TabsTrigger value="chemicals">
                   {getText("Chemicals", "রাসায়নিক")}
@@ -2099,13 +2129,13 @@ const ChemistryEngine = () => {
               </TabsList>
 
               <TabsContent
-                value="chemicals"
                 className="bg-white dark:bg-gray-900 p-4 rounded-md shadow-md border border-gray-200 dark:border-gray-700"
+                value="chemicals"
               >
                 <h2 className="text-xl font-semibold mb-2 dark:text-gray-100">
                   {getText(
                     "Available Chemicals",
-                    "উপলব্ধ রাসায়নিক পদার্থসমূহ"
+                    "উপলব্ধ রাসায়নিক পদার্থসমূহ",
                   )}
                 </h2>
 
@@ -2118,11 +2148,6 @@ const ChemistryEngine = () => {
                       {chems.map((chemical) => (
                         <button
                           key={chemical.id}
-                          onClick={() => addChemical(chemical.id)}
-                          disabled={
-                            selectedChemicals.includes(chemical.id) ||
-                            animationActive
-                          }
                           className={`p-2 rounded-md border text-left text-sm ${
                             selectedChemicals.includes(chemical.id)
                               ? "bg-blue-100 border-blue-300 text-blue-800 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-200"
@@ -2132,12 +2157,17 @@ const ChemistryEngine = () => {
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
+                          disabled={
+                            selectedChemicals.includes(chemical.id) ||
+                            animationActive
+                          }
+                          onClick={() => addChemical(chemical.id)}
                         >
                           <div className="flex items-center">
                             <div
                               className="w-3 h-3 rounded-full mr-2"
                               style={{ backgroundColor: chemical.color }}
-                            ></div>
+                            />
                             <div>
                               <span className="font-medium">
                                 {getText(chemical.name, chemical.bengaliName)}
@@ -2155,13 +2185,13 @@ const ChemistryEngine = () => {
               </TabsContent>
 
               <TabsContent
-                value="selected"
                 className="bg-white dark:bg-gray-900 p-4 rounded-md shadow-md border border-gray-200 dark:border-gray-700"
+                value="selected"
               >
                 <h2 className="text-xl font-semibold mb-2 dark:text-gray-100">
                   {getText(
                     "Selected Chemicals",
-                    "নির্বাচিত রাসায়নিক পদার্থসমূহ"
+                    "নির্বাচিত রাসায়নিক পদার্থসমূহ",
                   )}
                 </h2>
 
@@ -2169,13 +2199,14 @@ const ChemistryEngine = () => {
                   <div className="text-center p-6 text-gray-500 dark:text-gray-400">
                     {getText(
                       "No chemicals selected. Go to the Chemicals tab to select some.",
-                      "কোন রাসায়নিক পদার্থ নির্বাচন করা হয়নি। কিছু নির্বাচন করতে রাসায়নিক ট্যাবে যান।"
+                      "কোন রাসায়নিক পদার্থ নির্বাচন করা হয়নি। কিছু নির্বাচন করতে রাসায়নিক ট্যাবে যান।",
                     )}
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {selectedChemicals.map((chemId) => {
                       const chemical = getChemicalById(chemId);
+
                       if (!chemical) return null;
 
                       return (
@@ -2189,7 +2220,7 @@ const ChemistryEngine = () => {
                                 <div
                                   className="w-4 h-4 rounded-full mr-2"
                                   style={{ backgroundColor: chemical.color }}
-                                ></div>
+                                />
                                 <h3 className="font-medium dark:text-gray-100">
                                   {getText(chemical.name, chemical.bengaliName)}{" "}
                                   ({chemical.formula})
@@ -2198,7 +2229,7 @@ const ChemistryEngine = () => {
                               <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                                 {getText(
                                   chemical.description,
-                                  chemical.bengaliDescription
+                                  chemical.bengaliDescription,
                                 )}
                               </p>
                               <div className="flex items-center mt-2 text-xs text-gray-500 dark:text-gray-400">
@@ -2214,7 +2245,7 @@ const ChemistryEngine = () => {
                                       ? "কঠিন"
                                       : chemical.state === "liquid"
                                         ? "তরল"
-                                        : "গ্যাস"
+                                        : "গ্যাস",
                                   )}
                                 </span>
                                 <span>
@@ -2223,9 +2254,9 @@ const ChemistryEngine = () => {
                               </div>
                             </div>
                             <button
-                              onClick={() => removeChemical(chemId)}
-                              className="flex items-center justify-center w-7 h-7 rounded-full bg-red-500 dark:bg-red-900 text-white hover:bg-red-600 hover:text-white dark:text-red-100 dark:hover:bg-red-700 dark:hover:text-white"
                               aria-label="Remove chemical"
+                              className="flex items-center justify-center w-7 h-7 rounded-full bg-red-500 dark:bg-red-900 text-white hover:bg-red-600 hover:text-white dark:text-red-100 dark:hover:bg-red-700 dark:hover:text-white"
+                              onClick={() => removeChemical(chemId)}
                             >
                               ✕
                             </button>
@@ -2236,15 +2267,15 @@ const ChemistryEngine = () => {
 
                     <div className="flex space-x-2 pt-2">
                       <button
-                        onClick={performReaction}
-                        disabled={
-                          selectedChemicals.length < 2 || animationActive
-                        }
                         className={`px-4 py-2 rounded-md text-white font-medium transition-all duration-200 ${
                           selectedChemicals.length < 2 || animationActive
                             ? "bg-gray-400 cursor-not-allowed"
                             : "bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 hover:shadow-lg"
                         }`}
+                        disabled={
+                          selectedChemicals.length < 2 || animationActive
+                        }
+                        onClick={performReaction}
                       >
                         <div className="flex items-center">
                           <span className="mr-2">🧪</span>
@@ -2253,8 +2284,8 @@ const ChemistryEngine = () => {
                       </button>
 
                       <button
-                        onClick={resetExperiment}
                         className="px-4 py-2 rounded-md text-white font-medium bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 hover:shadow-lg transition-all duration-200"
+                        onClick={resetExperiment}
                       >
                         <div className="flex items-center">
                           <span className="mr-2">↻</span>
@@ -2267,8 +2298,8 @@ const ChemistryEngine = () => {
               </TabsContent>
 
               <TabsContent
-                value="controls"
                 className="bg-white dark:bg-gray-900 p-4 rounded-md shadow-md border border-gray-200 dark:border-gray-700"
+                value="controls"
               >
                 <h2 className="text-xl font-semibold mb-4 dark:text-gray-100">
                   {getText("Lab Settings", "ল্যাব সেটিংস")}
@@ -2281,8 +2312,8 @@ const ChemistryEngine = () => {
                       {labSettings.temperature}°C
                     </label>
                     <Slider
-                      min={0}
                       max={100}
+                      min={0}
                       step={1}
                       value={[labSettings.temperature]}
                       onValueChange={handleTemperatureChange}
@@ -2300,8 +2331,8 @@ const ChemistryEngine = () => {
                       {labSettings.mixingSpeed}%
                     </label>
                     <Slider
-                      min={0}
                       max={100}
+                      min={0}
                       step={5}
                       value={[labSettings.mixingSpeed]}
                       onValueChange={handleMixingSpeedChange}
@@ -2320,11 +2351,11 @@ const ChemistryEngine = () => {
                     <div className="flex space-x-4">
                       <label className="inline-flex items-center">
                         <input
-                          type="radio"
+                          checked={labSettings.viewMode === "2d"}
                           className="form-radio"
                           name="viewMode"
+                          type="radio"
                           value="2d"
-                          checked={labSettings.viewMode === "2d"}
                           onChange={() => handleViewModeChange("2d")}
                         />
                         <span className="ml-2 text-sm dark:text-gray-300">
@@ -2333,11 +2364,11 @@ const ChemistryEngine = () => {
                       </label>
                       <label className="inline-flex items-center">
                         <input
-                          type="radio"
+                          checked={labSettings.viewMode === "3d"}
                           className="form-radio"
                           name="viewMode"
+                          type="radio"
                           value="3d"
-                          checked={labSettings.viewMode === "3d"}
                           onChange={() => handleViewModeChange("3d")}
                         />
                         <span className="ml-2 text-sm dark:text-gray-300">
@@ -2376,13 +2407,13 @@ const ChemistryEngine = () => {
                     <p className="mb-2 max-w-sm">
                       {getText(
                         "Select 2 or more chemicals and mix them to see the reaction.",
-                        "দুই বা ততোধিক রাসায়নিক পদার্থ নির্বাচন করে বিক্রিয়া দেখুন।"
+                        "দুই বা ততোধিক রাসায়নিক পদার্থ নির্বাচন করে বিক্রিয়া দেখুন।",
                       )}
                     </p>
                     <p className="text-xs text-gray-400 dark:text-gray-500 mt-4">
                       {getText(
                         "Try different combinations to see various reactions!",
-                        "বিভিন্ন সংমিশ্রণ চেষ্টা করে বিভিন্ন বিক্রিয়া দেখুন!"
+                        "বিভিন্ন সংমিশ্রণ চেষ্টা করে বিভিন্ন বিক্রিয়া দেখুন!",
                       )}
                     </p>
                   </div>
@@ -2393,7 +2424,7 @@ const ChemistryEngine = () => {
                     className="flex-grow bg-gradient-to-b from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 rounded-lg overflow-hidden mb-4 shadow-inner border border-gray-300 dark:border-gray-700"
                     style={{ height: "300px" }}
                   >
-                    <canvas ref={canvasRef} className="w-full h-full"></canvas>
+                    <canvas ref={canvasRef} className="w-full h-full" />
                   </div>
 
                   <div className="bg-gradient-to-br from-blue-50 to-cyan-50 dark:from-blue-950 dark:to-cyan-950 p-5 rounded-lg shadow-inner border border-blue-100 dark:border-blue-900">
@@ -2413,16 +2444,16 @@ const ChemistryEngine = () => {
                       </div>
 
                       <button
+                        aria-label="Play audio narration"
+                        className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-md hover:from-blue-600 hover:to-cyan-600 flex items-center shadow-md transition-all duration-200"
                         onClick={() =>
                           playAudioNarration(
                             labSettings.language === "bn"
                               ? reaction.bengaliDescription ||
                                   reaction.description
-                              : reaction.description
+                              : reaction.description,
                           )
                         }
-                        className="bg-gradient-to-r from-blue-500 to-cyan-500 text-white px-4 py-2 rounded-md hover:from-blue-600 hover:to-cyan-600 flex items-center shadow-md transition-all duration-200"
-                        aria-label="Play audio narration"
                       >
                         <span className="mr-2">🔊</span>
                         {getText("Listen", "শুনুন")}
@@ -2433,7 +2464,7 @@ const ChemistryEngine = () => {
                       <p className="text-gray-700 dark:text-gray-200">
                         {getText(
                           reaction.description,
-                          reaction.bengaliDescription
+                          reaction.bengaliDescription,
                         )}
                       </p>
                     </div>

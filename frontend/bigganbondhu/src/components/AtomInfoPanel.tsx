@@ -1,6 +1,7 @@
-import { useAtomStore } from "@/lib/stores/atomStore";
 import { animate } from "animejs";
 import React, { useEffect, useRef } from "react";
+
+import { useAtomStore } from "@/lib/stores/atomStore";
 
 const AtomInfoPanel: React.FC = () => {
   const {
@@ -83,6 +84,7 @@ const AtomInfoPanel: React.FC = () => {
   const getStatusColor = () => {
     if (netCharge > 0) return "text-red-600 dark:text-red-400";
     if (netCharge < 0) return "text-blue-600 dark:text-blue-400";
+
     return "text-green-600 dark:text-green-400";
   };
 
@@ -90,6 +92,7 @@ const AtomInfoPanel: React.FC = () => {
   const getStatusText = () => {
     if (netCharge > 0) return `Positive (${netCharge}+)`;
     if (netCharge < 0) return `Negative (${Math.abs(netCharge)}-)`;
+
     return "Neutral";
   };
 
@@ -97,6 +100,7 @@ const AtomInfoPanel: React.FC = () => {
   const getStabilityText = () => {
     if (!isStable) return "Unstable";
     if (netCharge !== 0) return "Ionized";
+
     return "Stable";
   };
 
@@ -104,6 +108,7 @@ const AtomInfoPanel: React.FC = () => {
   const getStabilityColor = () => {
     if (!isStable) return "text-red-600 dark:text-red-400";
     if (netCharge !== 0) return "text-yellow-600 dark:text-yellow-400";
+
     return "text-green-600 dark:text-green-400";
   };
 
@@ -121,14 +126,14 @@ const AtomInfoPanel: React.FC = () => {
           <div className="text-gray-600 dark:text-gray-300 flex items-center">
             <svg
               className="w-4 h-4 mr-1.5 text-indigo-500"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 20 20"
               fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                fillRule="evenodd"
-                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
                 clipRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-11a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V7z"
+                fillRule="evenodd"
               />
             </svg>
             Element:

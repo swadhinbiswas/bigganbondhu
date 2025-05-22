@@ -256,11 +256,11 @@ const AnimatedMolecule = ({
             <sphereGeometry args={[size, 16, 16]} />
             <meshStandardMaterial color="#555555" />
           </mesh>
-          <mesh position={[size * 1.2, 0, 0]} castShadow>
+          <mesh castShadow position={[size * 1.2, 0, 0]}>
             <sphereGeometry args={[size * 0.8, 16, 16]} />
             <meshStandardMaterial color="#ff5252" />
           </mesh>
-          <mesh position={[-size * 1.2, 0, 0]} castShadow>
+          <mesh castShadow position={[-size * 1.2, 0, 0]}>
             <sphereGeometry args={[size * 0.8, 16, 16]} />
             <meshStandardMaterial color="#ff5252" />
           </mesh>
@@ -276,11 +276,11 @@ const AnimatedMolecule = ({
             <sphereGeometry args={[size, 16, 16]} />
             <meshStandardMaterial color="#29b6f6" />
           </mesh>
-          <mesh position={[size * 0.8, size * 0.8, 0]} castShadow>
+          <mesh castShadow position={[size * 0.8, size * 0.8, 0]}>
             <sphereGeometry args={[size * 0.5, 16, 16]} />
             <meshStandardMaterial color="#e3f2fd" />
           </mesh>
-          <mesh position={[-size * 0.8, size * 0.8, 0]} castShadow>
+          <mesh castShadow position={[-size * 0.8, size * 0.8, 0]}>
             <sphereGeometry args={[size * 0.5, 16, 16]} />
             <meshStandardMaterial color="#e3f2fd" />
           </mesh>
@@ -292,11 +292,11 @@ const AnimatedMolecule = ({
       // O2 molecule - two oxygen atoms
       return (
         <group ref={groupRef}>
-          <mesh position={[size * 0.6, 0, 0]} castShadow>
+          <mesh castShadow position={[size * 0.6, 0, 0]}>
             <sphereGeometry args={[size, 16, 16]} />
             <meshStandardMaterial color="#80deea" />
           </mesh>
-          <mesh position={[-size * 0.6, 0, 0]} castShadow>
+          <mesh castShadow position={[-size * 0.6, 0, 0]}>
             <sphereGeometry args={[size, 16, 16]} />
             <meshStandardMaterial color="#80deea" />
           </mesh>
@@ -316,12 +316,12 @@ const AnimatedMolecule = ({
           {Array.from({ length: 6 }).map((_, i) => (
             <mesh
               key={`c-${i}`}
+              castShadow
               position={[
                 Math.sin((i * Math.PI) / 3) * size * 0.8,
                 0,
                 Math.cos((i * Math.PI) / 3) * size * 0.8,
               ]}
-              castShadow
             >
               <sphereGeometry args={[size * 0.3, 8, 8]} />
               <meshStandardMaterial color="#795548" />
@@ -349,6 +349,7 @@ const AnimatedMolecule = ({
     if (path === "linear" && destination) {
       // Move from position to destination
       const t = (Math.sin(time.current * speed * 10) + 1) / 2; // 0 to 1 oscillation
+
       groupRef.current.position.x = position[0] * (1 - t) + destination[0] * t;
       groupRef.current.position.y = position[1] * (1 - t) + destination[1] * t;
       groupRef.current.position.z = position[2] * (1 - t) + destination[2] * t;
@@ -382,8 +383,8 @@ const AnimatedMolecule = ({
     <group position={position}>
       {getMoleculeGeometry()}
       <Html
-        position={[0, size * 1.5, 0]}
         center
+        position={[0, size * 1.5, 0]}
         style={{ pointerEvents: "none", opacity: 0.8 }}
       >
         <div className="px-2 py-1 text-xs rounded-md bg-gray-800 text-white whitespace-nowrap">
@@ -416,6 +417,7 @@ const SunlightRays = ({
       // Add pulsing effect
       const pulse =
         ((Math.sin(clock.getElapsedTime() * 2) + 1) / 2) * 0.3 + 0.7;
+
       group.current.scale.set(pulse, pulse, pulse);
     }
   });
@@ -428,16 +430,16 @@ const SunlightRays = ({
       {Array.from({ length: 12 }).map((_, i) => (
         <mesh
           key={i}
+          castShadow
           position={[0, 0, 0]}
           rotation={[0, 0, ((Math.PI * 2) / 12) * i]}
-          castShadow
         >
           <boxGeometry args={[0.05, 2 + (i % 3) * 0.5, 0.05]} />
           <meshStandardMaterial
+            transparent
             color="#ffee58"
             emissive="#ffee58"
             emissiveIntensity={intensity * 2}
-            transparent
             opacity={0.7}
           />
         </mesh>
@@ -446,10 +448,10 @@ const SunlightRays = ({
       <mesh position={[0, 0, 0]}>
         <sphereGeometry args={[0.3, 16, 16]} />
         <meshStandardMaterial
+          transparent
           color="#fff59d"
           emissive="#fff59d"
           emissiveIntensity={intensity * 3}
-          transparent
           opacity={0.8}
         />
       </mesh>
@@ -469,18 +471,18 @@ const LeafShape = ({
   return (
     <group position={[0, 0, 0]}>
       {/* Leaf body - slightly elliptical shape rather than perfect sphere */}
-      <mesh receiveShadow castShadow>
+      <mesh castShadow receiveShadow>
         <sphereGeometry args={[1.5, segments, segments / 2]} />
         <meshStandardMaterial
           color="#4caf50"
-          roughness={0.7}
-          metalness={0.2}
           flatShading={false}
+          metalness={0.2}
+          roughness={0.7}
         />
       </mesh>
 
       {/* Leaf veins - central vein */}
-      <mesh position={[0, 0.05, 0]} receiveShadow>
+      <mesh receiveShadow position={[0, 0.05, 0]}>
         <boxGeometry args={[0.05, 0.05, 1.8]} />
         <meshStandardMaterial color="#388e3c" />
       </mesh>
@@ -501,17 +503,17 @@ const LeafShape = ({
           {i % 2 === 0 && (
             <>
               <mesh
+                receiveShadow
                 position={[0.3, 0, 0.1]}
                 rotation={[0, 0.3, 0]}
-                receiveShadow
               >
                 <boxGeometry args={[0.3, 0.02, 0.02]} />
                 <meshStandardMaterial color="#388e3c" />
               </mesh>
               <mesh
+                receiveShadow
                 position={[0.3, 0, -0.1]}
                 rotation={[0, -0.3, 0]}
-                receiveShadow
               >
                 <boxGeometry args={[0.3, 0.02, 0.02]} />
                 <meshStandardMaterial color="#388e3c" />
@@ -525,8 +527,8 @@ const LeafShape = ({
       <mesh position={[0, 0.1, 0]} rotation={[Math.PI / 2, 0, 0]}>
         <planeGeometry args={[3, 3]} />
         <meshStandardMaterial
-          color="#4caf50"
           transparent
+          color="#4caf50"
           opacity={0.15}
           side={THREE.DoubleSide}
         />
@@ -575,13 +577,13 @@ const ChloroplastInternals = ({ visible = true }: { visible?: boolean }) => {
       {/* Stroma matrix */}
       <mesh position={[0, 0, 0]}>
         <sphereGeometry args={[0.28, 24, 24]} />
-        <meshStandardMaterial color="#81c784" transparent opacity={0.3} />
+        <meshStandardMaterial transparent color="#81c784" opacity={0.3} />
       </mesh>
 
       {/* Starch granules */}
       <mesh position={[0.12, -0.1, 0.05]}>
         <sphereGeometry args={[0.05, 12, 12]} />
-        <meshStandardMaterial color="#f5f5f5" transparent opacity={0.6} />
+        <meshStandardMaterial transparent color="#f5f5f5" opacity={0.6} />
       </mesh>
 
       {/* Chlorophyll molecules represented as small green points */}
@@ -782,8 +784,8 @@ const PhotosynthesisModel = ({
       >
         <planeGeometry args={[3, 0.5]} />
         <meshStandardMaterial
-          color="#c8e6c9"
           transparent
+          color="#c8e6c9"
           opacity={0.7}
           side={THREE.DoubleSide}
         />
@@ -796,8 +798,8 @@ const PhotosynthesisModel = ({
       >
         <planeGeometry args={[3.2, 0.2]} />
         <meshStandardMaterial
-          color="#d7ccc8"
           transparent
+          color="#d7ccc8"
           opacity={0.5}
           side={THREE.DoubleSide}
         />
@@ -813,7 +815,7 @@ const PhotosynthesisModel = ({
       >
         <mesh castShadow>
           <sphereGeometry args={[1, 32, 32]} />
-          <meshStandardMaterial color="#4caf50" opacity={0.8} transparent />
+          <meshStandardMaterial transparent color="#4caf50" opacity={0.8} />
         </mesh>
 
         <ChloroplastInternals visible={difficulty !== "beginner"} />
@@ -827,13 +829,13 @@ const PhotosynthesisModel = ({
       >
         <mesh>
           <cylinderGeometry args={[0.2, 0.2, 0.3, 16]} />
-          <meshStandardMaterial color="#80cbc4" transparent opacity={0.5} />
+          <meshStandardMaterial transparent color="#80cbc4" opacity={0.5} />
         </mesh>
 
         <group position={[0, 0, 0]} scale={[1, 1, 1]}>
           <GuardCells
-            open={animationState.running}
             animating={animationState.running && difficulty !== "beginner"}
+            open={animationState.running}
           />
         </group>
       </group>
@@ -852,23 +854,23 @@ const PhotosynthesisModel = ({
         {difficulty !== "beginner" && visibleMolecules.water && (
           <>
             <AnimatedMolecule
-              id="water-molecule-1"
-              position={[0, -0.6, 0]}
               color="#29b6f6"
               destination={[0, 0.4, 0]}
+              id="water-molecule-1"
               path="linear"
-              speed={0.01}
+              position={[0, -0.6, 0]}
               size={0.05}
+              speed={0.01}
               visible={animationState.running || !animationState.running}
             />
             <AnimatedMolecule
-              id="water-molecule-2"
-              position={[0, -0.4, 0]}
               color="#29b6f6"
               destination={[0, 0.6, 0]}
+              id="water-molecule-2"
               path="linear"
-              speed={0.015}
+              position={[0, -0.4, 0]}
               size={0.05}
+              speed={0.015}
               visible={animationState.running || !animationState.running}
             />
           </>
@@ -889,13 +891,13 @@ const PhotosynthesisModel = ({
         {difficulty !== "beginner" && visibleMolecules.glucose && (
           <>
             <AnimatedMolecule
-              id="glucose-molecule-1"
-              position={[0, 0.4, 0]}
               color="#ffb74d"
               destination={[0, -0.6, 0]}
+              id="glucose-molecule-1"
               path="linear"
-              speed={0.01}
+              position={[0, 0.4, 0]}
               size={0.05}
+              speed={0.01}
               visible={animationState.running || !animationState.running}
             />
           </>
@@ -905,8 +907,6 @@ const PhotosynthesisModel = ({
       {/* Sunlight rays */}
       <group position={[0, 2, 0]}>
         <SunlightRays
-          position={[0, 0, 0]}
-          visible={true}
           intensity={
             difficulty === "beginner"
               ? 1
@@ -914,19 +914,21 @@ const PhotosynthesisModel = ({
                 ? 1.5
                 : 2
           }
+          position={[0, 0, 0]}
+          visible={true}
         />
       </group>
 
       {/* CO2 molecules entering through stomata */}
       {visibleMolecules.co2 && (
         <AnimatedMolecule
-          id="carbon-dioxide"
-          position={[-1.2, 0.9, 0.5]}
           color="#9e9e9e"
           destination={[-0.4, 0.2, 0.5]}
+          id="carbon-dioxide"
           path="linear"
-          speed={0.01}
+          position={[-1.2, 0.9, 0.5]}
           size={0.06}
+          speed={0.01}
           visible={animationState.running || !animationState.running}
         />
       )}
@@ -934,13 +936,13 @@ const PhotosynthesisModel = ({
       {/* O2 molecules exiting through stomata */}
       {visibleMolecules.o2 && (
         <AnimatedMolecule
-          id="oxygen"
-          position={[-0.4, 0.2, 0.5]}
           color="#80deea"
           destination={[-1.2, 0.9, 0.5]}
+          id="oxygen"
           path="linear"
-          speed={0.01}
+          position={[-0.4, 0.2, 0.5]}
           size={0.06}
+          speed={0.01}
           visible={animationState.running || !animationState.running}
         />
       )}
@@ -948,13 +950,13 @@ const PhotosynthesisModel = ({
       {/* Water molecules coming from roots */}
       {visibleMolecules.water && (
         <AnimatedMolecule
-          id="water"
-          position={[0, -1.5, 0]}
           color="#29b6f6"
           destination={[0, -0.8, 0]}
+          id="water"
           path="linear"
-          speed={0.01}
+          position={[0, -1.5, 0]}
           size={0.06}
+          speed={0.01}
           visible={animationState.running || !animationState.running}
         />
       )}
@@ -962,13 +964,13 @@ const PhotosynthesisModel = ({
       {/* Glucose molecules being produced and transported */}
       {visibleMolecules.glucose && (
         <AnimatedMolecule
-          id="glucose"
-          position={[0.5, 0, 0.3]}
           color="#ffb74d"
           destination={[0.8, -0.8, 0]}
+          id="glucose"
           path="linear"
-          speed={0.005}
+          position={[0.5, 0, 0.3]}
           size={0.08}
+          speed={0.005}
           visible={animationState.running || !animationState.running}
         />
       )}
@@ -992,15 +994,15 @@ const PhotosynthesisModel = ({
 
       {/* Directional light (sun) */}
       <directionalLight
-        position={[5, 5, 5]}
-        intensity={1}
         castShadow
-        shadow-mapSize-width={1024}
+        intensity={1}
+        position={[5, 5, 5]}
         shadow-mapSize-height={1024}
+        shadow-mapSize-width={1024}
       />
 
       {/* Fill light for better visibility */}
-      <pointLight position={[-3, 3, 3]} intensity={0.5} />
+      <pointLight intensity={0.5} position={[-3, 3, 3]} />
     </group>
   );
 };

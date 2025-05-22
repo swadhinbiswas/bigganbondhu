@@ -1,0 +1,11 @@
+name = "bigganbondhu"
+pages_build_output_dir = "dist"
+
+[env.production.vars]
+VITE_API_URL = "http://34.87.148.171:8088"
+DEBUG = "false"
+
+[env.preview.vars]
+VITE_API_URL = "http://34.87.148.171:8088"
+
+DEBUG = "true"

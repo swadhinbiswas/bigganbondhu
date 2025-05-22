@@ -1,4 +1,5 @@
 import axios from "axios";
+
 import apiConfig from "../config/apiConfig";
 
 // Create axios instance with relative paths that will be handled by Vite's proxy
@@ -19,8 +20,10 @@ export const apiService = {
   // Generic GET with absolute URL enforcement
   get: async <T>(endpoint: string, params = {}): Promise<T> => {
     const url = apiConfig.getUrl(endpoint);
+
     try {
       const response = await apiClient.get(url, { params });
+
       return response.data as T;
     } catch (error) {
       console.error(`API Error [GET ${url}]:`, error);
@@ -49,7 +52,7 @@ export const apiService = {
       chem2: string,
       temperature = 25.0,
       mixingSpeed = 50.0,
-      actions?: string
+      actions?: string,
     ) =>
       apiService.get(apiConfig.endpoints.react, {
         chem1,
@@ -81,6 +84,7 @@ export const apiService = {
       const response = await apiClient.post(apiConfig.endpoints.analyzeImage, {
         image_url: imageUrl,
       });
+
       return response.data;
     } catch (error) {
       console.error("Image analysis failed:", error);

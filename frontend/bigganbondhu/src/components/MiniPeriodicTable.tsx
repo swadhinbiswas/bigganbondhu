@@ -1,5 +1,6 @@
-import { elements, useAtomStore } from "@/lib/stores/atomStore";
 import React, { useEffect, useRef, useState } from "react";
+
+import { elements, useAtomStore } from "@/lib/stores/atomStore";
 
 // Element categories for coloring the legend
 const CATEGORIES = {
@@ -271,6 +272,7 @@ const MiniPeriodicTable: React.FC = () => {
     if (!element) return;
 
     const rect = (event.target as HTMLElement).getBoundingClientRect();
+
     setTooltipPosition({
       x: rect.left + rect.width / 2,
       y: rect.top - 10,
@@ -298,6 +300,7 @@ const MiniPeriodicTable: React.FC = () => {
         }
       }
     }
+
     return null;
   };
 
@@ -315,11 +318,13 @@ const MiniPeriodicTable: React.FC = () => {
     }
 
     const elementData = elements[elementNumber];
+
     if (!elementData) return {};
 
     // Convert hex color to RGB for better text contrast calculation
     const hexToRgb = (hex: string) => {
       const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
       return result
         ? {
             r: parseInt(result[1], 16),
@@ -344,13 +349,13 @@ const MiniPeriodicTable: React.FC = () => {
   return (
     <div
       ref={tableRef}
-      className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-lg shadow-lg p-3 transition-all duration-300 border border-indigo-100 dark:border-indigo-900/30"
+      className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm rounded-lg shadow-lg p-2 sm:p-3 transition-all duration-300 border border-indigo-100 dark:border-indigo-900/30 overflow-x-auto"
     >
-      <h2 className="font-semibold text-indigo-600 dark:text-indigo-400 mb-2 text-center">
+      <h2 className="font-semibold text-indigo-600 dark:text-indigo-400 mb-2 text-center text-sm sm:text-base">
         Periodic Table
       </h2>
 
-      <div className="grid gap-0.5 max-w-full overflow-visible">
+      <div className="grid gap-0.5 max-w-full overflow-visible min-w-[400px] sm:min-w-0">
         {PERIODIC_TABLE.map((row, rowIndex) => (
           <div
             key={`row-${rowIndex}`}
@@ -361,21 +366,21 @@ const MiniPeriodicTable: React.FC = () => {
                 {element ? (
                   <div
                     ref={element.number === protons ? activeElementRef : null}
-                    className="flex flex-col items-center justify-center h-7 w-7 rounded transition-all duration-200 cursor-pointer hover:shadow-sm hover:scale-105"
+                    className="flex flex-col items-center justify-center h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8 rounded transition-all duration-200 cursor-pointer hover:shadow-sm hover:scale-105 touch-optimized-button"
                     style={getElementStyle(element.number)}
                     onClick={() => handleElementClick(element)}
                     onMouseEnter={(e) => handleElementHover(element, e)}
                     onMouseLeave={() => setShowTooltip(false)}
                   >
-                    <div className="text-[6px] opacity-70">
+                    <div className="text-[5px] sm:text-[6px] lg:text-[7px] opacity-70">
                       {element.number}
                     </div>
-                    <div className="font-bold text-[10px]">
+                    <div className="font-bold text-[8px] sm:text-[10px] lg:text-[11px]">
                       {element.symbol}
                     </div>
                   </div>
                 ) : (
-                  <div className="h-7 w-7"></div>
+                  <div className="h-6 w-6 sm:h-7 sm:w-7 lg:h-8 lg:w-8" />
                 )}
               </div>
             ))}
@@ -395,7 +400,7 @@ const MiniPeriodicTable: React.FC = () => {
           .slice(0, 6)
           .map(([key, { name, color }]) => (
             <div key={key} className="flex items-center">
-              <div className={`w-1.5 h-1.5 rounded-full ${color} mr-0.5`}></div>
+              <div className={`w-1.5 h-1.5 rounded-full ${color} mr-0.5`} />
               <span className="text-gray-600 dark:text-gray-300">
                 {name.split(" ")[0]}
               </span>
@@ -406,13 +411,13 @@ const MiniPeriodicTable: React.FC = () => {
       {/* Detailed tooltip */}
       {showTooltip && (
         <div
+          dangerouslySetInnerHTML={{ __html: tooltipContent }}
           className="fixed bg-white dark:bg-slate-700 p-2 rounded shadow-lg text-xs z-50 pointer-events-none border border-gray-200 dark:border-gray-600"
           style={{
             left: `${tooltipPosition.x}px`,
             top: `${tooltipPosition.y - 5}px`,
             transform: "translate(-50%, -100%)",
           }}
-          dangerouslySetInnerHTML={{ __html: tooltipContent }}
         />
       )}
     </div>

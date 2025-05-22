@@ -315,7 +315,7 @@ const Ellipsoid = ({
   return (
     <mesh>
       <sphereGeometry args={[1, 32, 16]} />
-      <meshStandardMaterial color={color} transparent opacity={0.8} />
+      <meshStandardMaterial transparent color={color} opacity={0.8} />
       <mesh scale={scale} />
     </mesh>
   );
@@ -340,7 +340,7 @@ const Tube = ({
   return (
     <mesh rotation={rotation ? new THREE.Euler(...rotation) : undefined}>
       <tubeGeometry args={[curve, 64, 0.1, 8, false]} />
-      <meshStandardMaterial color={color} transparent opacity={0.8} />
+      <meshStandardMaterial transparent color={color} opacity={0.8} />
       <mesh scale={scale} />
     </mesh>
   );
@@ -367,13 +367,13 @@ const CellPart = ({
       {geometry === "sphere" && (
         <mesh>
           <sphereGeometry args={[1, 32, 32]} />
-          <meshStandardMaterial color={color} transparent opacity={0.8} />
+          <meshStandardMaterial transparent color={color} opacity={0.8} />
           <mesh scale={scale} />
         </mesh>
       )}
-      {geometry === "ellipsoid" && <Ellipsoid scale={scale} color={color} />}
+      {geometry === "ellipsoid" && <Ellipsoid color={color} scale={scale} />}
       {geometry === "tube" && (
-        <Tube scale={scale} color={color} rotation={rotation} />
+        <Tube color={color} rotation={rotation} scale={scale} />
       )}
     </group>
   );
@@ -392,7 +392,7 @@ const Cell = ({
   return (
     <group position={position}>
       {/* Cell label */}
-      <Html position={[0, 3.5, 0]} center>
+      <Html center position={[0, 3.5, 0]}>
         <div className="text-center">
           <div className="text-lg font-bold">{cellType.nameBn}</div>
           <div className="text-sm">{cellType.name}</div>
@@ -422,7 +422,7 @@ const CellComparisonScene = ({
   return (
     <>
       <ambientLight intensity={0.5} />
-      <directionalLight position={[10, 10, 10]} intensity={0.8} />
+      <directionalLight intensity={0.8} position={[10, 10, 10]} />
       <Cell
         cellType={cellTypes[0]}
         position={[-5, 0, 0]}
@@ -437,7 +437,7 @@ const CellComparisonScene = ({
       {/* Divider line */}
       <mesh position={[0, 0, -1]}>
         <planeGeometry args={[0.05, 10]} />
-        <meshBasicMaterial color="#ccc" transparent opacity={0.5} />
+        <meshBasicMaterial transparent color="#ccc" opacity={0.5} />
       </mesh>
 
       <OrbitControls enableDamping dampingFactor={0.25} />
@@ -457,8 +457,8 @@ const Tooltip = ({ part, onClose }: TooltipProps) => {
   return (
     <div className="absolute bottom-4 left-4 right-4 bg-white bg-opacity-90 dark:bg-gray-800 dark:bg-opacity-90 rounded-lg p-4 shadow-lg z-10">
       <button
-        onClick={onClose}
         className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200"
+        onClick={onClose}
       >
         ×
       </button>
@@ -495,20 +495,20 @@ const ZoomControls = ({
   return (
     <div className="absolute top-4 right-4 flex flex-col bg-white bg-opacity-80 dark:bg-gray-800 dark:bg-opacity-80 rounded-lg shadow-lg p-2 z-10">
       <button
-        onClick={onZoomIn}
         className="mb-2 w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded hover:bg-blue-600"
+        onClick={onZoomIn}
       >
         +
       </button>
       <button
-        onClick={onZoomOut}
         className="mb-2 w-8 h-8 flex items-center justify-center bg-blue-500 text-white rounded hover:bg-blue-600"
+        onClick={onZoomOut}
       >
         -
       </button>
       <button
-        onClick={onReset}
         className="w-8 h-8 flex items-center justify-center bg-gray-500 text-white rounded hover:bg-gray-600"
+        onClick={onReset}
       >
         ⟳
       </button>
@@ -532,12 +532,12 @@ const ViewControls = ({
         {availableViews.map((view) => (
           <button
             key={view.id}
-            onClick={() => setCurrentView(view.id)}
             className={`px-3 py-1 rounded-full text-sm ${
               currentView === view.id
                 ? "bg-blue-500 text-white"
                 : "bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 hover:bg-gray-300 dark:hover:bg-gray-600"
             }`}
+            onClick={() => setCurrentView(view.id)}
           >
             {view.nameBn}
           </button>
@@ -586,14 +586,14 @@ const CellComparison = () => {
 
       <Tooltip part={selectedPart} onClose={() => setSelectedPart(null)} />
       <ZoomControls
+        onReset={handleReset}
         onZoomIn={handleZoomIn}
         onZoomOut={handleZoomOut}
-        onReset={handleReset}
       />
       <ViewControls
+        availableViews={availableViews}
         currentView={currentView}
         setCurrentView={setCurrentView}
-        availableViews={availableViews}
       />
 
       {!selectedPart && (

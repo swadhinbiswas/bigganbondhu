@@ -1,5 +1,9 @@
 import { Route, Routes } from "react-router-dom";
 
+import DNASimulation from "./components/biology/DNASimulation";
+import SmallResearchPage from "./pages/small-research";
+import UsageGuidePage from "./pages/usage-guide";
+
 import AboutPage from "@/pages/about";
 import BlogPage from "@/pages/blog";
 import DocsPage from "@/pages/docs";
@@ -13,12 +17,9 @@ import HandsOnAtomBuilderPage from "@/pages/hands-on/atom-builder";
 import CircuitDesignPage from "@/pages/hands-on/circuit";
 import HandsOnIndexPage from "@/pages/hands-on/index";
 import SolarSystem from "@/pages/hands-on/solar-system";
-// import VirtualMicroscopePage from "@/pages/hands-on/virtual-microscope";
+import VirtualMicroscopePage from "@/pages/hands-on/virtual-microscope";
 import IndexPage from "@/pages/index";
 import PricingPage from "@/pages/pricing";
-import DNASimulation from "./components/biology/DNASimulation";
-import SmallResearchPage from "./pages/small-research";
-import UsageGuidePage from "./pages/usage-guide";
 
 function App() {
   return (
@@ -39,14 +40,17 @@ function App() {
       <Route element={<ChemistryEngine />} path="/engines/chemistry" />
       <Route element={<AtomBuilderPage />} path="/engines/atom-builder" />
       <Route element={<HandsOnIndexPage />} path="/hands-on" />
-      <Route element={<HandsOnAtomBuilderPage />} path="/hands-on/atom-builder" />
+      <Route
+        element={<HandsOnAtomBuilderPage />}
+        path="/hands-on/atom-builder"
+      />
       <Route element={<CircuitDesignPage />} path="/hands-on/circuit" />
       <Route element={<ShapesAnimation />} path="/hands-on/3d-shapes" />
       <Route element={<SolarSystem />} path="/hands-on/solar-system" />
-      {/* <Route
+      <Route
         element={<VirtualMicroscopePage />}
         path="/hands-on/virtual-microscope"
-      /> */}
+      />
 
       <Route
         element={<DNASimulation />}

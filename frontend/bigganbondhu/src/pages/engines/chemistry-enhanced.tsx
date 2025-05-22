@@ -1,8 +1,9 @@
+import { useEffect, useRef, useState } from "react";
+
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import DefaultLayout from "@/layouts/default";
 import apiService from "@/services/apiService";
-import { useEffect, useRef, useState } from "react";
 
 type Chemical = {
   id: string;
@@ -45,12 +46,13 @@ const render3DView = (
   canvasRef: React.RefObject<HTMLCanvasElement>,
   reaction: Reaction | null,
   _labSettings: LabSettings,
-  animationActive: boolean
+  animationActive: boolean,
 ) => {
   if (!canvasRef.current) return null;
 
   const canvas = canvasRef.current;
   const ctx = canvas.getContext("2d");
+
   if (!ctx) return null;
 
   // Draw a perspective/3D looking beaker with contents
@@ -284,12 +286,14 @@ const ChemistryEngine = () => {
       try {
         setLoading(true);
         const data = await apiService.chemistry.getAll();
+
         setChemicals((data as any).chemicals || []);
         setLoading(false);
       } catch (err) {
         console.error("Failed to load from API, trying local data", err);
         try {
           const data = await apiService.chemistry.getChemicals();
+
           setChemicals((data as any).chemicals || []);
           setLoading(false);
         } catch (fetchErr) {
@@ -318,7 +322,7 @@ const ChemistryEngine = () => {
         chem1,
         chem2,
         temperature,
-        mixingSpeed
+        mixingSpeed,
       );
 
       setReaction(data as Reaction);
@@ -342,6 +346,7 @@ const ChemistryEngine = () => {
         labSettings.language === "bn"
           ? "রাসায়নিক বিক্রিয়া খুঁজে পাওয়া যায়নি।"
           : "No reaction found for these chemicals.";
+
       setError(errorMsg);
     }
   };
@@ -351,21 +356,24 @@ const ChemistryEngine = () => {
       "Applying lab settings:",
       labSettings,
       "to reaction:",
-      reactionData.id
+      reactionData.id,
     );
   };
 
   const drawReactionAnimation = (animationType: string, color: string) => {
     const canvas = canvasRef.current;
+
     if (!canvas) return;
 
     // Check if we should render in 3D mode
     if (labSettings.viewMode === "3d") {
       render3DView(canvasRef, reaction, labSettings, animationActive);
+
       return;
     }
 
     const ctx = canvas.getContext("2d");
+
     if (!ctx) return;
 
     // Clear canvas
@@ -393,7 +401,7 @@ const ChemistryEngine = () => {
       canvas.width * 0.2,
       canvas.height * 0.4,
       canvas.width * 0.6,
-      canvas.height * 0.4
+      canvas.height * 0.4,
     );
 
     let animationFrame: number;
@@ -420,7 +428,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.2,
             canvas.height * 0.4,
             canvas.width * 0.6,
-            canvas.height * 0.4
+            canvas.height * 0.4,
           );
 
           ctx.fillStyle = "rgba(255, 255, 255, 0.7)";
@@ -449,6 +457,7 @@ const ChemistryEngine = () => {
 
         const animateColorChange = () => {
           const speedMultiplier = labSettings.temperature > 50 ? 1.5 : 1;
+
           progress += 0.01 * speedMultiplier;
 
           ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -456,13 +465,13 @@ const ChemistryEngine = () => {
 
           if (progress <= 1) {
             const r = Math.floor(
-              224 * (1 - progress) + parseInt(color.slice(1, 3), 16) * progress
+              224 * (1 - progress) + parseInt(color.slice(1, 3), 16) * progress,
             );
             const g = Math.floor(
-              224 * (1 - progress) + parseInt(color.slice(3, 5), 16) * progress
+              224 * (1 - progress) + parseInt(color.slice(3, 5), 16) * progress,
             );
             const b = Math.floor(
-              255 * (1 - progress) + parseInt(color.slice(5, 7), 16) * progress
+              255 * (1 - progress) + parseInt(color.slice(5, 7), 16) * progress,
             );
 
             ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
@@ -470,7 +479,7 @@ const ChemistryEngine = () => {
               canvas.width * 0.2,
               canvas.height * 0.4,
               canvas.width * 0.6,
-              canvas.height * 0.4
+              canvas.height * 0.4,
             );
 
             animationFrame = requestAnimationFrame(animateColorChange);
@@ -480,7 +489,7 @@ const ChemistryEngine = () => {
               canvas.width * 0.2,
               canvas.height * 0.4,
               canvas.width * 0.6,
-              canvas.height * 0.4
+              canvas.height * 0.4,
             );
           }
         };
@@ -510,7 +519,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.2,
             canvas.height * 0.4,
             canvas.width * 0.6,
-            canvas.height * 0.4
+            canvas.height * 0.4,
           );
 
           ctx.fillStyle = "#555";
@@ -521,6 +530,7 @@ const ChemistryEngine = () => {
 
             const adjustedSpeed =
               particle.speed * (1 + (labSettings.mixingSpeed - 50) / 100);
+
             particle.y += adjustedSpeed;
 
             if (particle.y > canvas.height * 0.79 - particle.size) {
@@ -562,7 +572,7 @@ const ChemistryEngine = () => {
             canvas.width * 0.2,
             canvas.height * 0.4,
             canvas.width * 0.6,
-            canvas.height * 0.4
+            canvas.height * 0.4,
           );
 
           smokeParticles.forEach((particle) => {
@@ -598,7 +608,7 @@ const ChemistryEngine = () => {
           canvas.width * 0.2,
           canvas.height * 0.4,
           canvas.width * 0.6,
-          canvas.height * 0.4
+          canvas.height * 0.4,
         );
         break;
     }
@@ -625,6 +635,7 @@ const ChemistryEngine = () => {
       const audioUrl = URL.createObjectURL(audioBlob);
 
       const audio = new Audio(audioUrl);
+
       audioRef.current = audio;
       audio.play();
     } catch (err) {
@@ -638,8 +649,10 @@ const ChemistryEngine = () => {
     setSelectedChemicals([]);
 
     const canvas = canvasRef.current;
+
     if (canvas) {
       const ctx = canvas.getContext("2d");
+
       if (ctx) {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
@@ -684,7 +697,7 @@ const ChemistryEngine = () => {
     return (
       <DefaultLayout>
         <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500" />
         </div>
       </DefaultLayout>
     );
@@ -699,6 +712,7 @@ const ChemistryEngine = () => {
   }
 
   const chemicalsByType: Record<string, Chemical[]> = {};
+
   chemicals.forEach((chemical) => {
     if (!chemicalsByType[chemical.type]) {
       chemicalsByType[chemical.type] = [];
@@ -718,8 +732,8 @@ const ChemistryEngine = () => {
             {getText("Chemistry Lab", "রসায়ন পরীক্ষাগার")}
           </h1>
           <button
-            onClick={toggleLanguage}
             className="px-3 py-1 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            onClick={toggleLanguage}
           >
             {labSettings.language === "en" ? "বাংলা" : "English"}
           </button>
@@ -727,7 +741,7 @@ const ChemistryEngine = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
           <div className="lg:col-span-2">
-            <Tabs defaultValue="chemicals" className="w-full">
+            <Tabs className="w-full" defaultValue="chemicals">
               <TabsList className="w-full grid grid-cols-3">
                 <TabsTrigger value="chemicals">
                   {getText("Chemicals", "রাসায়নিক")}
@@ -741,13 +755,13 @@ const ChemistryEngine = () => {
               </TabsList>
 
               <TabsContent
-                value="chemicals"
                 className="bg-white dark:bg-gray-900 p-4 rounded-md shadow-md border border-gray-200 dark:border-gray-700"
+                value="chemicals"
               >
                 <h2 className="text-xl font-semibold mb-2 dark:text-gray-100">
                   {getText(
                     "Available Chemicals",
-                    "উপলব্ধ রাসায়নিক পদার্থসমূহ"
+                    "উপলব্ধ রাসায়নিক পদার্থসমূহ",
                   )}
                 </h2>
 
@@ -760,11 +774,6 @@ const ChemistryEngine = () => {
                       {chems.map((chemical) => (
                         <button
                           key={chemical.id}
-                          onClick={() => addChemical(chemical.id)}
-                          disabled={
-                            selectedChemicals.includes(chemical.id) ||
-                            animationActive
-                          }
                           className={`p-2 rounded-md border text-left text-sm ${
                             selectedChemicals.includes(chemical.id)
                               ? "bg-blue-100 border-blue-300 text-blue-800 dark:bg-blue-900 dark:border-blue-700 dark:text-blue-200"
@@ -774,12 +783,17 @@ const ChemistryEngine = () => {
                               ? "opacity-50 cursor-not-allowed"
                               : ""
                           }`}
+                          disabled={
+                            selectedChemicals.includes(chemical.id) ||
+                            animationActive
+                          }
+                          onClick={() => addChemical(chemical.id)}
                         >
                           <div className="flex items-center">
                             <div
                               className="w-3 h-3 rounded-full mr-2"
                               style={{ backgroundColor: chemical.color }}
-                            ></div>
+                            />
                             <div>
                               <span className="font-medium">
                                 {getText(chemical.name, chemical.bengaliName)}
@@ -797,13 +811,13 @@ const ChemistryEngine = () => {
               </TabsContent>
 
               <TabsContent
-                value="selected"
                 className="bg-white dark:bg-gray-900 p-4 rounded-md shadow-md border border-gray-200 dark:border-gray-700"
+                value="selected"
               >
                 <h2 className="text-xl font-semibold mb-2 dark:text-gray-100">
                   {getText(
                     "Selected Chemicals",
-                    "নির্বাচিত রাসায়নিক পদার্থসমূহ"
+                    "নির্বাচিত রাসায়নিক পদার্থসমূহ",
                   )}
                 </h2>
 
@@ -811,13 +825,14 @@ const ChemistryEngine = () => {
                   <div className="text-center p-6 text-gray-500 dark:text-gray-400">
                     {getText(
                       "No chemicals selected. Go to the Chemicals tab to select some.",
-                      "কোন রাসায়নিক পদার্থ নির্বাচন করা হয়নি। কিছু নির্বাচন করতে রাসায়নিক ট্যাবে যান।"
+                      "কোন রাসায়নিক পদার্থ নির্বাচন করা হয়নি। কিছু নির্বাচন করতে রাসায়নিক ট্যাবে যান।",
                     )}
                   </div>
                 ) : (
                   <div className="space-y-4">
                     {selectedChemicals.map((chemId) => {
                       const chemical = getChemicalById(chemId);
+
                       if (!chemical) return null;
 
                       return (
@@ -831,7 +846,7 @@ const ChemistryEngine = () => {
                                 <div
                                   className="w-4 h-4 rounded-full mr-2"
                                   style={{ backgroundColor: chemical.color }}
-                                ></div>
+                                />
                                 <h3 className="font-medium dark:text-gray-100">
                                   {getText(chemical.name, chemical.bengaliName)}{" "}
                                   ({chemical.formula})
@@ -840,7 +855,7 @@ const ChemistryEngine = () => {
                               <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
                                 {getText(
                                   chemical.description,
-                                  chemical.bengaliDescription
+                                  chemical.bengaliDescription,
                                 )}
                               </p>
                               <div className="flex items-center mt-2 text-xs text-gray-500 dark:text-gray-400">
@@ -856,7 +871,7 @@ const ChemistryEngine = () => {
                                       ? "কঠিন"
                                       : chemical.state === "liquid"
                                         ? "তরল"
-                                        : "গ্যাস"
+                                        : "গ্যাস",
                                   )}
                                 </span>
                                 <span>
@@ -865,13 +880,13 @@ const ChemistryEngine = () => {
                               </div>
                             </div>
                             <button
-                              onClick={() => removeChemical(chemId)}
-                              disabled={animationActive}
                               className={`text-red-600 hover:text-red-800 dark:text-red-400 dark:hover:text-red-300 ${
                                 animationActive
                                   ? "opacity-50 cursor-not-allowed"
                                   : ""
                               }`}
+                              disabled={animationActive}
+                              onClick={() => removeChemical(chemId)}
                             >
                               ✕
                             </button>
@@ -882,22 +897,22 @@ const ChemistryEngine = () => {
 
                     <div className="flex space-x-2 pt-2">
                       <button
-                        onClick={performReaction}
-                        disabled={
-                          selectedChemicals.length < 2 || animationActive
-                        }
                         className={`px-4 py-2 rounded-md text-white ${
                           selectedChemicals.length < 2 || animationActive
                             ? "bg-gray-400 cursor-not-allowed"
                             : "bg-blue-600 hover:bg-blue-700"
                         }`}
+                        disabled={
+                          selectedChemicals.length < 2 || animationActive
+                        }
+                        onClick={performReaction}
                       >
                         {getText("Mix Chemicals", "বিক্রিয়া শুরু করুন")}
                       </button>
 
                       <button
-                        onClick={resetExperiment}
                         className="px-4 py-2 rounded-md text-white bg-red-600 hover:bg-red-700"
+                        onClick={resetExperiment}
                       >
                         {getText("Reset", "রিসেট করুন")}
                       </button>
@@ -907,8 +922,8 @@ const ChemistryEngine = () => {
               </TabsContent>
 
               <TabsContent
-                value="controls"
                 className="bg-white dark:bg-gray-900 p-4 rounded-md shadow-md border border-gray-200 dark:border-gray-700"
+                value="controls"
               >
                 <h2 className="text-xl font-semibold mb-4 dark:text-gray-100">
                   {getText("Lab Settings", "ল্যাব সেটিংস")}
@@ -921,12 +936,12 @@ const ChemistryEngine = () => {
                       {labSettings.temperature}°C
                     </label>
                     <Slider
-                      min={0}
+                      disabled={animationActive}
                       max={100}
+                      min={0}
                       step={1}
                       value={[labSettings.temperature]}
                       onValueChange={handleTemperatureChange}
-                      disabled={animationActive}
                     />
                     <div className="flex justify-between text-xs text-gray-500 mt-1">
                       <span>0°C</span>
@@ -941,12 +956,12 @@ const ChemistryEngine = () => {
                       {labSettings.mixingSpeed}%
                     </label>
                     <Slider
-                      min={0}
+                      disabled={animationActive}
                       max={100}
+                      min={0}
                       step={5}
                       value={[labSettings.mixingSpeed]}
                       onValueChange={handleMixingSpeedChange}
-                      disabled={animationActive}
                     />
                     <div className="flex justify-between text-xs text-gray-500 mt-1">
                       <span>{getText("Slow", "ধীর")}</span>
@@ -962,15 +977,15 @@ const ChemistryEngine = () => {
                     <div className="flex space-x-4">
                       <label className="inline-flex items-center">
                         <input
-                          type="radio"
-                          className="form-radio"
-                          name="viewMode"
-                          value="2d"
                           checked={labSettings.viewMode === "2d"}
+                          className="form-radio"
+                          disabled={animationActive}
+                          name="viewMode"
+                          type="radio"
+                          value="2d"
                           onChange={() =>
                             setLabSettings({ ...labSettings, viewMode: "2d" })
                           }
-                          disabled={animationActive}
                         />
                         <span className="ml-2 text-sm dark:text-gray-300">
                           2D
@@ -978,15 +993,15 @@ const ChemistryEngine = () => {
                       </label>
                       <label className="inline-flex items-center">
                         <input
-                          type="radio"
-                          className="form-radio"
-                          name="viewMode"
-                          value="3d"
                           checked={labSettings.viewMode === "3d"}
+                          className="form-radio"
+                          disabled={animationActive}
+                          name="viewMode"
+                          type="radio"
+                          value="3d"
                           onChange={() =>
                             setLabSettings({ ...labSettings, viewMode: "3d" })
                           }
-                          disabled={animationActive}
                         />
                         <span className="ml-2 text-sm dark:text-gray-300">
                           3D
@@ -1011,7 +1026,7 @@ const ChemistryEngine = () => {
                     <p className="mb-2">
                       {getText(
                         "Select 2 or more chemicals and mix them to see the reaction.",
-                        "দুই বা ততোধিক রাসায়নিক পদার্থ নির্বাচন করে বিক্রিয়া দেখুন।"
+                        "দুই বা ততোধিক রাসায়নিক পদার্থ নির্বাচন করে বিক্রিয়া দেখুন।",
                       )}
                     </p>
                     <span className="text-4xl">⚗️</span>
@@ -1020,7 +1035,7 @@ const ChemistryEngine = () => {
               ) : (
                 <>
                   <div className="flex-grow bg-gray-100 dark:bg-gray-800 rounded-md overflow-hidden mb-4">
-                    <canvas ref={canvasRef} className="w-full h-full"></canvas>
+                    <canvas ref={canvasRef} className="w-full h-full" />
                   </div>
 
                   <div className="bg-blue-50 dark:bg-blue-950 p-4 rounded-md">
@@ -1040,16 +1055,16 @@ const ChemistryEngine = () => {
                       </div>
 
                       <button
+                        aria-label="Play audio narration"
+                        className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
                         onClick={() =>
                           playAudioNarration(
                             labSettings.language === "bn"
                               ? reaction.bengaliDescription ||
                                   reaction.description
-                              : reaction.description
+                              : reaction.description,
                           )
                         }
-                        className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
-                        aria-label="Play audio narration"
                       >
                         <span className="mr-1">🔊</span>{" "}
                         {getText("Listen", "শুনুন")}
@@ -1059,7 +1074,7 @@ const ChemistryEngine = () => {
                     <p className="text-gray-700 dark:text-gray-200 mb-2">
                       {getText(
                         reaction.description,
-                        reaction.bengaliDescription
+                        reaction.bengaliDescription,
                       )}
                     </p>
 

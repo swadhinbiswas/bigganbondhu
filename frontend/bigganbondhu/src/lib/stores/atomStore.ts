@@ -154,6 +154,7 @@ export const useAtomStore = create<AtomState>((set) => ({
   addProton: () =>
     set((state) => {
       const newProtons = state.protons + 1;
+
       if (newProtons > 100) return state; // Limit to elements we have data for
 
       return {
@@ -164,7 +165,7 @@ export const useAtomStore = create<AtomState>((set) => ({
         stability: calculateStability(
           newProtons,
           state.neutrons,
-          state.electrons
+          state.electrons,
         ),
         isStable: isAtomStable(newProtons, state.neutrons, state.electrons),
       };
@@ -173,6 +174,7 @@ export const useAtomStore = create<AtomState>((set) => ({
   removeProton: () =>
     set((state) => {
       const newProtons = Math.max(0, state.protons - 1);
+
       return {
         protons: newProtons,
         element: newProtons > 0 ? elements[newProtons] : null,
@@ -181,7 +183,7 @@ export const useAtomStore = create<AtomState>((set) => ({
         stability: calculateStability(
           newProtons,
           state.neutrons,
-          state.electrons
+          state.electrons,
         ),
         isStable: isAtomStable(newProtons, state.neutrons, state.electrons),
       };
@@ -190,13 +192,14 @@ export const useAtomStore = create<AtomState>((set) => ({
   addNeutron: () =>
     set((state) => {
       const newNeutrons = state.neutrons + 1;
+
       return {
         neutrons: newNeutrons,
         massNumber: state.protons + newNeutrons,
         stability: calculateStability(
           state.protons,
           newNeutrons,
-          state.electrons
+          state.electrons,
         ),
         isStable: isAtomStable(state.protons, newNeutrons, state.electrons),
       };
@@ -205,13 +208,14 @@ export const useAtomStore = create<AtomState>((set) => ({
   removeNeutron: () =>
     set((state) => {
       const newNeutrons = Math.max(0, state.neutrons - 1);
+
       return {
         neutrons: newNeutrons,
         massNumber: state.protons + newNeutrons,
         stability: calculateStability(
           state.protons,
           newNeutrons,
-          state.electrons
+          state.electrons,
         ),
         isStable: isAtomStable(state.protons, newNeutrons, state.electrons),
       };
@@ -220,13 +224,14 @@ export const useAtomStore = create<AtomState>((set) => ({
   addElectron: () =>
     set((state) => {
       const newElectrons = state.electrons + 1;
+
       return {
         electrons: newElectrons,
         netCharge: state.protons - newElectrons,
         stability: calculateStability(
           state.protons,
           state.neutrons,
-          newElectrons
+          newElectrons,
         ),
         isStable: isAtomStable(state.protons, state.neutrons, newElectrons),
       };
@@ -235,13 +240,14 @@ export const useAtomStore = create<AtomState>((set) => ({
   removeElectron: () =>
     set((state) => {
       const newElectrons = Math.max(0, state.electrons - 1);
+
       return {
         electrons: newElectrons,
         netCharge: state.protons - newElectrons,
         stability: calculateStability(
           state.protons,
           state.neutrons,
-          newElectrons
+          newElectrons,
         ),
         isStable: isAtomStable(state.protons, state.neutrons, newElectrons),
       };
@@ -266,9 +272,10 @@ export const useAtomStore = create<AtomState>((set) => ({
 function calculateStability(
   protons: number,
   _neutrons: number,
-  electrons: number
+  electrons: number,
 ): "stable" | "unstable" | "neutral" {
   if (protons === electrons) return "neutral";
+
   // Fix type mismatch by returning correct return type value
   return protons > electrons ? "unstable" : "stable";
 }
@@ -277,13 +284,14 @@ function calculateStability(
 function isAtomStable(
   protons: number,
   neutrons: number,
-  _electrons: number // Renamed to _electrons to indicate it's unused
+  _electrons: number, // Renamed to _electrons to indicate it's unused
 ): boolean {
   // Very simple stability check - could be more sophisticated
   // For small atoms, we want near equal protons and neutrons
   if (protons <= 4) {
     return Math.abs(protons - neutrons) <= 1;
   }
+
   // For larger atoms, we typically want more neutrons than protons
   return neutrons >= protons && neutrons <= protons * 1.5;
 }

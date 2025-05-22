@@ -86,3 +86,250 @@
 .transition-all {
   transition: all 0.2s ease-in-out;
 }
+
+/* Mobile and tablet responsive improvements */
+@media (max-width: 640px) {
+  /* Mobile specific styles */
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+    overflow-x: hidden;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  /* Ensure mobile elements don't cause horizontal scroll */
+  * {
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Mobile grid adjustments */
+  .grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  /* Mobile text sizing */
+  h1 {
+    font-size: 1.875rem !important;
+    line-height: 1.2 !important;
+  }
+  h2 {
+    font-size: 1.5rem !important;
+    line-height: 1.3 !important;
+  }
+  h3 {
+    font-size: 1.25rem !important;
+    line-height: 1.4 !important;
+  }
+
+  /* Mobile button improvements */
+  button,
+  .touch-optimized-button {
+    min-height: 44px !important;
+    min-width: 44px !important;
+    padding: 12px 16px !important;
+    font-size: 0.95rem !important;
+  }
+
+  /* Mobile form elements */
+  input,
+  select,
+  textarea {
+    min-height: 44px !important;
+    font-size: 16px !important; /* Prevents zoom on iOS */
+  }
+
+  /* Mobile canvas and 3D containers */
+  .canvas-container,
+  canvas {
+    height: 300px !important;
+    min-height: 300px !important;
+  }
+
+  /* Mobile flex containers */
+  .flex {
+    flex-wrap: wrap !important;
+  }
+
+  /* Mobile spacing adjustments */
+  .p-4 {
+    padding: 1rem !important;
+  }
+  .p-6 {
+    padding: 1.5rem !important;
+  }
+  .p-8 {
+    padding: 2rem !important;
+  }
+  .gap-4 {
+    gap: 1rem !important;
+  }
+  .gap-6 {
+    gap: 1.5rem !important;
+  }
+}
+
+/* Tablet specific improvements */
+@media (min-width: 641px) and (max-width: 1024px) {
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+  }
+
+  /* Allow horizontal scrolling for wide content on tablets */
+  .overflow-x-auto {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Better touch targets for tablets */
+  button,
+  a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Tablet grid adjustments */
+  .grid-cols-1.md\\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .grid-cols-1.md\\:grid-cols-3 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-4 {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  /* Tablet canvas and 3D containers */
+  .canvas-container,
+  canvas {
+    height: 400px !important;
+    min-height: 400px !important;
+  }
+
+  /* Tablet navigation improvements */
+  .navbar {
+    flex-wrap: wrap;
+  }
+
+  /* Tablet form layouts */
+  .flex-col.md\\:flex-row {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+
+  /* Tablet spacing */
+  .p-8 {
+    padding: 1.5rem !important;
+  }
+  .px-8 {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  .py-8 {
+    padding-top: 1.5rem !important;
+    padding-bottom: 1.5rem !important;
+  }
+}
+
+/* Desktop improvements */
+@media (min-width: 1025px) {
+  /* Ensure proper grid layouts on desktop */
+  .grid-cols-1.md\\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr) !important;
+  }
+
+  .grid-cols-1.md\\:grid-cols-3 {
+    grid-template-columns: repeat(3, 1fr) !important;
+  }
+}
+
+/* Large desktop improvements */
+@media (min-width: 1441px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
+/* Improve scroll performance across all devices */
+* {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+/* Responsive flex layouts */
+.flex-responsive {
+  display: flex;
+  flex-direction: column;
+}
+
+@media (min-width: 768px) {
+  .flex-responsive {
+    flex-direction: row;
+  }
+}
+
+/* Responsive spacing */
+.space-responsive {
+  gap: 0.5rem;
+}
+
+@media (min-width: 640px) {
+  .space-responsive {
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .space-responsive {
+    gap: 1.5rem;
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+/* Ensure images are responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Responsive video containers */
+.video-container {
+  position: relative;
+  width: 100%;
+  height: 0;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+.video-container iframe,
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

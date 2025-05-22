@@ -1,5 +1,3 @@
-import DefaultLayout from "@/layouts/default";
-import apiService from "@/services/apiService";
 import { Html, OrbitControls, useGLTF, useProgress } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import {
@@ -11,6 +9,9 @@ import {
   useState,
 } from "react";
 import * as THREE from "three";
+
+import apiService from "@/services/apiService";
+import DefaultLayout from "@/layouts/default";
 
 // Error Boundary Component
 class ErrorBoundary extends Component<
@@ -34,6 +35,7 @@ class ErrorBoundary extends Component<
     if (this.state.hasError) {
       return this.props.fallback;
     }
+
     return this.props.children;
   }
 }
@@ -63,11 +65,14 @@ type BiologyExperiment = {
 // Loading component for 3D models
 function ModelLoader() {
   const { progress } = useProgress();
+
   return (
     <Html center>
-      <div className="bg-blue-100 p-3 rounded-md">
-        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-        <p className="mt-2">মডেল লোড হচ্ছে... {progress.toFixed(0)}%</p>
+      <div className="bg-blue-100 p-2 sm:p-3 rounded-md">
+        <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-t-2 border-b-2 border-blue-500 mx-auto" />
+        <p className="mt-2 text-xs sm:text-sm">
+          মডেল লোড হচ্ছে... {progress.toFixed(0)}%
+        </p>
       </div>
     </Html>
   );
@@ -113,7 +118,7 @@ const Model = ({
       <mesh position={[0, 0, 0]}>
         <boxGeometry args={[1, 1, 1]} />
         <meshStandardMaterial color="red" />
-        <Html position={[0, 1.5, 0]} center>
+        <Html center position={[0, 1.5, 0]}>
           <div
             className="bg-red-100 p-2 rounded text-red-800 text-center"
             style={{ width: "200px" }}
@@ -141,7 +146,7 @@ const Model = ({
           }}
         >
           <sphereGeometry args={[0.2, 16, 16]} />
-          <meshBasicMaterial color="red" transparent opacity={0.6} />
+          <meshBasicMaterial transparent color="red" opacity={0.6} />
         </mesh>
       ))}
     </group>
@@ -166,6 +171,7 @@ const BiologyEngine = () => {
       try {
         setLoading(true);
         const data = (await apiService.biology.getExperiments()) as any;
+
         setExperiments(data.experiments);
         if (data.experiments.length > 0) {
           setSelectedExperiment(data.experiments[0]);
@@ -201,6 +207,7 @@ const BiologyEngine = () => {
 
       // Create and play new audio
       const audio = new Audio(audioUrl);
+
       audioRef.current = audio;
       audio.play();
     } catch (err) {
@@ -211,8 +218,8 @@ const BiologyEngine = () => {
   if (loading) {
     return (
       <DefaultLayout>
-        <div className="flex items-center justify-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        <div className="flex items-center justify-center h-32 sm:h-64">
+          <div className="animate-spin rounded-full h-8 w-8 sm:h-12 sm:w-12 border-t-2 border-b-2 border-blue-500" />
         </div>
       </DefaultLayout>
     );
@@ -221,30 +228,33 @@ const BiologyEngine = () => {
   if (error) {
     return (
       <DefaultLayout>
-        <div className="text-center p-4 text-red-500">{error}</div>
+        <div className="text-center p-3 sm:p-4 text-red-500 text-sm sm:text-base">
+          {error}
+        </div>
       </DefaultLayout>
     );
   }
 
   return (
     <DefaultLayout>
-      <div className="container mx-auto px-2 py-4 max-w-5xl">
-        <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center">
+      <div className="container mx-auto px-2 sm:px-4 lg:px-6 py-3 sm:py-4 max-w-5xl">
+        <h1 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-center">
           জীববিজ্ঞান অধ্যয়ন
         </h1>
 
         {/* Experiment Selector */}
-        <div className="mb-4">
-          <label className="block mb-1 text-base md:text-lg font-medium">
+        <div className="mb-3 sm:mb-4">
+          <label className="block mb-1 sm:mb-2 text-sm sm:text-base md:text-lg font-medium">
             অধ্যয়ন নির্বাচন করুন:
           </label>
           <select
-            className="w-full p-2 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-gray-100"
+            className="w-full p-2 sm:p-3 border border-gray-300 dark:border-gray-700 rounded-md bg-white dark:bg-gray-900 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900 dark:text-gray-100 text-sm sm:text-base"
             value={selectedExperiment?.id}
             onChange={(e) => {
               const selected = experiments.find(
-                (exp) => exp.id === e.target.value
+                (exp) => exp.id === e.target.value,
               );
+
               if (selected) {
                 setSelectedExperiment(selected);
                 if (selected.models.length > 0) {
@@ -267,37 +277,37 @@ const BiologyEngine = () => {
         {selectedExperiment && (
           <>
             {/* Description and Audio */}
-            <div className="mb-4 bg-blue-50 dark:bg-blue-950 p-3 md:p-4 rounded-md">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2">
-                <h2 className="text-lg md:text-xl font-semibold mb-1 md:mb-0 dark:text-gray-100">
+            <div className="mb-3 sm:mb-4 bg-blue-50 dark:bg-blue-950 p-3 sm:p-4 rounded-md">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-3">
+                <h2 className="text-base sm:text-lg md:text-xl font-semibold mb-1 sm:mb-0 dark:text-gray-100">
                   {selectedExperiment.title}
                 </h2>
                 <button
+                  aria-label="Play audio narration"
+                  className="bg-blue-600 text-white px-3 py-1 sm:py-2 rounded-md hover:bg-blue-700 flex items-center text-sm sm:text-base touch-optimized-button"
                   onClick={() =>
                     playAudioNarration(selectedExperiment.description)
                   }
-                  className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
-                  aria-label="Play audio narration"
                 >
                   <span className="mr-1">🔊</span> শুনুন
                 </button>
               </div>
-              <p className="text-gray-700 dark:text-gray-200 text-sm md:text-base">
+              <p className="text-gray-700 dark:text-gray-200 text-xs sm:text-sm md:text-base mt-2">
                 {selectedExperiment.description}
               </p>
             </div>
 
             {/* Model Selector (if multiple models) */}
             {selectedExperiment.models.length > 1 && (
-              <div className="mb-4">
-                <label className="block mb-1 text-base md:text-lg font-medium">
+              <div className="mb-3 sm:mb-4">
+                <label className="block mb-1 sm:mb-2 text-sm sm:text-base md:text-lg font-medium">
                   মডেল নির্বাচন করুন:
                 </label>
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-3 lg:gap-4">
                   {selectedExperiment.models.map((model) => (
                     <button
                       key={model.id}
-                      className={`p-4 border rounded-md text-center transition-colors text-gray-900 dark:text-gray-100 ${
+                      className={`p-3 sm:p-4 border rounded-md text-center transition-colors text-gray-900 dark:text-gray-100 text-sm sm:text-base touch-optimized-button ${
                         selectedModel?.id === model.id
                           ? "border-blue-500 bg-blue-50 dark:bg-blue-950"
                           : "border-gray-300 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800"
@@ -312,50 +322,54 @@ const BiologyEngine = () => {
             )}
 
             {/* 3D Model Display and Information */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* 3D Viewer */}
               <div className="lg:col-span-2">
                 <div
                   className="bg-gray-100 dark:bg-gray-800 rounded-md overflow-hidden border border-gray-300 dark:border-gray-700 flex items-center justify-center"
-                  style={{ height: "340px" }}
+                  style={{ height: "280px", minHeight: "250px" }}
                 >
                   {selectedModel ? (
                     selectedModel.title.includes("হৃদপিণ্ড") ? (
                       <div className="w-full h-full flex items-center justify-center">
                         <iframe
-                          title="3d Animated Realistic Human Heart V1.0"
-                          frameBorder="0"
                           allowFullScreen
                           allow="autoplay; fullscreen; xr-spatial-tracking"
+                          className="w-full h-full rounded-md border-none"
+                          frameBorder="0"
                           src="https://sketchfab.com/models/a70c0c47fe4b4bbfabfc8f445365d5a4/embed"
-                          className="w-full h-[320px] md:h-[340px] rounded-md border-none"
                           style={{ background: "transparent" }}
-                        ></iframe>
+                          title="3d Animated Realistic Human Heart V1.0"
+                        />
                       </div>
                     ) : (
                       <ErrorBoundary
                         fallback={
                           <div className="flex flex-col items-center justify-center h-full">
-                            <div className="bg-red-100 p-4 rounded-md text-red-800 text-center">
-                              <p className="text-lg font-bold">ত্রুটি!</p>
-                              <p>3D মডেল লোড করা যাচ্ছে না</p>
+                            <div className="bg-red-100 p-3 sm:p-4 rounded-md text-red-800 text-center">
+                              <p className="text-base sm:text-lg font-bold">
+                                ত্রুটি!
+                              </p>
+                              <p className="text-sm sm:text-base">
+                                3D মডেল লোড করা যাচ্ছে না
+                              </p>
                             </div>
                           </div>
                         }
                       >
                         <Canvas
-                          camera={{ position: [0, 0, 5], fov: 50 }}
                           shadows
+                          camera={{ position: [0, 0, 5], fov: 50 }}
                           dpr={[1, 2]}
                           gl={{ alpha: false }}
                         >
-                          <color attach="background" args={["#f0f0f0"]} />
+                          <color args={["#f0f0f0"]} attach="background" />
                           <ambientLight intensity={0.5} />
                           <spotLight
-                            position={[10, 10, 10]}
+                            castShadow
                             angle={0.15}
                             penumbra={1}
-                            castShadow
+                            position={[10, 10, 10]}
                           />
                           <pointLight position={[-10, -10, -10]} />
 
@@ -368,22 +382,22 @@ const BiologyEngine = () => {
 
                           <OrbitControls
                             enablePan={true}
-                            enableZoom={true}
                             enableRotate={true}
+                            enableZoom={true}
                           />
                         </Canvas>
                       </ErrorBoundary>
                     )
                   ) : (
                     <div className="flex items-center justify-center h-full">
-                      <p className="text-gray-500 dark:text-gray-400">
+                      <p className="text-gray-500 dark:text-gray-400 text-sm sm:text-base">
                         No model selected
                       </p>
                     </div>
                   )}
                 </div>
 
-                <div className="mt-4 text-center text-sm text-gray-600 dark:text-gray-400">
+                <div className="mt-3 sm:mt-4 text-center text-xs sm:text-sm text-gray-600 dark:text-gray-400">
                   <p>
                     টিপ: মডেলটি ঘোরাতে ক্লিক করে টেনে আনুন, জুম করতে স্ক্রোল
                     করুন
@@ -392,7 +406,7 @@ const BiologyEngine = () => {
               </div>
 
               {/* Part Information */}
-              <div className="bg-white dark:bg-gray-900 rounded-md shadow-md p-4 h-min border border-gray-200 dark:border-gray-700">
+              <div className="bg-white dark:bg-gray-900 rounded-md shadow-md p-3 sm:p-4 h-min border border-gray-200 dark:border-gray-700">
                 {selectedPart ? (
                   <>
                     <h3 className="text-xl font-semibold mb-3 dark:text-gray-100">
@@ -402,11 +416,11 @@ const BiologyEngine = () => {
                       {selectedPart.description}
                     </p>
                     <button
+                      aria-label="Play audio narration for this part"
+                      className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
                       onClick={() =>
                         playAudioNarration(selectedPart.description)
                       }
-                      className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 flex items-center"
-                      aria-label="Play audio narration for this part"
                     >
                       <span className="mr-1">🔊</span> এই অংশ সম্পর্কে শুনুন
                     </button>

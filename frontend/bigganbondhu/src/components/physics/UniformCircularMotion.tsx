@@ -22,7 +22,7 @@ function TracePoint({ position }: { position: THREE.Vector3 }) {
   return (
     <mesh position={position}>
       <sphereGeometry args={[0.05, 8, 8]} />
-      <meshBasicMaterial color="#3498db" opacity={0.7} transparent />
+      <meshBasicMaterial transparent color="#3498db" opacity={0.7} />
     </mesh>
   );
 }
@@ -65,6 +65,7 @@ function Ball({
 
   useFrame((_, delta) => {
     const scaledDelta = delta * timeScale;
+
     setTime(time + scaledDelta);
     setFrameCount(frameCount + 1);
 
@@ -96,6 +97,7 @@ function Ball({
         new THREE.Vector3(0, 0, 0),
         new THREE.Vector3(newX, newY, 0),
       ];
+
       stringRef.current.geometry.setFromPoints(points);
     }
 
@@ -103,7 +105,7 @@ function Ball({
     if (velocityVectorRef.current && showVelocityVector) {
       velocityVectorRef.current.position.set(newX, newY, 0);
       velocityVectorRef.current.setDirection(
-        new THREE.Vector3(vx, vy, 0).normalize()
+        new THREE.Vector3(vx, vy, 0).normalize(),
       );
       velocityVectorRef.current.setLength(1.5); // Fixed length for visualization
     }
@@ -112,10 +114,11 @@ function Ball({
     if (forceVectorRef.current && showForceVector) {
       forceVectorRef.current.position.set(newX, newY, 0);
       forceVectorRef.current.setDirection(
-        new THREE.Vector3(fx, fy, 0).normalize()
+        new THREE.Vector3(fx, fy, 0).normalize(),
       );
       // Scale force length by magnitude (clamped for visual clarity)
       const forceLengthScaled = Math.min(2, forceMagnitude / 20);
+
       forceVectorRef.current.setLength(forceLengthScaled);
     }
 
@@ -124,9 +127,11 @@ function Ball({
       setTracePoints((prev) => {
         // Limit to 50 points for performance
         const newPoints = [...prev, new THREE.Vector3(newX, newY, 0)];
+
         if (newPoints.length > 50) {
           return newPoints.slice(newPoints.length - 50);
         }
+
         return newPoints;
       });
     } else if (!showTrace && tracePoints.length > 0) {
@@ -201,18 +206,19 @@ function CirclePath({ radius }: { radius: number }) {
 
   for (let i = 0; i <= segments; i++) {
     const theta = (i / segments) * Math.PI * 2;
+
     points.push(
-      new THREE.Vector3(radius * Math.cos(theta), radius * Math.sin(theta), 0)
+      new THREE.Vector3(radius * Math.cos(theta), radius * Math.sin(theta), 0),
     );
   }
 
   return (
     <Line
-      points={points}
       color="#666666"
-      linewidth={1}
       dashed={true}
       derivatives={false}
+      linewidth={1}
+      points={points}
     />
   );
 }
@@ -252,35 +258,35 @@ function Formulas({
   return (
     <group position={[0, -5, 0]}>
       <Text
-        position={[0, 0, 0]}
-        color="#ffffff"
-        fontSize={0.5}
         anchorX="center"
         anchorY="middle"
-        outlineWidth={0.01}
+        color="#ffffff"
+        fontSize={0.5}
         outlineColor="#000000"
+        outlineWidth={0.01}
+        position={[0, 0, 0]}
       >
         {formulas[currentLang].force}
       </Text>
       <Text
-        position={[0, -0.7, 0]}
-        color="#ffffff"
-        fontSize={0.5}
         anchorX="center"
         anchorY="middle"
-        outlineWidth={0.01}
+        color="#ffffff"
+        fontSize={0.5}
         outlineColor="#000000"
+        outlineWidth={0.01}
+        position={[0, -0.7, 0]}
       >
         {formulas[currentLang].acceleration}
       </Text>
       <Text
-        position={[0, -1.4, 0]}
-        color="#ffffff"
-        fontSize={0.5}
         anchorX="center"
         anchorY="middle"
-        outlineWidth={0.01}
+        color="#ffffff"
+        fontSize={0.5}
         outlineColor="#000000"
+        outlineWidth={0.01}
+        position={[0, -1.4, 0]}
       >
         {formulas[currentLang].period}
       </Text>
@@ -316,19 +322,19 @@ function Legend({
       {showVelocityVector && (
         <group position={[0, 0, 0]}>
           <Line
-            points={[new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0)]}
             color="#00ff00"
-            linewidth={3}
             derivatives={false}
+            linewidth={3}
+            points={[new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0)]}
           />
           <Text
-            position={[2, 0, 0]}
-            color="#ffffff"
-            fontSize={0.4}
             anchorX="left"
             anchorY="middle"
-            outlineWidth={0.01}
+            color="#ffffff"
+            fontSize={0.4}
             outlineColor="#000000"
+            outlineWidth={0.01}
+            position={[2, 0, 0]}
           >
             {text[currentLang].velocity}
           </Text>
@@ -338,19 +344,19 @@ function Legend({
       {showForceVector && (
         <group position={[0, -0.7, 0]}>
           <Line
-            points={[new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0)]}
             color="#ff0000"
-            linewidth={3}
             derivatives={false}
+            linewidth={3}
+            points={[new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0)]}
           />
           <Text
-            position={[2, 0, 0]}
-            color="#ffffff"
-            fontSize={0.4}
             anchorX="left"
             anchorY="middle"
-            outlineWidth={0.01}
+            color="#ffffff"
+            fontSize={0.4}
             outlineColor="#000000"
+            outlineWidth={0.01}
+            position={[2, 0, 0]}
           >
             {text[currentLang].force}
           </Text>
@@ -373,35 +379,35 @@ export default function UniformCircularMotion({
     <div className="w-full h-[500px] relative">
       <Canvas camera={{ position: [0, 0, 15], fov: 50 }}>
         <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
+        <pointLight intensity={1} position={[10, 10, 10]} />
         <Ball
           mass={params.mass}
           radius={params.radius}
-          speed={params.speed}
-          showVelocityVector={showVelocityVector}
           showForceVector={showForceVector}
           showTrace={showTrace}
+          showVelocityVector={showVelocityVector}
           slowMotion={slowMotion}
+          speed={params.speed}
         />
         {showFormulas && (
           <Formulas
+            lang={lang}
             mass={params.mass}
             radius={params.radius}
             speed={params.speed}
-            lang={lang}
           />
         )}
         <Legend
-          showVelocityVector={showVelocityVector}
-          showForceVector={showForceVector}
           lang={lang}
+          showForceVector={showForceVector}
+          showVelocityVector={showVelocityVector}
         />
         <OrbitControls
-          enableZoom={true}
           enablePan={true}
           enableRotate={true}
-          minDistance={5}
+          enableZoom={true}
           maxDistance={50}
+          minDistance={5}
         />
         <gridHelper args={[20, 20, "#444444", "#222222"]} />
       </Canvas>

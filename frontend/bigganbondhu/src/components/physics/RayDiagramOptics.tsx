@@ -1,6 +1,7 @@
 import { Html, Line, OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
 import { useState } from "react";
+
 import { Slider } from "../ui/slider";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
@@ -86,6 +87,7 @@ function getImageData({
   // Apply the correct formula based on type
   if (type === "convex-lens") {
     const f = focalLength; // Positive for convex lens
+
     v = (u * f) / (u - f); // Lens formula
     m = -v / u; // Magnification
     isReal = v > 0;
@@ -93,6 +95,7 @@ function getImageData({
     imageHeight = Math.abs(m * 3);
   } else if (type === "concave-lens") {
     const f = -focalLength; // Negative for concave lens
+
     v = (u * f) / (u - f); // Lens formula
     m = -v / u; // Magnification
     isReal = v > 0; // Always virtual for concave lens
@@ -100,6 +103,7 @@ function getImageData({
     imageHeight = Math.abs(m * 3);
   } else if (type === "convex-mirror") {
     const f = -focalLength; // Negative for convex mirror
+
     v = (u * f) / (u + f); // Mirror formula
     m = v / u; // Magnification
     isReal = v < 0; // Always virtual for convex mirror
@@ -107,6 +111,7 @@ function getImageData({
     imageHeight = Math.abs(m * 3);
   } else if (type === "concave-mirror") {
     const f = focalLength; // Positive for concave mirror
+
     v = (u * f) / (u + f); // Mirror formula
     m = v / u; // Magnification
     isReal = v < 0 && u > f; // Real when object beyond F
@@ -122,7 +127,7 @@ export default function RayDiagramOptics() {
   const [objectPos, setObjectPos] = useState(DEFAULTS.objectPos);
   const [focalLength, setFocalLength] = useState(DEFAULTS.focalLength);
   const [language, setLanguage] = useState<"en" | "bn">(
-    DEFAULTS.language as "en" | "bn"
+    DEFAULTS.language as "en" | "bn",
   );
 
   const imageData = getImageData({ type, objectPos, focalLength });
@@ -176,6 +181,7 @@ export default function RayDiagramOptics() {
       // Ray 1: Parallel to axis, then away from focus (virtual refraction)
       const slope = 1.5 / objectPos;
       const extension = imageData.v - 0;
+
       rays.push({
         points: [
           [-objectPos, 1.5],
@@ -198,6 +204,7 @@ export default function RayDiagramOptics() {
       // Ray 3: Toward focus on right, then parallel to axis
       const virtualPoint = -focalLength;
       const interceptY = 1.5 - ((objectPos - virtualPoint) * 1.5) / objectPos;
+
       rays.push({
         points: [
           [-objectPos, 1.5],
@@ -239,6 +246,7 @@ export default function RayDiagramOptics() {
       // Ray 2: Toward center, reflected symmetrically
       const incidentAngle = Math.atan2(1.5, objectPos);
       const reflectedY = Math.tan(incidentAngle) * imageData.v;
+
       rays.push({
         points: [
           [-objectPos, 1.5],
@@ -339,9 +347,9 @@ export default function RayDiagramOptics() {
       <mesh position={[imagePosition, -imageData.m * 1.5, 0.1]}>
         <cylinderGeometry args={[0.07, 0.07, imageData.imageHeight, 12]} />
         <meshStandardMaterial
+          transparent
           color={imageData.isReal ? "#f59e42" : "#f472b6"}
           opacity={0.8}
-          transparent
         />
       </mesh>
     );
@@ -349,12 +357,12 @@ export default function RayDiagramOptics() {
     // Image label
     imageLabel = (
       <Html
+        center
         position={[
           imagePosition,
           -imageData.m * 1.5 + (imageData.isInverted ? -0.7 : 0.7),
           0.2,
         ]}
-        center
       >
         <span
           className="text-xs bg-white/80 px-1 rounded shadow cursor-help"
@@ -376,15 +384,15 @@ export default function RayDiagramOptics() {
 
   // Object emoji
   let objectEmoji = (
-    <Html position={[-objectPos, 3, 0.2]} center>
+    <Html center position={[-objectPos, 3, 0.2]}>
       <span
         className="text-3xl drop-shadow-lg cursor-pointer animate-bounce"
+        style={{ filter: "drop-shadow(0 2px 6px #f59e42)" }}
         title={
           language === "en"
             ? "This is the object! Move me closer or farther."
             : "এটাই বস্তু! আমাকে কাছে বা দূরে সরান।"
         }
-        style={{ filter: "drop-shadow(0 2px 6px #f59e42)" }}
       >
         🧑‍🎓
       </span>
@@ -393,6 +401,7 @@ export default function RayDiagramOptics() {
 
   // Image emoji
   let imageEmoji = null;
+
   if (imageData.v !== null && imageData.m !== null) {
     const imagePosition = type.includes("mirror")
       ? imageData.isReal
@@ -402,15 +411,21 @@ export default function RayDiagramOptics() {
 
     imageEmoji = (
       <Html
+        center
         position={[
           imagePosition,
           -imageData.m * 1.5 + (imageData.isInverted ? -1.2 : 1.2),
           0.2,
         ]}
-        center
       >
         <span
           className="text-3xl drop-shadow-lg cursor-pointer animate-bounce"
+          style={{
+            filter: imageData.isReal
+              ? "drop-shadow(0 2px 6px #f59e42)"
+              : "drop-shadow(0 2px 6px #f472b6)",
+            transform: imageData.isInverted ? "rotate(180deg)" : "none",
+          }}
           title={
             imageData.isReal
               ? language === "en"
@@ -420,12 +435,6 @@ export default function RayDiagramOptics() {
                 ? "This is a virtual image!"
                 : "এটা ভার্চুয়াল প্রতিচ্ছবি!"
           }
-          style={{
-            filter: imageData.isReal
-              ? "drop-shadow(0 2px 6px #f59e42)"
-              : "drop-shadow(0 2px 6px #f472b6)",
-            transform: imageData.isInverted ? "rotate(180deg)" : "none",
-          }}
         >
           {imageData.isReal ? "💡" : "😃"}
         </span>
@@ -439,7 +448,7 @@ export default function RayDiagramOptics() {
       return (
         <mesh position={[0, 0, 0.1]}>
           <cylinderGeometry args={[1.5, 1.5, 6, 12]} />
-          <meshStandardMaterial color="#3b82f6" opacity={0.5} transparent />
+          <meshStandardMaterial transparent color="#3b82f6" opacity={0.5} />
         </mesh>
       );
     } else if (type === "concave-lens") {
@@ -447,11 +456,11 @@ export default function RayDiagramOptics() {
         <group position={[0, 0, 0.1]}>
           <mesh position={[-0.25, 0, 0]}>
             <cylinderGeometry args={[0.8, 0.8, 6, 12]} />
-            <meshStandardMaterial color="#3b82f6" opacity={0.5} transparent />
+            <meshStandardMaterial transparent color="#3b82f6" opacity={0.5} />
           </mesh>
           <mesh position={[0.25, 0, 0]}>
             <cylinderGeometry args={[0.8, 0.8, 6, 12]} />
-            <meshStandardMaterial color="#3b82f6" opacity={0.5} transparent />
+            <meshStandardMaterial transparent color="#3b82f6" opacity={0.5} />
           </mesh>
         </group>
       );
@@ -459,14 +468,14 @@ export default function RayDiagramOptics() {
       return (
         <mesh position={[0, 0, 0.1]} rotation={[0, 0, Math.PI / 2]}>
           <sphereGeometry args={[3, 32, 16, 0, Math.PI / 4, 0, Math.PI]} />
-          <meshStandardMaterial color="#e2e8f0" opacity={0.7} transparent />
+          <meshStandardMaterial transparent color="#e2e8f0" opacity={0.7} />
         </mesh>
       );
     } else if (type === "concave-mirror") {
       return (
         <mesh position={[0, 0, 0.1]} rotation={[0, 0, -Math.PI / 2]}>
           <sphereGeometry args={[3, 32, 16, 0, Math.PI / 4, 0, Math.PI]} />
-          <meshStandardMaterial color="#e2e8f0" opacity={0.7} transparent />
+          <meshStandardMaterial transparent color="#e2e8f0" opacity={0.7} />
         </mesh>
       );
     }
@@ -478,55 +487,55 @@ export default function RayDiagramOptics() {
 
     // First focal point (left side)
     points.push(
-      <Html key="F-left" position={[-focalLength, -0.5, 0.2]} center>
+      <Html key="F-left" center position={[-focalLength, -0.5, 0.2]}>
         <span
           className="text-xs bg-white/80 px-1 rounded shadow cursor-help"
           title={language === "en" ? "Focus (F)" : "ফোকাস (F)"}
         >
           {getLabel("F", language)}
         </span>
-      </Html>
+      </Html>,
     );
 
     // Second focal point (right side)
     points.push(
-      <Html key="F-right" position={[focalLength, -0.5, 0.2]} center>
+      <Html key="F-right" center position={[focalLength, -0.5, 0.2]}>
         <span
           className="text-xs bg-white/80 px-1 rounded shadow cursor-help"
           title={language === "en" ? "Focus (F)" : "ফোকাস (F)"}
         >
           {getLabel("F", language)}
         </span>
-      </Html>
+      </Html>,
     );
 
     // 2F points (both sides)
     points.push(
-      <Html key="2F-left" position={[-2 * focalLength, -0.5, 0.2]} center>
+      <Html key="2F-left" center position={[-2 * focalLength, -0.5, 0.2]}>
         <span
           className="text-xs bg-white/80 px-1 rounded shadow cursor-help"
           title={language === "en" ? "Twice Focus (2F)" : "দ্বিগুণ ফোকাস (২F)"}
         >
           {getLabel("2F", language)}
         </span>
-      </Html>
+      </Html>,
     );
 
     points.push(
-      <Html key="2F-right" position={[2 * focalLength, -0.5, 0.2]} center>
+      <Html key="2F-right" center position={[2 * focalLength, -0.5, 0.2]}>
         <span
           className="text-xs bg-white/80 px-1 rounded shadow cursor-help"
           title={language === "en" ? "Twice Focus (2F)" : "দ্বিগুণ ফোকাস (২F)"}
         >
           {getLabel("2F", language)}
         </span>
-      </Html>
+      </Html>,
     );
 
     // Only for mirrors, show C point (center of curvature)
     if (type.includes("mirror")) {
       points.push(
-        <Html key="C" position={[-2 * focalLength, -0.5, 0.2]} center>
+        <Html key="C" center position={[-2 * focalLength, -0.5, 0.2]}>
           <span
             className="text-xs bg-white/80 px-1 rounded shadow cursor-help"
             title={
@@ -537,7 +546,7 @@ export default function RayDiagramOptics() {
           >
             {getLabel("C", language)}
           </span>
-        </Html>
+        </Html>,
       );
     }
 
@@ -652,7 +661,7 @@ export default function RayDiagramOptics() {
         <div className="flex-1 min-w-[350px] h-[420px] bg-gradient-to-br from-blue-100 via-pink-100 to-yellow-100 dark:from-gray-800 dark:via-gray-900 dark:to-gray-800 rounded-xl relative border-2 border-blue-200 dark:border-blue-900 shadow-lg">
           <Canvas camera={{ position: [0, 0, 18], fov: 40 }}>
             <ambientLight intensity={0.8} />
-            <directionalLight position={[0, 10, 10]} intensity={0.8} />
+            <directionalLight intensity={0.8} position={[0, 10, 10]} />
             <OrbitControls
               enablePan={false}
               enableZoom={true}
@@ -674,21 +683,21 @@ export default function RayDiagramOptics() {
             {/* Object (arrow, faded for context) */}
             <mesh position={[-objectPos, 1.5, 0.1]}>
               <cylinderGeometry args={[0.07, 0.07, 3, 12]} />
-              <meshStandardMaterial color="#f59e42" opacity={0.3} transparent />
+              <meshStandardMaterial transparent color="#f59e42" opacity={0.3} />
             </mesh>
 
             {/* Draw rays */}
             {rays.map((ray, i) => (
               <group key={i}>
                 <Line
-                  points={ray.points.map(([x, y]) => [x, y, 0.15])}
                   color={ray.color}
-                  lineWidth={3}
-                  dashed={ray.dashed}
                   dashScale={ray.dashed ? 0.5 : 0}
                   dashSize={ray.dashed ? 0.2 : 0}
-                  gapSize={ray.dashed ? 0.1 : 0}
+                  dashed={ray.dashed}
                   derivatives={false}
+                  gapSize={ray.dashed ? 0.1 : 0}
+                  lineWidth={3}
+                  points={ray.points.map(([x, y]) => [x, y, 0.15])}
                 />
               </group>
             ))}
@@ -704,7 +713,7 @@ export default function RayDiagramOptics() {
             {renderFocalPoints()}
 
             {/* Object label */}
-            <Html position={[-objectPos, 2.2, 0.2]} center>
+            <Html center position={[-objectPos, 2.2, 0.2]}>
               <span
                 className="text-xs bg-white/80 px-1 rounded shadow cursor-help"
                 title={language === "en" ? "Object" : "বস্তু"}
@@ -720,8 +729,8 @@ export default function RayDiagramOptics() {
               {language === "en" ? "Object Position (u)" : "বস্তুর অবস্থান (u)"}
             </label>
             <Slider
-              min={2}
               max={12}
+              min={2}
               step={0.1}
               value={[objectPos]}
               onValueChange={(v) => setObjectPos(v[0])}
@@ -737,8 +746,8 @@ export default function RayDiagramOptics() {
               {language === "en" ? "Focal Length (f)" : "ফোকাল দৈর্ঘ্য (ƒ)"}
             </label>
             <Slider
-              min={1}
               max={6}
+              min={1}
               step={0.1}
               value={[focalLength]}
               onValueChange={(v) => setFocalLength(v[0])}

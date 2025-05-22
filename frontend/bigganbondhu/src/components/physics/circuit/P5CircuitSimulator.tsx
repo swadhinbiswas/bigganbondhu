@@ -1,5 +1,6 @@
 import p5 from "p5";
 import React, { useEffect, useRef, useState } from "react";
+
 import { CircuitSketch } from "./CircuitSketch";
 import { calculateCircuit } from "./circuitUtils";
 import {
@@ -33,7 +34,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
   const [mode, setMode] = useState<CircuitMode>(modeProp);
   const [showCurrent, setShowCurrent] = useState<boolean>(showCurrentProp);
   const [selectedComponent, setSelectedComponent] = useState<string | null>(
-    null
+    null,
   );
   const [, setHoveredComponent] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
@@ -61,7 +62,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
     y: number;
   } | null>(null);
   const [connectionStartId, setConnectionStartId] = useState<string | null>(
-    null
+    null,
   );
   const [connectionPreview, setConnectionPreview] = useState<{
     fromX: number;
@@ -161,6 +162,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
       // Setup function
       (p as any).setup = () => {
         const canvas = p.createCanvas(canvasSize.width, canvasSize.height);
+
         canvas.parent(p5ContainerRef.current!);
 
         // Set up mouse events
@@ -185,6 +187,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         // Handle component selection
         const clickedComponent = circuitState.components.find((comp) => {
           const distance = p.dist(comp.x, comp.y, mouseX, mouseY);
+
           return distance < 20; // Threshold for selection
         });
 
@@ -195,12 +198,13 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
             sketchRef.current.isOnResizeHandle(
               clickedComponent.id,
               mouseX,
-              mouseY
+              mouseY,
             )
           ) {
             setIsResizing(true);
             setResizeStartPos({ x: mouseX, y: mouseY });
             setResizeStartScale(clickedComponent.properties.scale || 1.0);
+
             return;
           }
 
@@ -213,8 +217,9 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
             if (sketchRef.current) {
               const newConnection = sketchRef.current.createConnection(
                 connectionStartId,
-                clickedComponent.id
+                clickedComponent.id,
               );
+
               if (newConnection) {
                 setCircuitState((prev) => ({
                   ...prev,
@@ -273,7 +278,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         // Handle resizing component
         if (isResizing && selectedComponent) {
           const component = circuitState.components.find(
-            (c) => c.id === selectedComponent
+            (c) => c.id === selectedComponent,
           );
 
           if (component && resizeStartPos && resizeStartScale) {
@@ -286,17 +291,18 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
             // Scale factor based on drag distance
             const scaleFactor = Math.max(
               0.5,
-              resizeStartScale + (direction * dist) / 100
+              resizeStartScale + (direction * dist) / 100,
             );
 
             // Update the component scale
             if (sketchRef.current) {
               sketchRef.current.updateComponentScale(
                 selectedComponent,
-                scaleFactor
+                scaleFactor,
               );
             }
           }
+
           return;
         }
 
@@ -317,6 +323,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
               if (comp.id === selectedComponent) {
                 return { ...comp, x: snapX, y: snapY };
               }
+
               return comp;
             }),
           }));
@@ -325,8 +332,9 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         // Update connection preview when creating connection
         if (connectionStartId !== null) {
           const startComp = circuitState.components.find(
-            (c) => c.id === connectionStartId
+            (c) => c.id === connectionStartId,
           );
+
           if (startComp) {
             setConnectionPreview({
               fromX: startComp.x,
@@ -345,6 +353,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         // Update hover state
         const hoverComp = circuitState.components.find((comp) => {
           const distance = p.dist(comp.x, comp.y, mouseX, mouseY);
+
           return distance < 20;
         });
 
@@ -362,8 +371,9 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         // Update connection preview when creating connection
         if (connectionStartId !== null) {
           const startComp = circuitState.components.find(
-            (c) => c.id === connectionStartId
+            (c) => c.id === connectionStartId,
           );
+
           if (startComp) {
             setConnectionPreview({
               fromX: startComp.x,
@@ -387,6 +397,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
 
         // Recalculate circuit after changes
         const updatedCircuit = calculateCircuit(circuitState, mode);
+
         setCircuitState(updatedCircuit);
       }
     });
@@ -400,8 +411,9 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
       mode,
       showCurrent,
       canvasSize.width,
-      canvasSize.height
+      canvasSize.height,
     );
+
     sketchRef.current = sketch;
     sketch.setup();
 
@@ -446,6 +458,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
 
       // Get the dragged component type
       const componentType = e.dataTransfer!.getData("text/plain");
+
       if (!componentType) return;
 
       // Calculate drop position relative to canvas
@@ -462,6 +475,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
     };
 
     const container = p5ContainerRef.current;
+
     container.addEventListener("dragover", handleDragOver);
     container.addEventListener("drop", handleDrop);
 
@@ -478,6 +492,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
 
     const handleResize = () => {
       const isMobileDevice = window.innerWidth < 768;
+
       setIsMobile(isMobileDevice);
 
       // Get container dimensions if available
@@ -489,11 +504,12 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         containerWidth > 0
           ? containerWidth
           : window.innerWidth - (isMobileDevice ? 32 : 300),
-        isMobileDevice ? window.innerWidth - 32 : 1200 // Limit width based on device
+        isMobileDevice ? window.innerWidth - 32 : 1200, // Limit width based on device
       );
 
       // Calculate optimal height based on device and orientation
       let aspectRatio = 0.65; // Default aspect ratio (closer to square for better component visibility)
+
       if (isMobileDevice && window.innerWidth > window.innerHeight) {
         // Mobile landscape mode
         aspectRatio = 0.5; // Lower height ratio for landscape
@@ -522,6 +538,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
           try {
             // Cast to any to access p5 methods
             const p5Inst = p5InstanceRef.current as any;
+
             if (typeof p5Inst.resizeCanvas === "function") {
               p5Inst.resizeCanvas(newWidth, newHeight);
               console.log(`Canvas resized to ${newWidth}x${newHeight}`);
@@ -586,8 +603,10 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         if (comp.id === id) {
           // Rotate by 90 degrees increments
           const newRotation = ((comp.rotation || 0) + 90) % 360;
+
           return { ...comp, rotation: newRotation };
         }
+
         return comp;
       }),
     }));
@@ -597,11 +616,12 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
   const addComponentAt = (type: string, x: number, y: number) => {
     // Check if position is already occupied
     const isOccupied = circuitState.components.some(
-      (comp) => Math.abs(comp.x - x) < 20 && Math.abs(comp.y - y) < 20
+      (comp) => Math.abs(comp.x - x) < 20 && Math.abs(comp.y - y) < 20,
     );
 
     if (isOccupied) {
       console.warn("Position is already occupied by another component");
+
       return;
     }
 
@@ -644,6 +664,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         if (comp.id === id && comp.type === "switch") {
           // Ensure we're handling the switch state correctly
           const newState = comp.properties.state === "on" ? "off" : "on";
+
           return {
             ...comp,
             properties: {
@@ -652,6 +673,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
             },
           };
         }
+
         return comp;
       });
 
@@ -661,7 +683,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
           ...prev,
           components: newComponents as CircuitComponent[],
         },
-        mode
+        mode,
       );
     });
   };
@@ -672,7 +694,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
       // Remove component and any connections to it
       const newComponents = prev.components.filter((c) => c.id !== id);
       const newConnections = prev.connections.filter(
-        (c) => c.from !== id && c.to !== id
+        (c) => c.from !== id && c.to !== id,
       );
 
       // Recalculate circuit after component removal
@@ -682,7 +704,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
           components: newComponents,
           connections: newConnections,
         },
-        mode
+        mode,
       );
     });
 
@@ -726,7 +748,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         circuitState.components.some(
           (comp) =>
             Math.abs(comp.x - placementX) < 40 &&
-            Math.abs(comp.y - placementY) < 40
+            Math.abs(comp.y - placementY) < 40,
         ) &&
         offset < 200
       ) {
@@ -745,6 +767,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
       const handleMouseMove = (e: MouseEvent) => {
         if (dragGhost && dragGhost.type === type) {
           const canvasRect = p5ContainerRef.current?.getBoundingClientRect();
+
           if (canvasRect) {
             const x = e.clientX - canvasRect.left;
             const y = e.clientY - canvasRect.top;
@@ -770,6 +793,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
       const handleMouseUp = (e: MouseEvent) => {
         if (dragGhost && dragGhost.type === type) {
           const canvasRect = p5ContainerRef.current?.getBoundingClientRect();
+
           if (canvasRect) {
             const x = e.clientX - canvasRect.left;
             const y = e.clientY - canvasRect.top;
@@ -874,12 +898,12 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
                 <button
                   key={component.type}
                   className="flex flex-col items-center justify-center px-1 py-1 rounded-lg bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 transition shadow w-[52px] h-[52px] touch-manipulation"
-                  onClick={() => handleComponentButtonClick(component.type)}
-                  title={component.tooltip}
                   style={{
                     touchAction: "manipulation",
                     WebkitTapHighlightColor: "transparent", // Remove tap highlight on iOS
                   }}
+                  title={component.tooltip}
+                  onClick={() => handleComponentButtonClick(component.type)}
                 >
                   <span className="text-xl">{component.icon}</span>
                   <span className="text-xs text-center mt-1 line-clamp-1">
@@ -904,15 +928,20 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
                 <button
                   key={component.type}
                   className="flex items-center gap-2 px-3 py-2 rounded bg-blue-600 text-white hover:bg-blue-700 active:bg-blue-800 transition shadow cursor-grab active:cursor-grabbing"
-                  onClick={() => handleComponentButtonClick(component.type)}
-                  title={component.tooltip}
                   draggable="true"
+                  title={component.tooltip}
+                  onClick={() => handleComponentButtonClick(component.type)}
+                  onDragEnd={() => {
+                    // Clean up any drag state
+                    setDragGhost(null);
+                  }}
                   onDragStart={(e) => {
                     e.dataTransfer.setData("text/plain", component.type);
                     e.dataTransfer.effectAllowed = "move";
 
                     // Create a custom drag image
                     const dragImage = document.createElement("div");
+
                     dragImage.className =
                       "rounded-lg bg-blue-500 text-white p-2 flex items-center justify-center";
                     dragImage.style.width = "50px";
@@ -933,10 +962,6 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
 
                     // Also trigger our custom drag tracking
                     addComponent(component.type);
-                  }}
-                  onDragEnd={() => {
-                    // Clean up any drag state
-                    setDragGhost(null);
                   }}
                 >
                   <span className="text-xl">{component.icon}</span>
@@ -991,24 +1016,24 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
             <div className="space-y-2">
               <label className="flex items-center gap-2">
                 <input
-                  type="checkbox"
                   checked={snapToGrid}
-                  onChange={() => setSnapToGrid(!snapToGrid)}
                   className="rounded"
+                  type="checkbox"
+                  onChange={() => setSnapToGrid(!snapToGrid)}
                 />
                 <span>গ্রিডে স্ন্যাপ করুন</span>
               </label>
               <label className="flex items-center gap-2">
                 <input
-                  type="checkbox"
                   checked={showCurrent}
+                  className="rounded"
+                  type="checkbox"
                   onChange={() => {
                     setShowCurrent(!showCurrent);
                     if (sketchRef.current) {
                       sketchRef.current.updateShowCurrent(!showCurrent);
                     }
                   }}
-                  className="rounded"
                 />
                 <span>কারেন্ট দেখান</span>
               </label>
@@ -1071,19 +1096,6 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
             cursor: dragGhost ? "pointer" : "default",
             touchAction: "none", // Prevent browser handling of touch events for better drag behavior
           }}
-          onMouseMove={(e) => {
-            // Manual drag tracking when using click-to-place mode
-            if (dragGhost) {
-              const rect = e.currentTarget.getBoundingClientRect();
-              const x = e.clientX - rect.left;
-              const y = e.clientY - rect.top;
-              setDragGhost({
-                ...dragGhost,
-                x,
-                y,
-              });
-            }
-          }}
           onClick={(e) => {
             // Click to place component when dragging
             if (dragGhost) {
@@ -1105,6 +1117,9 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
               e.stopPropagation(); // Prevent other click handlers
             }
           }}
+          onDragLeave={(e) => {
+            e.currentTarget.classList.remove("bg-blue-50");
+          }}
           onDragOver={(e) => {
             e.preventDefault(); // Allow drop
             e.dataTransfer.dropEffect = "move";
@@ -1112,15 +1127,13 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
             // Visual feedback during drag over
             e.currentTarget.classList.add("bg-blue-50");
           }}
-          onDragLeave={(e) => {
-            e.currentTarget.classList.remove("bg-blue-50");
-          }}
           onDrop={(e) => {
             e.preventDefault();
             e.currentTarget.classList.remove("bg-blue-50");
 
             // Get the dragged component type
             const componentType = e.dataTransfer.getData("text/plain");
+
             if (!componentType) return;
 
             // Calculate drop position relative to canvas
@@ -1136,11 +1149,25 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
             addComponentAt(componentType, snapX, snapY);
             setDragGhost(null);
           }}
+          onMouseMove={(e) => {
+            // Manual drag tracking when using click-to-place mode
+            if (dragGhost) {
+              const rect = e.currentTarget.getBoundingClientRect();
+              const x = e.clientX - rect.left;
+              const y = e.clientY - rect.top;
+
+              setDragGhost({
+                ...dragGhost,
+                x,
+                y,
+              });
+            }
+          }}
         >
           <div
             ref={p5ContainerRef}
             className="absolute inset-0 w-full h-full"
-          ></div>
+          />
           {renderInstructions()}
 
           {/* Enhanced drag ghost visualization with improved animation and feedback */}
@@ -1209,17 +1236,17 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
         <div className="flex flex-wrap justify-center gap-3 mt-4">
           <button
             className="px-4 py-2 bg-red-500 text-white rounded shadow hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={handleDeleteSelected}
             disabled={!selectedComponent}
+            onClick={handleDeleteSelected}
           >
             কম্পোনেন্ট মুছুন
           </button>
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded shadow hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={!selectedComponent}
             onClick={() =>
               selectedComponent && rotateComponent(selectedComponent)
             }
-            disabled={!selectedComponent}
           >
             রোটেট করুন
           </button>
@@ -1227,6 +1254,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
             className="px-4 py-2 bg-green-500 text-white rounded shadow hover:bg-green-600 transition"
             onClick={() => {
               const updatedCircuit = calculateCircuit(circuitState, mode);
+
               setCircuitState(updatedCircuit);
             }}
           >
@@ -1285,17 +1313,17 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
               <div className="flex flex-wrap justify-center gap-1 mb-2">
                 <button
                   className="px-2 py-1 bg-red-500 text-white text-sm rounded-md shadow-sm hover:bg-red-600 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
-                  onClick={handleDeleteSelected}
                   disabled={!selectedComponent}
+                  onClick={handleDeleteSelected}
                 >
                   <span className="mr-1">🗑️</span> মুছুন
                 </button>
                 <button
                   className="px-2 py-1 bg-blue-500 text-white text-sm rounded-md shadow-sm hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                  disabled={!selectedComponent}
                   onClick={() =>
                     selectedComponent && rotateComponent(selectedComponent)
                   }
-                  disabled={!selectedComponent}
                 >
                   <span className="mr-1">🔄</span> রোটেট
                 </button>
@@ -1303,6 +1331,7 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
                   className="px-2 py-1 bg-green-500 text-white text-sm rounded-md shadow-sm hover:bg-green-600 transition flex items-center"
                   onClick={() => {
                     const updatedCircuit = calculateCircuit(circuitState, mode);
+
                     setCircuitState(updatedCircuit);
                   }}
                 >
@@ -1344,24 +1373,24 @@ const P5CircuitSimulator: React.FC<CircuitSimulatorProps> = ({
               <div className="flex justify-center items-center gap-4">
                 <label className="flex items-center gap-1 text-xs">
                   <input
-                    type="checkbox"
                     checked={snapToGrid}
-                    onChange={() => setSnapToGrid(!snapToGrid)}
                     className="h-3 w-3"
+                    type="checkbox"
+                    onChange={() => setSnapToGrid(!snapToGrid)}
                   />
                   <span>গ্রিডে স্ন্যাপ</span>
                 </label>
                 <label className="flex items-center gap-1 text-xs">
                   <input
-                    type="checkbox"
                     checked={showCurrent}
+                    className="h-3 w-3"
+                    type="checkbox"
                     onChange={() => {
                       setShowCurrent(!showCurrent);
                       if (sketchRef.current) {
                         sketchRef.current.updateShowCurrent(!showCurrent);
                       }
                     }}
-                    className="h-3 w-3"
                   />
                   <span>কারেন্ট দেখান</span>
                 </label>

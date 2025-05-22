@@ -143,7 +143,7 @@ export default function CircuitSimulatorP5() {
   const [audioCtx] = useState(() =>
     typeof window !== "undefined" && window.AudioContext
       ? new window.AudioContext()
-      : null
+      : null,
   );
 
   // SVG IMAGE PRELOAD
@@ -179,6 +179,7 @@ export default function CircuitSimulatorP5() {
           svgImagesRef.current = svgImages;
           setSvgLoaded(true);
         }
+
         return;
       }
 
@@ -201,7 +202,7 @@ export default function CircuitSimulatorP5() {
             svgImagesRef.current = svgImages;
             setSvgLoaded(true);
           }
-        }
+        },
       );
     });
 
@@ -231,6 +232,7 @@ export default function CircuitSimulatorP5() {
           const c2 = p.color("#e0e7ef");
           const inter = i / CANVAS_H;
           const c = (p as any).lerpColor(c1, c2, inter);
+
           p.fill(c);
           p.rect(0, i, CANVAS_W, 1);
         }
@@ -249,6 +251,7 @@ export default function CircuitSimulatorP5() {
         if (dragType && dragPos) {
           const gx = Math.round(dragPos.x / GRID_SIZE) * GRID_SIZE;
           const gy = Math.round(dragPos.y / GRID_SIZE) * GRID_SIZE;
+
           p.noFill();
           p.stroke("#38bdf8");
           p.strokeWeight(3);
@@ -257,13 +260,14 @@ export default function CircuitSimulatorP5() {
             gy - GRID_SIZE / 2,
             GRID_SIZE,
             GRID_SIZE,
-            6
+            6,
           );
         }
 
         // Draw components (SVG)
         components.forEach((c, i) => {
           const isHovered = hovered === i;
+
           p.push();
           p.translate(c.x, c.y);
           p.strokeWeight(isHovered ? 4 : 2);
@@ -272,13 +276,14 @@ export default function CircuitSimulatorP5() {
 
           // Render SVG for component
           const svgImg = svgImagesRef.current[c.type];
+
           if (svgImg) {
             (p as any).image(
               svgImg,
               -GRID_SIZE / 2,
               -GRID_SIZE / 2,
               GRID_SIZE,
-              GRID_SIZE
+              GRID_SIZE,
             );
           } else {
             // fallback: draw icon
@@ -290,7 +295,7 @@ export default function CircuitSimulatorP5() {
             p.text(
               COMPONENTS.find((comp) => comp.type === c.type)?.icon || "?",
               0,
-              0
+              0,
             );
           }
 
@@ -319,7 +324,7 @@ export default function CircuitSimulatorP5() {
           p.text(
             COMPONENTS.find((comp) => comp.type === dragType)?.icon || "?",
             0,
-            0
+            0,
           );
           p.pop();
         }
@@ -338,6 +343,7 @@ export default function CircuitSimulatorP5() {
             // Default wire path if no custom points
             const c1 = components[w.from];
             const c2 = components[w.to];
+
             p.line(c1.x, c1.y, c2.x, c2.y);
           }
 
@@ -362,6 +368,7 @@ export default function CircuitSimulatorP5() {
         ) {
           const c1 = components[connectFrom];
           const c2 = components[hovered];
+
           if (c1 && c2) {
             p.stroke("#38bdf8");
             p.strokeWeight(4);
@@ -384,9 +391,11 @@ export default function CircuitSimulatorP5() {
         // Check if clicking on a component
         for (let i = 0; i < components.length; i++) {
           const c = components[i];
+
           if (p.dist(p.mouseX, p.mouseY, c.x, c.y) < GRID_SIZE / 2) {
             dragIdx = i;
             dragOffset = { x: c.x - p.mouseX, y: c.y - p.mouseY };
+
             return;
           }
         }
@@ -416,6 +425,7 @@ export default function CircuitSimulatorP5() {
             setMode("normal");
             playClick();
           }
+
           return;
         }
 
@@ -430,7 +440,7 @@ export default function CircuitSimulatorP5() {
         // Toggle switch
         if (hovered !== null && components[hovered].type === "switch") {
           setComponents((prev) =>
-            prev.map((c, i) => (i === hovered ? { ...c, on: !c.on } : c))
+            prev.map((c, i) => (i === hovered ? { ...c, on: !c.on } : c)),
           );
           playClick();
         }
@@ -441,6 +451,7 @@ export default function CircuitSimulatorP5() {
           setWireHoverIdx(null);
           playPop();
           setResult({ status: "info", message: "একটি তার মুছে ফেলা হয়েছে!" });
+
           return;
         }
       };
@@ -475,12 +486,14 @@ export default function CircuitSimulatorP5() {
                     if (wire.to === dragIdx && i === wire.points.length - 1) {
                       return { x: gx, y: gy };
                     }
+
                     return pt;
                   }),
                 };
               }
+
               return wire;
-            })
+            }),
           );
         }
 
@@ -534,8 +547,10 @@ export default function CircuitSimulatorP5() {
       (p as any).mouseMoved = () => {
         // Hover detection for components
         let found = null;
+
         for (let i = 0; i < components.length; i++) {
           const c = components[i];
+
           if (p.dist(p.mouseX, p.mouseY, c.x, c.y) < GRID_SIZE / 2) {
             found = i;
             break;
@@ -545,6 +560,7 @@ export default function CircuitSimulatorP5() {
 
         // Wire hover detection
         let foundWire = null;
+
         for (let i = 0; i < wires.length; i++) {
           const w = wires[i];
 
@@ -566,6 +582,7 @@ export default function CircuitSimulatorP5() {
             // Fallback for wires without custom points
             const c1 = components[w.from];
             const c2 = components[w.to];
+
             if (!c1 || !c2) continue;
 
             // Check distance to midpoint
@@ -607,17 +624,20 @@ export default function CircuitSimulatorP5() {
   function distToSegment(
     p: { x: number; y: number },
     v: { x: number; y: number },
-    w: { x: number; y: number }
+    w: { x: number; y: number },
   ) {
     const l2 = dist2(v, w);
+
     if (l2 === 0) return dist2(p, v);
     let t = ((p.x - v.x) * (w.x - v.x) + (p.y - v.y) * (w.y - v.y)) / l2;
+
     t = Math.max(0, Math.min(1, t));
+
     return Math.sqrt(
       dist2(p, {
         x: v.x + t * (w.x - v.x),
         y: v.y + t * (w.y - v.y),
-      })
+      }),
     );
   }
 
@@ -647,13 +667,14 @@ export default function CircuitSimulatorP5() {
       const c = components[editIdx];
       const val = prompt(
         `নতুন ${c.type === "resistor" ? "রেজিস্ট্যান্স (Ω)" : "ভোল্টেজ (V)"} দিন:`,
-        c.value?.toString() || ""
+        c.value?.toString() || "",
       );
+
       if (val !== null && !isNaN(Number(val))) {
         setComponents((prev) =>
           prev.map((comp, i) =>
-            i === editIdx ? { ...comp, value: Number(val) } : comp
-          )
+            i === editIdx ? { ...comp, value: Number(val) } : comp,
+          ),
         );
       }
       setEditIdx(null);
@@ -665,6 +686,7 @@ export default function CircuitSimulatorP5() {
     if (!audioCtx) return;
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
+
     o.type = "triangle";
     o.frequency.value = 660;
     g.gain.value = 0.1;
@@ -677,6 +699,7 @@ export default function CircuitSimulatorP5() {
     if (!audioCtx) return;
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
+
     o.type = "sawtooth";
     o.frequency.value = 120;
     g.gain.value = 0.15;
@@ -689,6 +712,7 @@ export default function CircuitSimulatorP5() {
     if (!audioCtx) return;
     const o = audioCtx.createOscillator();
     const g = audioCtx.createGain();
+
     o.type = "square";
     o.frequency.value = 320;
     g.gain.value = 0.18;
@@ -706,26 +730,31 @@ export default function CircuitSimulatorP5() {
 
     if (batteries.length === 0) {
       setResult({ status: "warning", message: "কোনো ব্যাটারি নেই!" });
+
       return;
     }
     if (resistors.length === 0) {
       setResult({ status: "warning", message: "কোনো রেজিস্টর নেই!" });
+
       return;
     }
 
     // Check if all components are connected in a single loop
     if (wires.length < components.length - 1) {
       setResult({ status: "warning", message: "সার্কিট অসম্পূর্ণ!" });
+
       return;
     }
 
     // Check for open switches (open circuit)
     const openSwitches = switches.filter((s) => !s.on);
+
     if (openSwitches.length > 0) {
       setResult({
         status: "warning",
         message: "সার্কিট খোলা আছে! সবগুলো সুইচ বন্ধ করুন।",
       });
+
       return;
     }
 
@@ -736,14 +765,15 @@ export default function CircuitSimulatorP5() {
 
     // Simple detection: if all resistors are connected to battery, call it parallel
     const batteryIdx = components.findIndex((c) => c.type === "battery");
+
     if (
       batteryIdx !== -1 &&
       resistors.every((r) =>
         wires.some(
           (w) =>
             (w.from === batteryIdx && w.to === components.indexOf(r)) ||
-            (w.to === batteryIdx && w.from === components.indexOf(r))
-        )
+            (w.to === batteryIdx && w.from === components.indexOf(r)),
+        ),
       )
     ) {
       mode = "parallel";
@@ -763,6 +793,7 @@ export default function CircuitSimulatorP5() {
       msg += " ⚠️ কারেন্ট বেশি! শর্ট সার্কিট হতে পারে!";
       playBuzz();
       setResult({ status: "warning", message: msg });
+
       return;
     }
 
@@ -778,6 +809,7 @@ export default function CircuitSimulatorP5() {
   // SAVE/LOAD
   const handleSave = () => {
     const data = JSON.stringify({ components, wires });
+
     localStorage.setItem("circuit-sim-save", data);
     setResult({ status: "info", message: "সার্কিট সংরক্ষণ করা হয়েছে!" });
     playClick();
@@ -785,9 +817,11 @@ export default function CircuitSimulatorP5() {
 
   const handleLoad = () => {
     const data = localStorage.getItem("circuit-sim-save");
+
     if (data) {
       try {
         const { components: comps, wires: ws } = JSON.parse(data);
+
         setComponents(comps);
         setWires(ws);
         setResult({ status: "info", message: "সংরক্ষিত সার্কিট লোড হয়েছে!" });
@@ -817,6 +851,7 @@ export default function CircuitSimulatorP5() {
   // UNDO/REDO HANDLERS
   const pushHistory = () => {
     const newHist = history.slice(0, historyIdx + 1);
+
     newHist.push({
       components: JSON.parse(JSON.stringify(components)),
       wires: JSON.parse(JSON.stringify(wires)),
@@ -868,8 +903,8 @@ export default function CircuitSimulatorP5() {
               <button
                 key={component.type}
                 className="flex items-center gap-2 px-3 py-2 rounded bg-gradient-to-r from-blue-500 to-blue-600 text-white font-medium hover:from-blue-600 hover:to-blue-700 transition shadow-sm hover:shadow-md"
-                onClick={() => handlePaletteClick(component.type)}
                 title={`${component.label}: ${component.description}`}
+                onClick={() => handlePaletteClick(component.type)}
               >
                 <span className="text-xl">{component.icon}</span>
                 <span className="flex-1">{component.label}</span>
@@ -891,8 +926,8 @@ export default function CircuitSimulatorP5() {
                 ? "bg-green-500 text-white border-green-600"
                 : "bg-gray-100 text-green-800 border-green-400 hover:bg-green-200 dark:bg-gray-700 dark:text-green-300"
             }`}
-            onClick={() => setMode(mode === "connect" ? "normal" : "connect")}
             title="সংযোগ মোড (তার সংযোগ করতে ক্লিক করুন)"
+            onClick={() => setMode(mode === "connect" ? "normal" : "connect")}
           >
             <span className="text-xl">🔗</span>
             <span className="flex-1">সংযোগ মোড</span>
@@ -904,47 +939,47 @@ export default function CircuitSimulatorP5() {
           {/* Tool Buttons */}
           <div className="grid grid-cols-2 gap-2">
             <button
-              onClick={handleUndo}
               className="flex flex-col items-center justify-center p-2 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
-              title="পূর্ববর্তী ধাপ"
               disabled={historyIdx <= 0}
+              title="পূর্ববর্তী ধাপ"
+              onClick={handleUndo}
             >
               <span className="text-lg">↩️</span>
               <span className="text-xs">আনডু</span>
             </button>
 
             <button
-              onClick={handleRedo}
               className="flex flex-col items-center justify-center p-2 rounded bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600"
-              title="পরবর্তী ধাপ"
               disabled={historyIdx >= history.length - 1}
+              title="পরবর্তী ধাপ"
+              onClick={handleRedo}
             >
               <span className="text-lg">↪️</span>
               <span className="text-xs">রিডু</span>
             </button>
 
             <button
-              onClick={handleSave}
               className="flex flex-col items-center justify-center p-2 rounded bg-blue-100 hover:bg-blue-200 dark:bg-blue-800 dark:hover:bg-blue-700"
               title="সার্কিট সংরক্ষণ করুন"
+              onClick={handleSave}
             >
               <span className="text-lg">💾</span>
               <span className="text-xs">সেভ</span>
             </button>
 
             <button
-              onClick={handleLoad}
               className="flex flex-col items-center justify-center p-2 rounded bg-blue-100 hover:bg-blue-200 dark:bg-blue-800 dark:hover:bg-blue-700"
               title="সার্কিট লোড করুন"
+              onClick={handleLoad}
             >
               <span className="text-lg">📂</span>
               <span className="text-xs">লোড</span>
             </button>
 
             <button
-              onClick={handleReset}
               className="flex flex-col items-center justify-center p-2 col-span-2 rounded bg-red-100 hover:bg-red-200 dark:bg-red-900 dark:hover:bg-red-800"
               title="সার্কিট রিসেট করুন"
+              onClick={handleReset}
             >
               <span className="text-lg">🗑️</span>
               <span className="text-xs">রিসেট</span>
@@ -1008,8 +1043,8 @@ export default function CircuitSimulatorP5() {
                   onClick={() => {
                     setWires((prev) =>
                       prev.map((w, i) =>
-                        i === selectedWireIdx ? { ...w, color } : w
-                      )
+                        i === selectedWireIdx ? { ...w, color } : w,
+                      ),
                     );
                     playClick();
                   }}

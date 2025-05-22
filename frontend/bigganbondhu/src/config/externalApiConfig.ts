@@ -1,6 +1,3 @@
-
-
-
 export const externalApiConfig = {
   openRouter: {
     apiKey: import.meta.env.VITE_OPENROUTER_API_KEY,
